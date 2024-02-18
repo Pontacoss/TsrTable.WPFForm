@@ -1,0 +1,26 @@
+﻿<Page x:Class="TsrTable.WPFForm.FlexSheetCellSettingForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TsrTable.WPFForm"
+      mc:Ignorable="d" 
+      d:DesignHeight="100" d:DesignWidth="250"
+      Title="FlexSheetCellSettingForm">
+
+    <StackPanel Orientation="Vertical" Margin="10">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Row" Width="70" Margin="10"/>
+            <Button x:Name="RowSpandecreaseButton" Content="ー" Margin="10,10,0,10" Click="RowSpandecreaseButton_Click"/>
+            <TextBox Name="RowSpanTextBox" Width="30" Margin="0,10,0,10" />
+            <Button x:Name="RowSpanIncreaseButton" Content="+" Margin="0,10,10,10" Click="RowSpanIncreaseButton_Click"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Column" Width="70" Margin="10"/>
+            <Button x:Name="ColumnSpandecreaseButton" Content="ー" Margin="10,10,0,10" Click="ColumnSpandecreaseButton_Click"/>
+            <TextBox Name="ColumnSpanTextBox" Width="30" Margin="10"/>
+            <Button x:Name="ColumnSpanIncreaseButton" Content="+" Margin="0,10,10,10" Click="ColumnSpanIncreaseButton_Click"/>
+        </StackPanel>
+
+    </StackPanel>
+</Page>

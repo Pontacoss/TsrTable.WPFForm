@@ -4,14 +4,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using TsrTable.C1RichTextBox.TableData;
+using TsrTable.TableData;
 
 namespace TsrTable.C1RichTextBox
 {
-    public sealed class TsrTable : C1Table
+    public sealed class TsrTableData : C1Table
     {
-        public TsrTable() : base() { }
+        public TsrTableData() : base() { }
 
-        public TsrTable(TableContent tableContent, List<CellEntity> list) : base()
+        public TsrTableData(TableContent tableContent, List<CellEntity> list) : base()
         {
             // C1TableRowを生成
             var rows = new C1TableRowGroup();
@@ -25,11 +26,11 @@ namespace TsrTable.C1RichTextBox
             foreach (var cellEntity in list)
             {
                 C1TableCell cell;
-                if (cellEntity.CellType == 0)
+                if (cellEntity.CellType == EnumCellType.RowHeader)
                     cell = CreateRowHeaderCell(cellEntity);
-                else if (cellEntity.CellType == 1)
+                else if (cellEntity.CellType == EnumCellType.ColumnHeader)
                     cell = CreateColumnHeaderCell(cellEntity);
-                else if (cellEntity.CellType == 2)
+                else if (cellEntity.CellType == EnumCellType.ColumnHeaderTitle)
                     cell = CreateColumnHeaderTitleCell(cellEntity);
                 else
                     cell = CreateDataCell(cellEntity);

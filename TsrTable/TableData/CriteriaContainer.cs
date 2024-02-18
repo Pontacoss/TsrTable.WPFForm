@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TsrTable.Domain.Entities;
+using TsrTable.TableData;
 
 namespace TsrTable.C1RichTextBox.TableData
 {
@@ -51,7 +52,7 @@ namespace TsrTable.C1RichTextBox.TableData
             list.Add(new CellEntity(
                  rowIndex,
                  columnIndex,
-                 2,
+                 EnumCellType.ColumnHeaderTitle,
                  ToString(),
                  rowSpan,
                  columnSpan));

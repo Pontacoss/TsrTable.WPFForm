@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System;
+using TsrTable.TableData;
 
 namespace TsrTable.C1RichTextBox.TableData
 {
@@ -123,8 +124,8 @@ namespace TsrTable.C1RichTextBox.TableData
 
             list.Add(new CellEntity(
                  rowIndex,
-                 columnIndex,
-                 1,
+            columnIndex,
+                 EnumCellType.ColumnHeader,
                  Name,
                  rowSpan,
                  columnSpan));

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TsrTable.TableData;
 
 namespace TsrTable.C1RichTextBox.TableData
 {
@@ -32,7 +33,7 @@ namespace TsrTable.C1RichTextBox.TableData
 
         public CellEntity CreateCellHeader(int columnHeaderHeight, int columnIndex)
         {
-            return new CellEntity(0, columnIndex, 1, Name, columnHeaderHeight, GetDepth());
+            return new CellEntity(0, columnIndex, EnumCellType.CellHeader, Name, columnHeaderHeight, GetDepth());
         }
     }
 }

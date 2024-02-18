@@ -10,7 +10,7 @@ namespace TsrTable.WPFForm
     /// <summary>
     /// TsrRichTextBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class TsrRichTextBox : TableControlBase
+    public partial class TsrRichTextBox : UserControl
     {
         public TsrRichTextBox()
         {

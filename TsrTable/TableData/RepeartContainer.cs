@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TsrTable.Domain.Entities;
+using TsrTable.TableData;
 
 namespace TsrTable.C1RichTextBox.TableData
 {
@@ -47,14 +48,17 @@ namespace TsrTable.C1RichTextBox.TableData
 
             int rowSpan = 1;
             int columnSpan = GetSpanSum() * _unitSize;
-
-            list.Add(new CellEntity(
+            for (int i = 0; i < _repeat; i++)
+            {
+                list.Add(new CellEntity(
                  rowIndex,
-                 columnIndex,
-                 2,
+                columnIndex,
+                 EnumCellType.ColumnHeaderTitle,
                  ToString(),
                  rowSpan,
                  columnSpan));
+                columnIndex += columnSpan;
+            }
             return 1;
         }
 

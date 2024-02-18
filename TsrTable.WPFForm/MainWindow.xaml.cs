@@ -25,12 +25,13 @@ namespace TsrTable.WPFForm
 
         private C1TableCell targetCell;
         private System.Windows.Media.Brush targetColor;
-        private TableControlBase tableControl;
+ 
         public MainWindow()
         {
-
             InitializeComponent();
             
+            rtb.ViewMode= TextViewMode.Draft ;
+            rtb.Zoom = 1.5;
 
             CriteriaPositionRadioButton.IsChecked = true;
             SpecSheetRadioButton.IsChecked = true;
@@ -42,16 +43,13 @@ namespace TsrTable.WPFForm
             var list2 = TableHeaderFake.GetData(0);
             TableHeaderVMEntity.ConvertToVMEntities(list2).ForEach(x => CriteriaList.Add(x));
             CriteriaDataGrid.ItemsSource = CriteriaList;
-
-            var flex = new C1FlexSheet();
-            dp.Children.Add(flex);
         }
 
         private void CreateTableButton_Click(object sender, RoutedEventArgs e)
         {
             tb1.Text = null;
             targetCell = null;
-            tableControl.ClearTable();
+            rtb.Document.Blocks.Clear();
 
             var tableContent = TsrTableTools.GetTableContent(
                         TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
@@ -61,8 +59,8 @@ namespace TsrTable.WPFForm
             if (tableContent == null) return;
 
             var cellList = TsrTableTools.CreateCellList(tableContent);
-            var table = new TsrTable.C1RichTextBox.TsrTable(tableContent, cellList);
-            tableControl.Add(table);
+            var table = new TsrTable.C1RichTextBox.TsrTableData(tableContent, cellList);
+            rtb.Document.Blocks.Add(table);
         }
 
         private void ClearTableButton_Click(object sender, RoutedEventArgs e)
@@ -74,7 +72,7 @@ namespace TsrTable.WPFForm
             tv1.ItemsSource = null;
             tb1.Text = null;
             targetCell = null;
-            tableControl.ClearTable();
+            rtb.Document.Blocks.Clear();
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -84,13 +82,25 @@ namespace TsrTable.WPFForm
             {
                 targetCell.Background = targetColor;
             }
+            if (rtb.Selection.Cells.Any())
+            {
+                var cell = rtb.Selection.Cells.First() as C1TableCell;
+                if (cell is TsrDataCell dataCell)
+                {
+                    tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
+                        dataCell.RowIndex, dataCell.ColumnIndex, dataCell.Conditions);
+                }
+                else if (cell is TsrHeaderCell headerCell)
+                {
+                    tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
+                        headerCell.RowIndex, headerCell.ColumnIndex, headerCell.GetType().ToString());
+                }
 
-            tb1.Text = tableControl.GetData();
-            
-                //targetColor = cell.Background;
-                //cell.Background = System.Windows.Media.Brushes.Red;
-                //targetCell = cell;
-            
+                targetColor = cell.Background;
+                cell.Background = System.Windows.Media.Brushes.Red;
+                targetCell = cell;
+
+            }
         }
 
         private void CriteriaButton_Click(object sender, RoutedEventArgs e)
@@ -165,14 +175,6 @@ namespace TsrTable.WPFForm
             {
                 tv1.ItemsSource = item.Children;
             }
-        }
-
-        private void SpecSheetRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            tableControl = new TsrRichTextBox();
-            tableContainer.Children.Add(tableControl);
-            //tableControl.rtb.ViewMode = TextViewMode.Draft;
-            //tableControl.rtb.Zoom = 1.5;
         }
     }
 }

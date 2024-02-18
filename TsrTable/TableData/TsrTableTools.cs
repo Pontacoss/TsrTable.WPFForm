@@ -4,6 +4,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using TsrTable.TableData;
 
 namespace TsrTable.C1RichTextBox.TableData
 {
@@ -232,7 +233,7 @@ namespace TsrTable.C1RichTextBox.TableData
                     list.Add(new CellEntity(
                         i + tableContent.ColumnHeaderHeight,
                         j + tableContent.RowHeaderWidth,
-                        3, 1, 1, conditions));
+                        EnumCellType.DataCell, 1, 1, conditions));
                 }
             }
         }
