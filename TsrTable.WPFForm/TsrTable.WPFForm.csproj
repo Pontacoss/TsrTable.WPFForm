@@ -80,6 +80,9 @@
     <Reference Include="C1.WPF.Toolbar.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <HintPath>..\packages\C1.Xaml.WPF.Toolbar.Ja.4.6.20233.801\lib\net462\C1.WPF.Toolbar.4.6.2.dll</HintPath>
     </Reference>
+    <Reference Include="C1.WPF.Word.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.Xaml.WPF.Word.Ja.4.6.20233.801\lib\net462\C1.WPF.Word.4.6.2.dll</HintPath>
+    </Reference>
     <Reference Include="C1.WPF.Zip.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <HintPath>..\packages\C1.Xaml.WPF.Zip.Ja.4.6.20233.801\lib\net462\C1.WPF.Zip.4.6.2.dll</HintPath>
     </Reference>

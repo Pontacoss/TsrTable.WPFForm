@@ -1,10 +1,10 @@
 ﻿using TsrTable.Domain.Entities;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    public sealed class Header : HeaderBase
+    internal sealed class Header : HeaderBase
     {
-        public Header(TableHeaderEntity headerEntity) : base(headerEntity) { }
+        internal Header(TableHeaderEntity headerEntity) : base(headerEntity) { }
 
         public override string DisplayName()
         {

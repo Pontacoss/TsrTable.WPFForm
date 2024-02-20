@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    interface IContainer
+    internal interface IContainer
     {
         bool IsTitleVisible { get; }
         bool IsMeasurementItem { get; }

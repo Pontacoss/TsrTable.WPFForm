@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using TsrTable.Domain.Entities;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    public class BlockContainer : ContainerBase, IContainer
+    internal sealed class BlockContainer : ContainerBase, IContainer
     {
-        public BlockContainer(TableHeaderEntity headerEntity):base(headerEntity) { }
+        internal BlockContainer(TableHeaderEntity headerEntity):base(headerEntity) { }
         
         public SpanCounter GetHeaderWidth(SpanCounter spanCounter)
         {

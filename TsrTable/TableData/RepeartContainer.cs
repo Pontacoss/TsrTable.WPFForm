@@ -2,11 +2,11 @@
 using TsrTable.Domain.Entities;
 using TsrTable.TableData;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    class RepeartContainer : ContainerBase, IContainer
+    internal sealed class RepeartContainer : ContainerBase, IContainer
     {
-        public RepeartContainer(TableHeaderEntity headerEntity) : base(headerEntity) { }
+        internal RepeartContainer(TableHeaderEntity headerEntity) : base(headerEntity) { }
         public SpanCounter GetHeaderWidth(SpanCounter spanCounter)
         {
             return new SpanCounter

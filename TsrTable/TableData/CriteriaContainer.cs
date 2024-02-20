@@ -2,11 +2,11 @@
 using TsrTable.Domain.Entities;
 using TsrTable.TableData;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    class CriteriaContainer : ContainerBase, IContainer
+    internal sealed class CriteriaContainer : ContainerBase, IContainer
     {
-        public CriteriaContainer(TableHeaderEntity headerEntity) : base(headerEntity) { }
+        internal CriteriaContainer(TableHeaderEntity headerEntity) : base(headerEntity) { }
         public SpanCounter GetHeaderWidth(SpanCounter spanCounter)
         {
             return new SpanCounter
@@ -17,7 +17,7 @@ namespace TsrTable.C1RichTextBox.TableData
         }
         public int SetUnitSize(SpanCounter spanCounter, int repaetHeaderUnitSize)
         {
-            _unitSize = 1;// repaetHeaderUnitSize / GetSpanSum();
+            _unitSize =  repaetHeaderUnitSize / GetSpanSum();
             return _unitSize;
         }
 

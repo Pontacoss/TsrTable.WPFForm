@@ -5,17 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using TsrTable.TableData;
+using TsrTable.Domain.Common;
+using C1.WPF.RichTextBox.Documents;
+using C1.WPF.Word.Objects;
+using System.Windows.Media;
+using TsrTable.FlexSheet;
+using C1.WPF.FlexGrid;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    public static class TsrTableTools
+    internal static class TsrTableTools
     {
         /// <summary>
         /// 作成が必要なセルのリストを生成
         /// </summary>
         /// <param name="tableContent"></param>
         /// <returns></returns>
-        public static List<CellEntity> CreateCellList(TableContent tableContent)
+        internal static List<CellEntity> CreateCellList(TableContent tableContent)
         {
             // 生成するCellの情報生成
             var createCellList = new List<CellEntity>();
@@ -38,10 +44,10 @@ namespace TsrTable.C1RichTextBox.TableData
         /// <param name="documentType"></param>
         /// <param name="criteriaPosition"></param>
         /// <returns></returns>
-        public static TableContent   GetTableContent(
+        internal static TableContent   GetTableContent(
             List<TableHeaderEntity> headerList,
             List<TableHeaderEntity> criteriaList,
-            bool? documentType,
+            EnumTsrDocumentType documentType,
             bool? criteriaPosition = false)
         {
             // ヘッダーを行、列に振り分け
@@ -156,7 +162,7 @@ namespace TsrTable.C1RichTextBox.TableData
 
         private static List<TableHeaderEntity> CriteriaSetting(
             TableHeaderEntity criteriaSubContainer,
-            bool? documentType)
+            EnumTsrDocumentType documentType)
         {
             var criteriaHeaders = new List<TableHeaderEntity>();
             criteriaHeaders.Add(
@@ -165,13 +171,31 @@ namespace TsrTable.C1RichTextBox.TableData
                     "基準値",
                     criteriaSubContainer.Id,
                     criteriaSubContainer.Level));
-            if (documentType == true)
+            if (documentType == EnumTsrDocumentType.SpecSheet)
             {
+                //criteriaHeaders.Add(
+                //    new TableHeaderEntity(
+                //        Convert.ToInt32(criteriaSubContainer.Id + "2"),
+                //        "公差",
+                //        criteriaSubContainer.Id,
+                //        criteriaSubContainer.Level));
                 criteriaHeaders.Add(
                     new TableHeaderEntity(
-                        Convert.ToInt32(criteriaSubContainer.Id + "2"),
-                        "公差",
-                        criteriaSubContainer.Id,
+                        Convert.ToInt32(criteriaSubContainer.Id + "3"),
+                        "範囲",
+                        Convert.ToInt32(criteriaSubContainer.Id ),
+                        criteriaSubContainer.Level));
+                criteriaHeaders.Add(
+                    new TableHeaderEntity(
+                        Convert.ToInt32(criteriaSubContainer.Id + "4"),
+                        "値",
+                        Convert.ToInt32(criteriaSubContainer.Id ),
+                        criteriaSubContainer.Level));
+                criteriaHeaders.Add(
+                    new TableHeaderEntity(
+                        Convert.ToInt32(criteriaSubContainer.Id + "5"),
+                        "単位",
+                        Convert.ToInt32(criteriaSubContainer.Id ),
                         criteriaSubContainer.Level));
             }
             else
@@ -230,10 +254,20 @@ namespace TsrTable.C1RichTextBox.TableData
                 for (int j = 0; j < tableContent.ColumnHeaderWidth; j++)
                 {
                     var conditions = GetConditionString(tableContent, i + 1, j + 1);
-                    list.Add(new CellEntity(
+                    if (conditions.Contains("範囲"))
+                    {
+                        list.Add(new CellEntity(
                         i + tableContent.ColumnHeaderHeight,
                         j + tableContent.RowHeaderWidth,
-                        EnumCellType.DataCell, 1, 1, conditions));
+                        EnumCellType.DataButtonCell, 1, 1, conditions));
+                    }
+                    else
+                    {
+                        list.Add(new CellEntity(
+                            i + tableContent.ColumnHeaderHeight,
+                            j + tableContent.RowHeaderWidth,
+                            EnumCellType.DataCell, 1, 1, conditions));
+                    }
                 }
             }
         }
@@ -250,5 +284,6 @@ namespace TsrTable.C1RichTextBox.TableData
                 rowIndex += container.CreateColumnHeaders(list, rowIndex, columnIndex);
             }
         }
+
     }
 }

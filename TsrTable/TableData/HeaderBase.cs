@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using TsrTable.TableData;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
     public abstract class HeaderBase
     {

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
-    public class SpanCounter
+    public sealed class SpanCounter
     {
         public int BlockSpan { get; set; } = 1;
         public int RepeatSpan { get; set; } = 1;
 
-        public int GetNodesCount()
+        internal int GetNodesCount()
         {
             return BlockSpan * RepeatSpan;
         }

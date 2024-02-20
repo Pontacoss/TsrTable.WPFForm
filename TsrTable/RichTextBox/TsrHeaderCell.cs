@@ -1,7 +1,7 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using TsrTable.C1RichTextBox.TableData;
+using TsrTable.RichTextBox.TableData;
 
-namespace TsrTable.C1RichTextBox
+namespace TsrTable.RichTextBox
 {
     public sealed class TsrHeaderCell : C1TableCell
     {
@@ -11,7 +11,7 @@ namespace TsrTable.C1RichTextBox
 
         public TsrHeaderCell() : base() { }
 
-        public TsrHeaderCell(CellEntity cellEntity) : base() 
+        internal TsrHeaderCell(CellEntity cellEntity) : base() 
         {
             _cellEntity = cellEntity;
             VerticalAlignment = C1VerticalAlignment.Middle;

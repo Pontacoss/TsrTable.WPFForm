@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TsrTable.C1RichTextBox.TableData;
-
-namespace TsrTable.TableData
+﻿namespace TsrTable.TableData
 {
     public enum EnumCellType
     {
@@ -13,6 +6,7 @@ namespace TsrTable.TableData
         ColumnHeader,
         ColumnHeaderTitle,
         DataCell,
-        CellHeader
+        CellHeader,
+        DataButtonCell
     }
 }

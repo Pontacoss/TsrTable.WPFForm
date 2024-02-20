@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using TsrTable.TableData;
+﻿using TsrTable.TableData;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
     public sealed class CellEntity
     {
@@ -17,10 +11,13 @@ namespace TsrTable.C1RichTextBox.TableData
         public int RowSpan { get; }
         public int ColumnSpan { get; }
         public string Conditions { get; }
+        
         public int SheetSpanRow { get;  set; }
         public int SheetSpanColumn { get;  set; }
         public int SheetIndexRow { get;  set; }
         public int SheetIndexColumn { get;  set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
 
         /// <summary>
         /// ヘッダーセル用コンストラクタ

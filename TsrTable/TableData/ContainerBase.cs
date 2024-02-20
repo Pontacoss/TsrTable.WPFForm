@@ -6,17 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using TsrTable.TableData;
 
-namespace TsrTable.C1RichTextBox.TableData
+namespace TsrTable.RichTextBox.TableData
 {
 
-    public abstract class ContainerBase : HeaderBase
+    internal abstract class ContainerBase : HeaderBase
     {
         protected int _repeat;
         protected int _unitSize;
 
         protected ContainerBase(TableHeaderEntity tableHeaderEntity) : base(tableHeaderEntity) { }
       
-        public int CreateRowHeaders(List<CellEntity> list, int columnHeaderHeight, int columnIndex)
+        internal int CreateRowHeaders(List<CellEntity> list, int columnHeaderHeight, int columnIndex)
         {
             int rowIndex = 0;
             int maxDepth = GetDepth();
@@ -31,7 +31,7 @@ namespace TsrTable.C1RichTextBox.TableData
             return maxDepth;
         }
 
-        public CellEntity CreateCellHeader(int columnHeaderHeight, int columnIndex)
+        internal CellEntity CreateCellHeader(int columnHeaderHeight, int columnIndex)
         {
             return new CellEntity(0, columnIndex, EnumCellType.CellHeader, Name, columnHeaderHeight, GetDepth());
         }

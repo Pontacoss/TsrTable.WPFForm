@@ -1,14 +1,18 @@
-﻿using C1.WPF.FlexGrid;
+﻿using C1.WPF.Word;
 using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using TsrTable.C1RichTextBox;
-using TsrTable.C1RichTextBox.TableData;
+using TsrTable.RichTextBox;
+using TsrTable.RichTextBox.TableData;
+using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 using TsrTable.WPFForm.ViewModelEntities;
+using Microsoft.Win32;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using TsrTable.TableData;
 
 namespace TsrTable.WPFForm
 {
@@ -25,6 +29,8 @@ namespace TsrTable.WPFForm
 
         private C1TableCell targetCell;
         private System.Windows.Media.Brush targetColor;
+        private TableContent _tableContent;
+        private List<CellEntity> _cellList;
  
         public MainWindow()
         {
@@ -34,7 +40,6 @@ namespace TsrTable.WPFForm
             rtb.Zoom = 1.5;
 
             CriteriaPositionRadioButton.IsChecked = true;
-            SpecSheetRadioButton.IsChecked = true;
 
             var list = TableHeaderFake.GetData(1);
             TableHeaderVMEntity.ConvertToVMEntities(list).ForEach(x => HeaderList.Add(x));
@@ -51,16 +56,17 @@ namespace TsrTable.WPFForm
             targetCell = null;
             rtb.Document.Blocks.Clear();
 
-            var tableContent = TsrTableTools.GetTableContent(
+            _tableContent = TsrFacade.GetTableContent(
                         TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
                         TableHeaderVMEntity.GetEntities(CriteriaList.ToList(), null),
-                        SpecSheetRadioButton.IsChecked,
+                        EnumTsrDocumentType.SpecSheet,
                         CriteriaPositionRadioButton.IsChecked);
-            if (tableContent == null) return;
+            if (_tableContent == null) return;
+            _cellList = TsrFacade.CreateCellList(_tableContent);
 
-            var cellList = TsrTableTools.CreateCellList(tableContent);
-            var table = new TsrTable.C1RichTextBox.TsrTableData(tableContent, cellList);
+            var table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList);
             rtb.Document.Blocks.Add(table);
+
         }
 
         private void ClearTableButton_Click(object sender, RoutedEventArgs e)
@@ -87,13 +93,13 @@ namespace TsrTable.WPFForm
                 var cell = rtb.Selection.Cells.First() as C1TableCell;
                 if (cell is TsrDataCell dataCell)
                 {
-                    tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
-                        dataCell.RowIndex, dataCell.ColumnIndex, dataCell.Conditions);
+                    tb1.Text = string.Format("Row:{0}, Column:{1}  {3} \n{2}",
+                        dataCell.RowIndex, dataCell.ColumnIndex, dataCell.Conditions,dataCell.Width.Value);
                 }
                 else if (cell is TsrHeaderCell headerCell)
                 {
-                    tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
-                        headerCell.RowIndex, headerCell.ColumnIndex, headerCell.GetType().ToString());
+                    tb1.Text = string.Format("Row:{0}, Column:{1}, Width:{3}\n{2}",
+                        headerCell.RowIndex, headerCell.ColumnIndex, headerCell.GetType().ToString(), headerCell.Width.Value);
                 }
 
                 targetColor = cell.Background;
@@ -174,6 +180,36 @@ namespace TsrTable.WPFForm
             if (ContainerDataGrid.SelectedItem is TableHeaderVMEntity item)
             {
                 tv1.ItemsSource = item.Children;
+            }
+        }
+
+        private void PrintOutToWordButton_Click(object sender, RoutedEventArgs e)
+        {
+            var word = new C1WordDocument();
+            var dlg = new SaveFileDialog();
+            dlg.FileName = "document";
+            dlg.DefaultExt = ".docx";
+            dlg.Filter = "RTF files (*.rtf)|*.rtf|MS Word (Open XML) files (*.docx)|*.docx";
+            var dr = dlg.ShowDialog();
+            if (!dr.HasValue || !dr.Value)
+            {
+                return;
+            }
+            word.Clear();
+
+            // ドキュメント情報を設定します
+            var di = word.Info;
+            di.Author = "ComponentOne";
+            di.Subject = "C1.WPF.Word sample.";
+
+            var table= TsrFacade.CreateTableToWord(_tableContent, _cellList);
+            
+            word.Add(table);
+
+            using (var stream = dlg.OpenFile())
+            {
+                word.Save(stream, dlg.FileName.ToLower().EndsWith("docx") ? FileFormat.OpenXml : FileFormat.Rtf);
+                MessageBox.Show("Word Document saved to " + dlg.SafeFileName);
             }
         }
     }

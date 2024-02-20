@@ -23,9 +23,6 @@
             <DockPanel Grid.Row="0" Grid.Column="0" LastChildFill="True">
                 <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
                     <TextBlock Text="Criteria :" VerticalAlignment="Center"  Margin="5"/>
-                    <TextBox Name="CriteriaTextBox" Margin="5" Width=" 200" Height="30" FontSize="20"/>
-                    <Button Content="Add" Name="CriteriaButton" Margin="5" Width=" 80"
-                     Height="30" Click="CriteriaButton_Click"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
                     <DataGrid Name="CriteriaDataGrid" Margin="5" FontSize="20"
@@ -80,8 +77,6 @@
             <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="True">
                 <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
                     <TextBlock Text="Container :" VerticalAlignment="Center"  Margin="5"/>
-                    <TextBox Name="ContainerTextBox" Margin="5" Width=" 200" Height="30" FontSize="20"/>
-                    <Button Content="Add" Name="ContainerButton" Margin="5" Width=" 80" Height="30" Click="ContainerButton_Click"/>
                 </StackPanel>
                 <DataGrid Name="ContainerDataGrid" DockPanel.Dock="Bottom" Margin="5" FontSize="18"
                    HorizontalScrollBarVisibility="Auto"
@@ -150,8 +145,6 @@
             <DockPanel Grid.Row="1" Grid.Column="1" LastChildFill="True">
                 <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
                     <TextBlock Text="Header :" VerticalAlignment="Center"  Margin="5"/>
-                    <TextBox Name="HeaderTextBox" Margin="5" Width=" 180" Height="30" FontSize="20"/>
-                    <Button Content="Add" Name="HeaderButton" Margin="5" Width=" 80" Height="30" Click="HeaderButton_Click"/>
                 </StackPanel>
                 <TreeView Name="tv1"  DockPanel.Dock="Top" Margin="5" FontSize="20">
                     <TreeView.ItemTemplate>
@@ -167,13 +160,8 @@
                 </TreeView>
             </DockPanel>
             <StackPanel  Grid.Row="0" Grid.Column="1" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                    <RadioButton Name="SpecSheetRadioButton" Content="仕様書" Margin="10"  />
-                    <RadioButton Content="成績書" Margin="10" />
-                </StackPanel>
                 <Button Name="CreateTableButton" Content="CreateTable" Height="50" Width="100" Click="CreateTableButton_Click" Margin="10"/>
-                <Button Name="ClearTableButton" Content="CLEAR" Width="100" Height="50" Click="ClearTableButton_Click"/>
-                <Button Name="GetDataButton" Content="GetData" Width="100" Height="50" Click="GetDataButton_Click" Margin="10"/>
+                <Button Name="GetDataButton" Content="To Excel" Width="100" Height="50" Click="GetDataButton_Click" Margin="10"/>
 
             </StackPanel>
             <TextBlock Name="tb1" Grid.Row="2" Grid.Column="1" />
