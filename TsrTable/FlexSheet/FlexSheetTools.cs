@@ -17,7 +17,8 @@ namespace TsrTable.FlexSheet
             var xmm = cfs.MergeManager as ExcelMergeManager;
             foreach (var cell in cellList)
             {
-                cfs[cell.SheetIndexRow, cell.SheetIndexColumn] = cell.Name;
+                cfs[cell.SheetIndexRow, cell.SheetIndexColumn] = cell.Value;
+                var qqq = cfs[cell.SheetIndexRow, cell.SheetIndexColumn];
                 var range = new CellRange(cell.SheetIndexRow, cell.SheetIndexColumn,
                     cell.SheetIndexRow + cell.SheetSpanRow - 1, cell.SheetIndexColumn + cell.SheetSpanColumn - 1);
                 xmm.AddRange(range);

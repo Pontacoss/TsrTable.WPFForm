@@ -14,8 +14,8 @@ namespace TsrTable.RichTextBox.TableData
                 var entity = new TableHeaderEntity(1001, "トルクパターン", 1000, 0);
                 result.Add(entity);
 
-                var entity25 = new TableHeaderEntity(1101, "パターン2", 1000, 0);
-                result.Add(entity25);
+                //var entity25 = new TableHeaderEntity(1101, "パターン2", 1000, 0);
+                //result.Add(entity25);
 
 
 

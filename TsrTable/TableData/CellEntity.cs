@@ -1,4 +1,5 @@
-﻿using TsrTable.TableData;
+﻿using C1.WPF.RichTextBox.Documents;
+using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox.TableData
 {
@@ -7,7 +8,7 @@ namespace TsrTable.RichTextBox.TableData
         public int RowIndex { get; }
         public int ColumnIndex { get; }
         public EnumCellType CellType { get; }
-        public string Name { get; }
+        public string Value { get; private set; }
         public int RowSpan { get; }
         public int ColumnSpan { get; }
         public string Conditions { get; }
@@ -16,25 +17,25 @@ namespace TsrTable.RichTextBox.TableData
         public int SheetSpanColumn { get;  set; }
         public int SheetIndexRow { get;  set; }
         public int SheetIndexColumn { get;  set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public C1Length Width { get; set; }
+        public C1Length Height { get; set; }
 
         /// <summary>
         /// ヘッダーセル用コンストラクタ
         /// </summary>
         /// <param name="rowIndex"></param>
         /// <param name="cellType"></param>
-        /// <param name="name"></param>
+        /// <param name="value"></param>
         /// <param name="rowSpan"></param>
         /// <param name="columnSpan"></param>
-        public CellEntity(int rowIndex,int columnIndex, EnumCellType cellType, string name, int rowSpan, int columnSpan)
+        public CellEntity(int rowIndex,int columnIndex, EnumCellType cellType, string value, int rowSpan, int columnSpan)
         {
             RowIndex = rowIndex;
             SheetIndexRow=rowIndex;
             ColumnIndex = columnIndex;
             SheetIndexColumn=columnIndex;
             CellType = cellType;
-            Name = name ?? string.Empty;
+            Value = value ?? string.Empty;
             RowSpan = rowSpan;
             SheetSpanRow = rowSpan;
             ColumnSpan = columnSpan;
@@ -86,6 +87,12 @@ namespace TsrTable.RichTextBox.TableData
         {
             if (SheetSpanRow + gap == 0) return false;
             return true;
+        }
+
+        internal void SetValue(string value)
+        {
+            if (value == null) return;
+            Value = value;
         }
     }
 }

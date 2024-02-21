@@ -9,6 +9,7 @@ using TsrTable.TableData;
 using TsrTable.Domain.Common;
 using TsrTable.FlexSheet;
 using System.IO;
+using C1.WPF.Excel;
 
 namespace TsrTable.WPFForm
 {
@@ -63,45 +64,50 @@ namespace TsrTable.WPFForm
         {
             //var scaleMode = ScaleMode.PageWidth;
             //cfs.PrintPreview("C1FlexSheet", scaleMode, new Thickness(96), int.MaxValue);
-            var dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.DefaultExt = "xlsx";
-            dlg.Filter =
-                "Excel Workbook (*.xlsx)|*.xlsx|" +
-                "Excel 97-2003 Workbook (*.xls)|*.xls|" +
-                "HTML File (*.htm;*.html)|*.htm;*.html|" +
-                "Comma Separated Values (*.csv)|*.csv|" +
-                "Text File (*.txt)|*.txt|" +
-                "PDF (*.pdf)|*.pdf";
 
-            if (dlg.ShowDialog().Value)
-            {
-                using (var s = dlg.OpenFile())
-                {
-                    var ext = System.IO.Path.GetExtension(dlg.SafeFileName).ToLower();
-                    switch (ext)
-                    {
-                        case ".htm":
-                        case ".html":
-                            cfs.Save(s, FileFormat.Html, SaveOptions.Formatted);
-                            break;
-                        case ".csv":
-                            cfs.Save(s, FileFormat.Csv, SaveOptions.Formatted);
-                            break;
-                        case ".txt":
-                            cfs.Save(s, FileFormat.Text, SaveOptions.Formatted);
-                            break;
-                        case ".pdf":
-                            SavePdf(s, "ComponentOne ExcelBook");
-                            break;
-                        case ".xlsx":
-                            cfs.SaveXlsx(s);
-                            break;
-                        default:
-                            cfs.SaveXls(s);
-                            break;
-                    }
-                }
-            }
+            var book = new C1.WPF.Excel.C1XLBook();
+            TsrFacade.CreateTableToExcel(book, _cellList);
+            book.Save("C:\\Users\\ey28754\\Desktop\\book.xlsx");
+
+            //var dlg = new Microsoft.Win32.SaveFileDialog();
+            //dlg.DefaultExt = "xlsx";
+            //dlg.Filter =
+            //    "Excel Workbook (*.xlsx)|*.xlsx|" +
+            //    "Excel 97-2003 Workbook (*.xls)|*.xls|" +
+            //    "HTML File (*.htm;*.html)|*.htm;*.html|" +
+            //    "Comma Separated Values (*.csv)|*.csv|" +
+            //    "Text File (*.txt)|*.txt|" +
+            //    "PDF (*.pdf)|*.pdf";
+
+            //if (dlg.ShowDialog().Value)
+            //{
+            //    using (var s = dlg.OpenFile())
+            //    {
+            //        var ext = System.IO.Path.GetExtension(dlg.SafeFileName).ToLower();
+            //        switch (ext)
+            //        {
+            //            case ".htm":
+            //            case ".html":
+            //                cfs.Save(s, FileFormat.Html, SaveOptions.Formatted);
+            //                break;
+            //            case ".csv":
+            //                cfs.Save(s, FileFormat.Csv, SaveOptions.Formatted);
+            //                break;
+            //            case ".txt":
+            //                cfs.Save(s, FileFormat.Text, SaveOptions.Formatted);
+            //                break;
+            //            case ".pdf":
+            //                SavePdf(s, "ComponentOne ExcelBook");
+            //                break;
+            //            case ".xlsx":
+            //                cfs.SaveXlsx(s);
+            //                break;
+            //            default:
+            //                cfs.SaveXls(s);
+            //                break;
+            //        }
+            //    }
+            //}
         }
 
         private void SavePdf(Stream s, string documentName)

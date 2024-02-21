@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using TsrTable.TableData;
+using System;
 
 namespace TsrTable.WPFForm
 {
@@ -31,6 +32,7 @@ namespace TsrTable.WPFForm
         private System.Windows.Media.Brush targetColor;
         private TableContent _tableContent;
         private List<CellEntity> _cellList;
+        private C1Table _table;
  
         public MainWindow()
         {
@@ -64,8 +66,8 @@ namespace TsrTable.WPFForm
             if (_tableContent == null) return;
             _cellList = TsrFacade.CreateCellList(_tableContent);
 
-            var table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList);
-            rtb.Document.Blocks.Add(table);
+            _table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList);
+            rtb.Document.Blocks.Add(_table);
 
         }
 
@@ -104,6 +106,7 @@ namespace TsrTable.WPFForm
 
                 targetColor = cell.Background;
                 cell.Background = System.Windows.Media.Brushes.Red;
+                CellWidthTextBox.Text = cell.Width.ToString();
                 targetCell = cell;
 
             }
@@ -202,7 +205,10 @@ namespace TsrTable.WPFForm
             di.Author = "ComponentOne";
             di.Subject = "C1.WPF.Word sample.";
 
+            _cellList = TsrFacade.GetCellData(_cellList, _table);
+
             var table= TsrFacade.CreateTableToWord(_tableContent, _cellList);
+
             
             word.Add(table);
 
@@ -211,6 +217,12 @@ namespace TsrTable.WPFForm
                 word.Save(stream, dlg.FileName.ToLower().EndsWith("docx") ? FileFormat.OpenXml : FileFormat.Rtf);
                 MessageBox.Show("Word Document saved to " + dlg.SafeFileName);
             }
+        }
+
+        private void CellWidthChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            double width = Convert.ToDouble(CellWidthTextBox.Text);
+            targetCell.Width = new C1Length(width);
         }
     }
 }

@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C1.C1Excel.4.8, Version=4.8.20233.631, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.C1Excel.Ja.4.8.20233.631\lib\net48\C1.C1Excel.4.8.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.4.8, Version=4.8.20233.631, Culture=neutral, PublicKeyToken=944ae1ea0e47ca04, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.Win.Ja.8.0.20233.631\lib\net48\C1.Win.4.8.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Bitmap.4.8, Version=4.8.20233.631, Culture=neutral, PublicKeyToken=944ae1ea0e47ca04, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.Win.Bitmap.Ja.8.0.20233.631\lib\net48\C1.Win.Bitmap.4.8.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1DX.4.8, Version=4.8.20233.631, Culture=neutral, PublicKeyToken=944ae1ea0e47ca04, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.Win.C1DX.Ja.4.8.20233.631\lib\net48\C1.Win.C1DX.4.8.dll</HintPath>
+    </Reference>
     <Reference Include="C1.WPF.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <HintPath>..\packages\C1.Xaml.WPF.Ja.4.6.20233.801\lib\net462\C1.WPF.4.6.2.dll</HintPath>
     </Reference>
@@ -73,10 +85,14 @@
     <Reference Include="C1.WPF.Zip.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <HintPath>..\packages\C1.Xaml.WPF.Zip.Ja.4.6.20233.801\lib\net462\C1.WPF.Zip.4.6.2.dll</HintPath>
     </Reference>
+    <Reference Include="C1.Zip, Version=2.0.20233.3, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.Zip.Ja.2.0.20233.3\lib\netstandard2.0\C1.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,6 +104,7 @@
   <ItemGroup>
     <Compile Include="FlexSheet\FlexSheetTools.cs" />
     <Compile Include="RichTextBox\RichTextBoxTools.cs" />
+    <Compile Include="RichTextBox\TsrCell.cs" />
     <Compile Include="RichTextBox\TsrDataCell.cs" />
     <Compile Include="RichTextBox\TsrHeaderCell.cs" />
     <Compile Include="Class1.cs" />
@@ -97,6 +114,7 @@
     <Compile Include="TableData\ContainerBase.cs" />
     <Compile Include="TableData\CriteriaContainer.cs" />
     <Compile Include="TableData\EnumCellType.cs" />
+    <Compile Include="TableData\ExcelTools.cs" />
     <Compile Include="TableData\Header.cs" />
     <Compile Include="TableData\HeaderBase.cs" />
     <Compile Include="TableData\IContainer.cs" />

@@ -18,15 +18,15 @@ namespace TsrTable.RichTextBox
         /// マージンの設定を行う拡張メソッド
         /// </summary>
         /// <param name="cell"></param>
-        /// <param name="name"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        internal static C1TableCell TsrCellExtensions(this C1TableCell cell, string name)
+        internal static C1TableCell TsrCellExtensions(this TsrCell cell, string value)
         {
             var paragraph = new C1Paragraph();
             paragraph.Children.Add(
                 new C1Run()
                 {
-                    Text = name,
+                    Text = value,
                     Padding = new Thickness(0, 0, 0, 0),
                     Margin = new Thickness(0)
                 });
@@ -130,7 +130,7 @@ namespace TsrTable.RichTextBox
 
         private static C1TableCell CreateColumnHeaderCell(CellEntity cellEntity)
         {
-            var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Name);
+            var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Value);
             cell.Background = Brushes.LightGray;
             cell.TextAlignment = C1TextAlignment.Center;
             return cell;
@@ -138,7 +138,7 @@ namespace TsrTable.RichTextBox
 
         private static C1TableCell CreateColumnHeaderTitleCell(CellEntity cellEntity)
         {
-            var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Name);
+            var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Value);
             cell.FontWeight = FontWeights.Bold;
             cell.Background = Brushes.LightGray;
             cell.TextAlignment = C1TextAlignment.Center;
@@ -147,10 +147,10 @@ namespace TsrTable.RichTextBox
 
         private static C1TableCell CreateRowHeaderCell(CellEntity cellEntity)
         {
-            var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Name);
-            if (cellEntity.Name == null) return cell;
+            var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Value);
+            if (cellEntity.Value == null) return cell;
             // 文字が全て数字だけの場合は右寄せ。数字以外がありなら左寄せ。
-            char[] chars = cellEntity.Name.ToCharArray();
+            char[] chars = cellEntity.Value.ToCharArray();
             if (chars.Any(x => char.IsDigit(x) == false))
             {
                 cell.TextAlignment = C1TextAlignment.Left;
@@ -162,5 +162,19 @@ namespace TsrTable.RichTextBox
             return cell;
         }
 
+        internal static List<CellEntity> GetCellData(this List<CellEntity> list,C1Table table)
+        {
+            foreach(var row in table.RowGroups.First().Rows)
+            {
+                foreach(var cell in row.Cells.OfType<TsrCell>())
+                {
+                    var cellEntity = list.First(x => x.RowIndex == cell.RowIndex && x.ColumnIndex == cell.ColumnIndex);
+                    cellEntity.Width = cell.Width;
+                    cellEntity.Height = cell.Height;
+                    cellEntity.SetValue(cell.Value);
+                }
+            }
+            return list;
+        }
     }
 }

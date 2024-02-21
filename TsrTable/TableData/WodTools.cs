@@ -52,7 +52,14 @@ namespace TsrTable.TableData
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             cell.BackFilling = System.Windows.Media.Colors.LightGray;
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Bold);
-            cell.Content.Add(new RtfString(cellEntity.Name ?? string.Empty, font));
+            if (cellEntity.Value != null)
+            {
+                cell.Content.Add(new RtfString(cellEntity.Value));
+            }
+            if (!cellEntity.Width.IsAuto)
+            {
+                cell.Width = (float)cellEntity.Width.Value;
+            }
         }
 
         private static void SetColumnHeader(RtfCell cell, CellEntity cellEntity)
@@ -61,18 +68,31 @@ namespace TsrTable.TableData
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             cell.BackFilling = System.Windows.Media.Colors.LightGray;
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Regular);
-            cell.Content.Add(new RtfString(cellEntity.Name ?? string.Empty, font));
+            if (cellEntity.Value != null)
+            {
+                cell.Content.Add(new RtfString(cellEntity.Value));
+            }
+            if (!cellEntity.Width.IsAuto)
+            {
+                cell.Width = (float)cellEntity.Width.Value;
+            }
         }
 
         private static void SetRowHeader(RtfCell cell, CellEntity cellEntity)
         {
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Regular);
-            cell.Content.Add(new RtfString(cellEntity.Name ?? string.Empty, font));
-
-            if (cellEntity.Name == null) return;
+            if (cellEntity.Value != null)
+            {
+                cell.Content.Add(new RtfString(cellEntity.Value));
+            }
+            if (!cellEntity.Width.IsAuto)
+            {
+                cell.Width = (float)cellEntity.Width.Value;
+            }
+            if (cellEntity.Value == null) return;
             // 文字が全て数字だけの場合は右寄せ。数字以外がありなら左寄せ。
-            char[] chars = cellEntity.Name.ToCharArray();
+            char[] chars = cellEntity.Value.ToCharArray();
             if (chars.Any(x => char.IsDigit(x) == false))
             {
                 cell.Alignment = ContentAlignment.MiddleLeft;
@@ -89,7 +109,14 @@ namespace TsrTable.TableData
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             cell.BackFilling = System.Windows.Media.Colors.LightGray;
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Bold);
-            cell.Content.Add(new RtfString(cellEntity.Name ?? string.Empty, font));
+            if (cellEntity.Value != null)
+            {
+                cell.Content.Add(new RtfString(cellEntity.Value));
+            }
+            if (!cellEntity.Width.IsAuto)
+            {
+                cell.Width = (float)cellEntity.Width.Value;
+            }
         }
 
         private static void SetDataCell(RtfCell cell, CellEntity cellEntity)
@@ -97,7 +124,14 @@ namespace TsrTable.TableData
             cell.Alignment = ContentAlignment.MiddleRight;
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Regular);
-            //cell.Content.Add(new RtfString(cellEntity.Name ?? string.Empty, font));
+            if (cellEntity.Value != null)
+            {
+                cell.Content.Add(new RtfString(cellEntity.Value));
+            }
+            if (!cellEntity.Width.IsAuto)
+            {
+                cell.Width = (float)cellEntity.Width.Value;
+            }
         }
 
     }

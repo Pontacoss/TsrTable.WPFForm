@@ -86,7 +86,7 @@ namespace TsrTable.RichTextBox.TableData
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(tableContent.RowHeaders is null ?
-            string.Empty :
+                string.Empty :
                 GetConditionStringSub(tableContent.RowHeaders, rowIndex));
             sb.Append(GetConditionStringSub(tableContent.ColumnHeaders, columnIndex));
             return sb.ToString();

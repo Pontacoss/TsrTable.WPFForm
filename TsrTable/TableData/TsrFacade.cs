@@ -11,6 +11,7 @@ using TsrTable.RichTextBox.TableData;
 using TsrTable.RichTextBox;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
+using C1.WPF.Excel;
 
 namespace TsrTable.TableData
 {
@@ -48,6 +49,17 @@ namespace TsrTable.TableData
             List<CellEntity> list)
         {
             FlexSheetTools.CreateTable(cfs, list);
+        }
+
+        public static void CreateTableToExcel(C1XLBook book,
+            List<CellEntity> list)
+        {
+            ExcelTools.CreateTable(book, book.Sheets[0], list);
+        }
+
+        public static List<CellEntity> GetCellData(List<CellEntity> list,C1Table table)
+        {
+            return RichTextBoxTools.GetCellData(list, table);
         }
     }
 }
