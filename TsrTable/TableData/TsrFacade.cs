@@ -1,11 +1,7 @@
 ﻿using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TsrTable.FlexSheet;
 using TsrTable.RichTextBox.TableData;
 using TsrTable.RichTextBox;
@@ -17,7 +13,7 @@ namespace TsrTable.TableData
 {
     public class TsrFacade
     {
-        public static int FlexSheetWidth { get; } = 26;
+        public static int FlexSheetWidth { get; } = 18;
         public static int FlexSheetCellWidth { get; } = 35;
 
         public static List<CellEntity> CreateCellList(TableContent tableContent)

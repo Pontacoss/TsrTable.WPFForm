@@ -1,57 +1,126 @@
-﻿using C1.WPF.Excel;
+﻿using C1.Util.DX;
+using C1.WPF.Excel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using TsrTable.RichTextBox.TableData;
+using static C1.Util.Win.Win32;
 
 namespace TsrTable.TableData
 {
+    internal static class SetStyleExtentions
+    {
+        internal static XLStyle BorderExtention(this  XLStyle style)
+        {
+            style.SetBorderStyle(XLLineStyleEnum.Thin);
+            style.SetBorderColor(System.Windows.Media.Colors.Black);
+            return style;
+        }
+        internal static XLStyle BackColorGray(this XLStyle style)
+        {
+            style.BackColor = System.Windows.Media.Colors.LightGray;
+            return style;
+        }
+    }
+
     internal class ExcelTools
     {
         internal static void CreateTable(C1XLBook book,XLSheet sheet, List<CellEntity> cellList)
         {
             sheet.DefaultColumnWidth = 500;
-            XLStyle style = new XLStyle(book)
-            {
-                Font = new XLFont("MS UI Gothic", 10, false, false),
-            };
-            style.SetBorderStyle(XLLineStyleEnum.Thin);
-            style.SetBorderColor(System.Windows.Media.Colors.Black);
 
-            //var xmm = sheet.MergeManager as ExcelMergeManager;
+            var containerStyle = SetContainerStyle(book);
+            var columnHeaderStyle = SetColumnHeaderStyle(book);
+            var rowHeaderStyle = SetRowHeaderStyle(book);
+            var dataCellStyle=SetDataCellStyle(book);
+
             foreach (var cell in cellList)
             {
-                sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = cell.Value;
+                if (cell.Value != null)
+                {
+                    var ch = cell.Value?.ToCharArray();
+                    if (Regex.IsMatch(cell.Value, @"^\d+$"))
+                            sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = Convert.ToDouble(cell.Value);
+                    else
+                        sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = cell.Value;
+
+                }
+
                 var range = new XLCellRange(cell.SheetIndexRow, cell.SheetIndexRow + cell.SheetSpanRow - 1, 
                     cell.SheetIndexColumn, cell.SheetIndexColumn + cell.SheetSpanColumn - 1);
-                
                 sheet.MergedCells.Add(range);
-                range.Style = style;
 
-                //if (cell.CellType == EnumCellType.ColumnHeaderTitle) SetColumnHeaderTitle(sheet, range);
-                //else if (cell.CellType == EnumCellType.ColumnHeader) SetColumnHeader(sheet, range);
-                //else if (cell.CellType == EnumCellType.RowHeader) SetRowHeader(sheet, range);
-                //else if (cell.CellType == EnumCellType.CellHeader) SetCellHeader(sheet, range);
-                //else SetDatCell(sheet, range);
+                if (cell.CellType == EnumCellType.ColumnHeaderTitle) range.Style= containerStyle;
+                else if (cell.CellType == EnumCellType.ColumnHeader) range.Style = columnHeaderStyle;
+                else if (cell.CellType == EnumCellType.RowHeader) range.Style = rowHeaderStyle;
+                else if (cell.CellType == EnumCellType.CellHeader) range.Style = containerStyle;
+                else range.Style = dataCellStyle;
 
-                //cfs.Invalidate();
             }
         }
 
-        //private static void SetColumnHeaderTitle(XLSheet sheet, CellRange range)
-        //{
-        //    var eee=sheet.MergedCells;
-        //    eee.
-        //    sheet.SetCellFormat(range.Cells, CellFormat.BorderThickness, new Thickness(1));
-        //    sheet.SetCellFormat(range.Cells, CellFormat.BorderBrush, System.Windows.Media.Brushes.Black);
-        //    sheet.SetCellFormat(range.Cells, CellFormat.Background, System.Windows.Media.Brushes.LightGray);
-        //    sheet.SetCellFormat(range.Cells, CellFormat.HorizontalAlignment, HorizontalAlignment.Center);
-        //    sheet.SetCellFormat(range.Cells, CellFormat.FontWeight, FontWeights.Bold);
-        //}
+        private static XLStyle SetContainerStyle(C1XLBook book)
+        {
+            XLStyle style = new XLStyle(book)
+            {
+                Font = new XLFont("MS UI Gothic", 10, true, false),
+                AlignHorz = XLAlignHorzEnum.Center,
+                AlignVert = XLAlignVertEnum.Center,
+                BackColor = System.Windows.Media.Colors.LightGray,
+                WordWrap = true
+                , ShrinkToFit = true
+            };
+            style.SetBorderStyle(XLLineStyleEnum.Thin);
+            style.SetBorderColor(System.Windows.Media.Colors.Black);
+            return style;
+        }
+        private static XLStyle SetColumnHeaderStyle(C1XLBook book)
+        {
+            XLStyle style = new XLStyle(book)
+            {
+                Font = new XLFont("MS UI Gothic", 10, false, false),
+                AlignHorz = XLAlignHorzEnum.Center,
+                AlignVert = XLAlignVertEnum.Center,
+                BackColor = System.Windows.Media.Colors.LightGray,
+                ShrinkToFit = true
+            };
+            style.SetBorderStyle(XLLineStyleEnum.Thin);
+            style.SetBorderColor(System.Windows.Media.Colors.Black);
+            return style;
+        }
 
+        
+
+        private static XLStyle SetRowHeaderStyle(C1XLBook book)
+        {
+            XLStyle style = new XLStyle(book)
+            {
+                Font = new XLFont("MS UI Gothic", 10, false, false),
+                AlignHorz = XLAlignHorzEnum.Center,
+                AlignVert = XLAlignVertEnum.Center
+            };
+            style.SetBorderStyle(XLLineStyleEnum.Thin);
+            style.SetBorderColor(System.Windows.Media.Colors.Black);
+            return style;
+        }
+
+        private static XLStyle SetDataCellStyle(C1XLBook book)
+        {
+            XLStyle style = new XLStyle(book)
+            {
+                Font = new XLFont("MS UI Gothic", 10, false, false),
+                AlignHorz = XLAlignHorzEnum.Right,
+                AlignVert = XLAlignVertEnum.Center
+            };
+            style.SetBorderStyle(XLLineStyleEnum.Thin);
+            style.SetBorderColor(System.Windows.Media.Colors.Black);
+            return style;
+        }
         //private static void SetColumnHeader(C1FlexSheet cfs, CellRange range)
         //{
         //    cfs.SetCellFormat(range.Cells, CellFormat.BorderThickness, new Thickness(1));

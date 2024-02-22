@@ -75,7 +75,7 @@ namespace TsrTable.RichTextBox.TableData
 
         public bool CanMove(int gap)
         {
-            if (SheetSpanColumn + SheetIndexColumn + gap > 26) return false;
+            if (SheetSpanColumn + SheetIndexColumn + gap > TsrFacade.FlexSheetWidth) return false;
             return true;
         }
 

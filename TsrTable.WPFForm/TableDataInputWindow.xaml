@@ -1,0 +1,37 @@
+﻿<Window x:Class="TsrTable.WPFForm.TableDataInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local1="clr-namespace:TsrTable.Domain;assembly=TsrTable.Domain"
+        xmlns:local="clr-namespace:TsrTable.WPFForm"
+        mc:Ignorable="d"
+        Title="TableDataInputWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True">
+        <DataGrid  Name="dg"
+ AutoGenerateColumns="False" 
+ CanUserAddRows="False" 
+ CanUserDeleteRows="True"
+ HeadersVisibility="Column"
+ CanUserResizeRows="False"
+ CanUserResizeColumns="False"
+ SelectionUnit="FullRow" 
+ CanUserSortColumns="False"
+ SelectionMode="Single"
+ DockPanel.Dock="Top"
+ AllowDrop="True"
+ FontSize="16"
+ HorizontalScrollBarVisibility="Auto"
+ VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>-->
+                <DataGridTextColumn Header="Condition" Binding="{Binding Conditions}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Criteria"  Binding="{Binding Criteria}"/>
+                <DataGridComboBoxColumn Header="記号" x:Name="combo" Width="60" />
+                <DataGridTextColumn Header="Tolerance"  Binding="{Binding Tolerance}"/>
+                <DataGridComboBoxColumn Header="ToleranceType" x:Name="ToleranceCombo" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Window>

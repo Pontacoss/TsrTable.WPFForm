@@ -6,11 +6,6 @@ using System.Linq;
 using System;
 using TsrTable.TableData;
 using TsrTable.Domain.Common;
-using C1.WPF.RichTextBox.Documents;
-using C1.WPF.Word.Objects;
-using System.Windows.Media;
-using TsrTable.FlexSheet;
-using C1.WPF.FlexGrid;
 
 namespace TsrTable.RichTextBox.TableData
 {
@@ -59,10 +54,10 @@ namespace TsrTable.RichTextBox.TableData
             var entities = new List<TableHeaderEntity>();
             entities.Add(new TableHeaderEntity(1000, "試験項目", false, true, true));
             entities.AddRange(criteriaList);
-            foreach (var criteriaSubContainer in criteriaList)
-            {
-                entities.AddRange(CriteriaSetting(criteriaSubContainer, documentType));
-            }
+            //foreach (var criteriaSubContainer in criteriaList)
+            //{
+            //    entities.AddRange(CriteriaSetting(criteriaSubContainer, documentType));
+            //}
             // 基準値を行、列に振り分け
             if (criteriaPosition == true)
                 columnHeaderList.AddRange(GetItemSource(entities));

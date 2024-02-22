@@ -124,6 +124,9 @@
     <Compile Include="FlexSheetCellSettingForm.xaml.cs">
       <DependentUpon>FlexSheetCellSettingForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TableDataInputWindow.xaml.cs">
+      <DependentUpon>TableDataInputWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModelEntities\TableHeaderVMEntity.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
@@ -144,6 +147,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TableDataInputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

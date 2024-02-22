@@ -190,6 +190,10 @@
                     <Button Content="go"  Height="30" Width="50" 
                             Name="CellWidthChangeButton" Click="CellWidthChangeButton_Click"/>
                 </StackPanel>
+                <StackPanel  Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Data Input"  Height="30" Width="80" 
+                                Name="DataInputButton" Click="DataInputButton_Click"/>
+                </StackPanel>
             </Grid>
             <TextBlock Name="tb1" Grid.Row="2" Grid.Column="1" />
         </Grid>

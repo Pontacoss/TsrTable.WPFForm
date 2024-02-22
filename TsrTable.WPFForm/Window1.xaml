@@ -197,7 +197,7 @@
                 </StackPanel>
             </StackPanel>
             <c1:C1FlexSheet Name="cfs" DockPanel.Dock="Top"
-                            AllowResizing="None" AllowSorting="False"
+                            AllowResizing="None" AllowSorting="False" 
                             AllowAddNew="False"  ContextMenuService.IsEnabled="False" />
 
         </DockPanel>

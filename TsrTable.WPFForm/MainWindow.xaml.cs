@@ -224,5 +224,11 @@ namespace TsrTable.WPFForm
             double width = Convert.ToDouble(CellWidthTextBox.Text);
             targetCell.Width = new C1Length(width);
         }
+
+        private void DataInputButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fm = new TableDataInputWindow(_cellList);
+            fm.ShowDialog();
+        }
     }
 }
