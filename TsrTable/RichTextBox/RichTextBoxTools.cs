@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using TsrTable.Domain.Entities;
+using TsrTable.Domain.ValueObjects;
 using TsrTable.RichTextBox.TableData;
 using TsrTable.TableData;
 
@@ -40,33 +42,7 @@ namespace TsrTable.RichTextBox
             return cell;
         }
 
-        internal static C1TableCell TsrButtonCellExtensions(this C1TableCell cell, string name)
-        {
-            var paragraph = new C1Paragraph();
-            var button = new Button()
-            {
-                Content = "±",
-                Width = 25,
-            };
-            button.Click += Button_Click;
 
-            paragraph.Children.Add(
-                new C1InlineUIContainer()
-                {
-                    Content = button,
-                    Padding = new Thickness(0, 0, 0, 0),
-                    Margin = new Thickness(0)
-                }) ;
-            paragraph.Padding = new Thickness(0);
-            paragraph.Margin = new Thickness(1);
-            cell.Children.Add(paragraph);
-
-            cell.BorderThickness = new Thickness(1);
-            cell.Padding = new Thickness(0);
-            cell.Margin = new Thickness(0);
-
-            return cell;
-        }
 
         private static void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -76,8 +52,10 @@ namespace TsrTable.RichTextBox
             else if (button.Content.ToString() == "-") button.Content = "±";
         }
 
-        internal static C1Table CreateTable(TableContent tableContent,
-            List<CellEntity> list)
+        internal static C1Table CreateTable(
+            TableContent tableContent,
+            List<CellEntity> list,
+            List<TableDataEntity> datas)
         {
             // C1TableとC1TableRowのインスタンスを生成
             var table = new C1Table();
@@ -100,33 +78,34 @@ namespace TsrTable.RichTextBox
                     cell = CreateColumnHeaderCell(cellEntity);
                 else if (cellEntity.CellType == EnumCellType.ColumnHeaderTitle)
                     cell = CreateColumnHeaderTitleCell(cellEntity);
-                else if (cellEntity.CellType == EnumCellType.DataCell)
-                    cell = CreateDataCell(cellEntity);
-                else
-                {
-                    cell = CreateDataButtonCell(cellEntity);
-                }
+                else // if (cellEntity.CellType == EnumCellType.DataCell)
+                    cell = CreateDataCell(cellEntity,datas);
+                //else
+                //{
+                //    cell = CreateDataButtonCell(cellEntity);
+                //}
                 rows.First(x => x.Index == cellEntity.RowIndex).Children.Add(cell);
             }
             table.BorderCollapse = true;
             table.Margin = new Thickness(5);
             return table;
         }
-        private static C1TableCell CreateDataCell(CellEntity cellEntity)
+        private static C1TableCell CreateDataCell(CellEntity cellEntity,List<TableDataEntity> datas)
         {
-            var cell = new TsrDataCell(cellEntity).TsrCellExtensions(string.Empty);
+            if (datas != null)
+            {
+                var dataCell = datas.FirstOrDefault(x => x.Conditions == cellEntity.Conditions);
+                if (dataCell.Criteria != null)
+                {
+                    return new TsrDataCell(cellEntity).TsrCellExtensions(dataCell.Criteria.DisplayValue);
+                }
+            }
+            return new TsrDataCell(cellEntity).TsrCellExtensions(string.Empty);
 
             // DataCellは、何種類か作成予定。規定値を選択して入れるタイプなど。
 
-            return cell;
         }
-        private static C1TableCell CreateDataButtonCell(CellEntity cellEntity)
-        {
-            var cell = new TsrDataCell(cellEntity).TsrButtonCellExtensions(string.Empty);
 
-
-            return cell;
-        }
 
         private static C1TableCell CreateColumnHeaderCell(CellEntity cellEntity)
         {
@@ -177,4 +156,40 @@ namespace TsrTable.RichTextBox
             return list;
         }
     }
+
+    //private static C1TableCell CreateDataButtonCell(CellEntity cellEntity)
+    //{
+    //    var cell = new TsrDataCell(cellEntity).TsrButtonCellExtensions(string.Empty);
+
+
+    //    return cell;
+    //}
+
+    //internal static C1TableCell TsrButtonCellExtensions(this C1TableCell cell, string name)
+    //{
+    //    var paragraph = new C1Paragraph();
+    //    var button = new Button()
+    //    {
+    //        Content = "±",
+    //        Width = 25,
+    //    };
+    //    button.Click += Button_Click;
+
+    //    paragraph.Children.Add(
+    //        new C1InlineUIContainer()
+    //        {
+    //            Content = button,
+    //            Padding = new Thickness(0, 0, 0, 0),
+    //            Margin = new Thickness(0)
+    //        }) ;
+    //    paragraph.Padding = new Thickness(0);
+    //    paragraph.Margin = new Thickness(1);
+    //    cell.Children.Add(paragraph);
+
+    //    cell.BorderThickness = new Thickness(1);
+    //    cell.Padding = new Thickness(0);
+    //    cell.Margin = new Thickness(0);
+
+    //    return cell;
+    //}
 }

@@ -157,7 +157,7 @@
                 <TreeView Name="tv1"  DockPanel.Dock="Top" Margin="5" FontSize="20">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate DataType="local2:TableHeaderVMEntity"
-                        ItemsSource="{Binding Children}">
+                                ItemsSource="{Binding Children}">
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock Text="{Binding Name}" Margin="2" VerticalAlignment="Center" />
                                 <TextBlock Text="Span : " Margin="2" VerticalAlignment="Center"/>
@@ -190,9 +190,10 @@
                     <Button Content="go"  Height="30" Width="50" 
                             Name="CellWidthChangeButton" Click="CellWidthChangeButton_Click"/>
                 </StackPanel>
-                <StackPanel  Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel  Grid.Column="1" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
                     <Button Content="Data Input"  Height="30" Width="80" 
-                                Name="DataInputButton" Click="DataInputButton_Click"/>
+                                Name="DataInputButton" Click="DataInputButton_Click" Margin="5"/>
+                    <Button Content="TestReport" Click="TestReportButton_Click" Height="30" Width="80" Margin="5"/>
                 </StackPanel>
             </Grid>
             <TextBlock Name="tb1" Grid.Row="2" Grid.Column="1" />

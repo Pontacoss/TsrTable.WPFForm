@@ -18,10 +18,27 @@ namespace TsrTable.Domain.ValueObjects
         {
             Value = value;
         }
-        public override string ToString()
+
+        public static IEnumerable<ToleranceType> Items
         {
-            if (Value == 1) return "%";
-            else return string.Empty;
+            get
+            {
+                return new List<ToleranceType>()
+                {
+                    new ToleranceType(0),
+                    new ToleranceType(1),
+                    new ToleranceType(2)
+                };
+            }
+        }
+        public  string DisplayValue
+        {
+            get
+            {
+                if (Value == 1) return "%";
+                if (Value == 2) return "(固定値)";
+                else return string.Empty;
+            }
         }
         protected override bool EqualsCore(ToleranceType other)
         {

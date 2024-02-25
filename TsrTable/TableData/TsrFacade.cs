@@ -36,15 +36,19 @@ namespace TsrTable.TableData
             return WordTools.CreateTable(tableContent, list);
         }
 
-        public static C1Table CreateTableToRichTextBox(TableContent tableContent,
-            List<CellEntity> list)
+        public static C1Table CreateTableToRichTextBox(
+            TableContent tableContent,
+            List<CellEntity> list,
+            List<TableDataEntity> datas)
         {
-            return RichTextBoxTools.CreateTable(tableContent, list);
+            return RichTextBoxTools.CreateTable(tableContent, list,datas);
         }
-        public static void CreateTableToFlexSheet(C1FlexSheet cfs,
-            List<CellEntity> list)
+        public static void CreateTableToFlexSheet(
+            C1FlexSheet cfs,
+            List<CellEntity> list,
+            List<TableDataEntity> datas)
         {
-            FlexSheetTools.CreateTable(cfs, list);
+            FlexSheetTools.CreateTable(cfs, list, datas);
         }
 
         public static void CreateTableToExcel(C1XLBook book,

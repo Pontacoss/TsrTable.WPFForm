@@ -10,6 +10,7 @@ using TsrTable.Domain.Common;
 using TsrTable.FlexSheet;
 using System.IO;
 using C1.WPF.Excel;
+using TsrTable.Domain.Entities;
 
 namespace TsrTable.WPFForm
 {
@@ -25,10 +26,12 @@ namespace TsrTable.WPFForm
              = new ObservableCollection<TableHeaderVMEntity>();
 
         private List<CellEntity> _cellList=new List<CellEntity>();
+        private List<TableDataEntity> _datas;
 
-        public Window1()
+        public Window1(List<TableDataEntity> datas)
         {
             InitializeComponent();
+            _datas = datas;
 
             CriteriaPositionRadioButton.IsChecked = true;
 
@@ -57,7 +60,7 @@ namespace TsrTable.WPFForm
 
             _cellList = TsrFacade.CreateCellList(tableContent);
 
-            TsrFacade.CreateTableToFlexSheet(cfs, _cellList);
+            TsrFacade.CreateTableToFlexSheet(cfs, _cellList,_datas);
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -154,7 +157,7 @@ namespace TsrTable.WPFForm
                 col.SheetIndexColumn += gap;
             }
             InitializeGrid();
-            TsrFacade.CreateTableToFlexSheet(cfs,_cellList);
+            TsrFacade.CreateTableToFlexSheet(cfs,_cellList, _datas);
         }
 
         private void SheetSpanRowSeting(int gap)
@@ -179,7 +182,7 @@ namespace TsrTable.WPFForm
                 col.SheetIndexRow += gap;
             }
             InitializeGrid();
-            TsrFacade.CreateTableToFlexSheet(cfs, _cellList);
+            TsrFacade.CreateTableToFlexSheet(cfs, _cellList, _datas);
         }
 
         private void ColumnSpanIncreaseButton_Click(object sender, RoutedEventArgs e)

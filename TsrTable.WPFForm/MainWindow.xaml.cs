@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Collections.Generic;
 using TsrTable.TableData;
 using System;
+using System.Collections;
 
 namespace TsrTable.WPFForm
 {
@@ -33,6 +34,7 @@ namespace TsrTable.WPFForm
         private TableContent _tableContent;
         private List<CellEntity> _cellList;
         private C1Table _table;
+        private List<TableDataEntity> _tableDatas;
  
         public MainWindow()
         {
@@ -66,7 +68,7 @@ namespace TsrTable.WPFForm
             if (_tableContent == null) return;
             _cellList = TsrFacade.CreateCellList(_tableContent);
 
-            _table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList);
+            _table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList, _tableDatas);
             rtb.Document.Blocks.Add(_table);
 
         }
@@ -227,8 +229,30 @@ namespace TsrTable.WPFForm
 
         private void DataInputButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new TableDataInputWindow(_cellList);
+            if (_tableDatas == null)
+            {
+                var dataCellList = _cellList.FindAll(x => 
+                    x.CellType == TableData.EnumCellType.DataCell);
+                _tableDatas = new List<TableDataEntity>();
+                foreach (var cell in dataCellList)
+                {
+                    _tableDatas.Add(new TableDataEntity(
+                        cell.Conditions));
+                }
+            }
+
+            var fm = new TableDataInputWindow(_cellList, _tableDatas);
             fm.ShowDialog();
+
+            rtb.Document.Blocks.Clear();
+            _table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList, _tableDatas);
+            rtb.Document.Blocks.Add(_table);
+        }
+
+        private void TestReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fm = new Window1(_tableDatas);
+            var result = fm.ShowDialog();
         }
     }
 }

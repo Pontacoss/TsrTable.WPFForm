@@ -8,28 +8,38 @@
         mc:Ignorable="d"
         Title="TableDataInputWindow" Height="450" Width="800">
     <DockPanel LastChildFill="True">
+        <Button Content="OK" Click="Button_Click" DockPanel.Dock="Bottom"/>
         <DataGrid  Name="dg"
- AutoGenerateColumns="False" 
- CanUserAddRows="False" 
- CanUserDeleteRows="True"
- HeadersVisibility="Column"
- CanUserResizeRows="False"
- CanUserResizeColumns="False"
- SelectionUnit="FullRow" 
- CanUserSortColumns="False"
- SelectionMode="Single"
- DockPanel.Dock="Top"
- AllowDrop="True"
- FontSize="16"
- HorizontalScrollBarVisibility="Auto"
- VerticalScrollBarVisibility="Auto">
-            <DataGrid.Columns>
-                <!--<DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>-->
-                <DataGridTextColumn Header="Condition" Binding="{Binding Conditions}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Criteria"  Binding="{Binding Criteria}"/>
-                <DataGridComboBoxColumn Header="記号" x:Name="combo" Width="60" />
-                <DataGridTextColumn Header="Tolerance"  Binding="{Binding Tolerance}"/>
-                <DataGridComboBoxColumn Header="ToleranceType" x:Name="ToleranceCombo" />
+                 AutoGenerateColumns="False" 
+                 CanUserAddRows="False" 
+                 CanUserDeleteRows="True"
+                 HeadersVisibility="Column"
+                 CanUserResizeRows="False"
+                 CanUserResizeColumns="False"
+                 SelectionUnit="FullRow" 
+                 CanUserSortColumns="False"
+                 SelectionMode="Single"
+                 DockPanel.Dock="Top"
+                 AllowDrop="True"
+                 FontSize="16"
+                 HorizontalScrollBarVisibility="Auto"
+                 VerticalScrollBarVisibility="Auto">
+            
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Condition" Binding="{Binding Conditions}" IsReadOnly="True" />
+
+
+                <DataGridTextColumn Header="Criteria"  Binding="{Binding Value}" >
+                    
+                </DataGridTextColumn>
+                <DataGridComboBoxColumn Header="Operator" Width="60" x:Name="cbOperators" 
+                                        SelectedItemBinding="{Binding Operators}" 
+                                        DisplayMemberPath="DisplayValue"  />
+
+                <DataGridTextColumn Header="Tolerance"  Binding="{Binding Tolerance, Mode=TwoWay}"/>
+                <DataGridComboBoxColumn Header="ToleranceType" x:Name="cbToleranceType" 
+                                        SelectedItemBinding="{Binding ToleranceType}" 
+                                        DisplayMemberPath="DisplayValue"  />
             </DataGrid.Columns>
         </DataGrid>
 

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Windows;
 using TsrTable.Domain.Entities;
 using TsrTable.Domain.ValueObjects;
-using TsrTable.RichTextBox;
 using TsrTable.RichTextBox.TableData;
+using TsrTable.WPFForm.ViewModelEntities;
 
 namespace TsrTable.WPFForm
 {
@@ -13,19 +13,28 @@ namespace TsrTable.WPFForm
     /// </summary>
     public partial class TableDataInputWindow : Window
     {
-        public TableDataInputWindow(List<CellEntity> list)
+        private List<CellEntity> _list;
+        private List<TableDataEntity> _tableDatas;
+        private List<TableDataVMEntity> _vmDatas=new List<TableDataVMEntity>();
+        public TableDataInputWindow(List<CellEntity> list, List<TableDataEntity> tableDatas)
         {
             InitializeComponent();
 
-            var dataCellList = list.FindAll(x => x.CellType == TableData.EnumCellType.DataCell);
+            _list = list;
+            _tableDatas =tableDatas;
+            _tableDatas.ForEach(x => _vmDatas.Add(new TableDataVMEntity(x)));
 
-            var convertList=new List<TableDataEntity>();
-            foreach (var cell in dataCellList)
-            {
-                convertList.Add(new TableDataEntity(cell.RowIndex,cell.ColumnIndex,cell.Conditions));
-            }
-            combo.ItemsSource = Operators.Items;
-            dg.ItemsSource = convertList;
+            cbOperators.ItemsSource=Operators.Items;
+            cbToleranceType.ItemsSource=ToleranceType.Items;
+
+            dg.ItemsSource = _vmDatas;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _tableDatas.Clear();
+            _tableDatas.AddRange(TableDataVMEntity.GetList(_vmDatas));
+            this.Close();
         }
     }
 }

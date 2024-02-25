@@ -1,4 +1,8 @@
 ﻿using C1.WPF.RichTextBox.Documents;
+using System.Collections.Generic;
+using System.Windows.Documents;
+using TsrTable.Domain.Entities;
+using TsrTable.Domain.ValueObjects;
 using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox.TableData
@@ -11,7 +15,7 @@ namespace TsrTable.RichTextBox.TableData
         public string Value { get; private set; }
         public int RowSpan { get; }
         public int ColumnSpan { get; }
-        public string Conditions { get; }
+        public Conditions Conditions { get; }
         
         public int SheetSpanRow { get;  set; }
         public int SheetSpanColumn { get;  set; }
@@ -28,7 +32,9 @@ namespace TsrTable.RichTextBox.TableData
         /// <param name="value"></param>
         /// <param name="rowSpan"></param>
         /// <param name="columnSpan"></param>
-        public CellEntity(int rowIndex,int columnIndex, EnumCellType cellType, string value, int rowSpan, int columnSpan)
+        public CellEntity(int rowIndex,int columnIndex, 
+            EnumCellType cellType, string value,
+            int rowSpan, int columnSpan)
         {
             RowIndex = rowIndex;
             SheetIndexRow=rowIndex;
@@ -49,14 +55,16 @@ namespace TsrTable.RichTextBox.TableData
         /// <param name="rowSpan"></param>
         /// <param name="columnSpan"></param>
         /// <param name="condition"></param>
-        public CellEntity(int rowIndex, int columnIndex, EnumCellType cellType, int rowSpan, int columnSpan, string condition)
+        public CellEntity(int rowIndex, int columnIndex, 
+            EnumCellType cellType, int rowSpan,
+            int columnSpan, Conditions condition)
         {
             RowIndex = rowIndex;
             SheetIndexRow = rowIndex;
             ColumnIndex = columnIndex;
             SheetIndexColumn = columnIndex;
             CellType = cellType;
-            Conditions = condition ?? string.Empty;
+            Conditions = condition;
             RowSpan = rowSpan;
             SheetSpanRow = rowSpan;
             ColumnSpan = columnSpan;
@@ -94,5 +102,13 @@ namespace TsrTable.RichTextBox.TableData
             if (value == null) return;
             Value = value;
         }
+
+        //public void SetCriteria(TableDataEntity entity)
+        //{
+        //    if (entity.Operators != null)
+        //    {
+        //        Criteria = new Criteria(entity.Criteria, entity.Operators, entity.Tolerance, entity.ToleranceType);
+        //    }
+        //}
     }
 }

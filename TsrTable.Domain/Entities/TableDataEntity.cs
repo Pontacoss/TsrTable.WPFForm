@@ -9,20 +9,18 @@ namespace TsrTable.Domain.Entities
 {
     public class TableDataEntity
     {
-        public int RowIndex { get; }
-        public int ColumnIndex { get; }
-        public string Conditions { get; }
-        public double Criteria { get; set; }
-        public int Operators { get; set; }
-        public double Tolerance { get; set; }
-        public int ToleranceType { get; set; }
+        public Conditions Conditions { get; }
+        public Criteria Criteria { get; set; }
 
-
-        public TableDataEntity(int rowIndex,int columnIndex,string conditions)
+        public TableDataEntity(Conditions conditions)
         {
-            RowIndex = rowIndex;
-            ColumnIndex = columnIndex;
             Conditions = conditions;
+        }
+
+        public TableDataEntity(Conditions conditions,Criteria criteria)
+        {
+            Conditions = conditions;
+            Criteria = criteria;
         }
     }
 }

@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TsrTable.Domain.Common;
+using TsrTable.Domain.Entities;
 
 namespace TsrTable.Domain.ValueObjects
 {
     public sealed class Criteria : ValueObject<Criteria>
     {
-        public double Value { get; }
-        public Operators Operators { get; }
-        public double Tolerance { get; }
-        public ToleranceType ToleranceType { get; }
+        public double Value { get; } = 0;
+        public Operators Operators { get; } = Operators.PlusMinus;
+        public double Tolerance { get; } = 0;
+        public ToleranceType ToleranceType { get; }=ToleranceType.Percent;
 
         public Criteria(double value, Operators operators, double tolerance, ToleranceType type)
         {
@@ -26,11 +27,11 @@ namespace TsrTable.Domain.ValueObjects
         {
             if (Operators.Value < 3)
             {
-                return string.Format("{0} {1} {2}{3}", Value, Operators.ToString(), Tolerance, ToleranceType.ToString());
+                return string.Format("{0} {1} {2}{3}", Value, Operators.DisplayValue, Tolerance, ToleranceType.DisplayValue);
             }
             else
             {
-                return string.Format("{0} {1}", Value, Operators.ToString());
+                return string.Format("{0} {1}", Value, Operators.DisplayValue);
             }
         }
 
@@ -45,11 +46,11 @@ namespace TsrTable.Domain.ValueObjects
                     if (ToleranceType == ToleranceType.Percent)
                     {
                         if (Operators == Operators.PlusMinus)
-                            return string.Format("{0} ～ {1} ～ {2}", Value - (1 - Tolerance / 100), Value, Value - (1 + Tolerance / 100));
+                            return string.Format("{0} ～ {1} ～ {2}", Value * (1 - Tolerance / 100), Value, Value * (1 + Tolerance / 100));
                         else if (Operators == Operators.Minus)
-                            return string.Format("{0} ～ {1}", Value - (1 - Tolerance / 100), Value);
+                            return string.Format("{0} ～ {1}", Value * (1 - Tolerance / 100), Value);
                         else
-                            return string.Format("{0} ～ {1}", Value, Value - (1 + Tolerance / 100));
+                            return string.Format("{0} ～ {1}", Value, Value * (1 + Tolerance / 100));
                     }
                     else
                     {

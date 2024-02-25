@@ -127,6 +127,7 @@
     <Compile Include="TableDataInputWindow.xaml.cs">
       <DependentUpon>TableDataInputWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModelEntities\TableDataVMEntity.cs" />
     <Compile Include="ViewModelEntities\TableHeaderVMEntity.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>

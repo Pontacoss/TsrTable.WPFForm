@@ -61,11 +61,12 @@ namespace TsrTable.RichTextBox.TableData
 
         public string GetConditionStringByContainer(int Index)
         {
-            int width = GetSpanSum() * _unitSize;
-            Index = Index % width;
-            if (Index == 0) Index = width;
+            //int width = GetSpanSum() * _unitSize;
+            //Index = Index % width;
+            //if (Index == 0) Index = width;
 
-            return GetConditionStringRecursive(Index, _unitSize);
+            //return GetConditionStringRecursive(Index, _unitSize);
+            return null;
         }
         public override string DisplayName()
         {

@@ -52,7 +52,7 @@ namespace TsrTable.RichTextBox.TableData
             {
                 list.Add(new CellEntity(
                  rowIndex,
-                columnIndex,
+                 columnIndex,
                  EnumCellType.ColumnHeaderTitle,
                  ToString(),
                  rowSpan,

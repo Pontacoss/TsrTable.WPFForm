@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using TsrTable.TableData;
 using TsrTable.Domain.Common;
+using TsrTable.Domain.ValueObjects;
 
 namespace TsrTable.RichTextBox.TableData
 {
@@ -77,25 +78,28 @@ namespace TsrTable.RichTextBox.TableData
             return new TableContent("name", rowHeaderList, columnHeaderList);
         }
 
-        private static string GetConditionString(TableContent tableContent, int rowIndex, int columnIndex)
+        private static Conditions GetConditionString(TableContent tableContent, int rowIndex, int columnIndex)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(tableContent.RowHeaders is null ?
-                string.Empty :
-                GetConditionStringSub(tableContent.RowHeaders, rowIndex));
-            sb.Append(GetConditionStringSub(tableContent.ColumnHeaders, columnIndex));
-            return sb.ToString();
+            var list = new Conditions();
+            if (tableContent.RowHeaders != null)
+            {
+                list.Add(GetConditionStringSub(tableContent.RowHeaders, rowIndex));
+            }
+            list.Add(GetConditionStringSub(tableContent.ColumnHeaders, columnIndex));
+            return list;
         }
 
-        private static string GetConditionStringSub(IEnumerable<HeaderBase> HeaderList, int Index)
+        private static List<string> GetConditionStringSub(IEnumerable<HeaderBase> HeaderList, int Index)
         {
             var sb = new StringBuilder();
+            var list=new List<string>();
             foreach (var header in HeaderList.OfType<IContainer>())
             {
-                sb.Append(header.GetConditionStringByContainer(Index));
-                sb.Append('\n');
+                var condition = header.GetConditionStringByContainer(Index);
+                if(condition != null)
+                    list.Add(header.GetConditionStringByContainer(Index));
             }
-            return sb.ToString();
+            return list;
         }
 
         private static List<HeaderBase> GetItemSource(IList<TableHeaderEntity> list)
@@ -249,20 +253,10 @@ namespace TsrTable.RichTextBox.TableData
                 for (int j = 0; j < tableContent.ColumnHeaderWidth; j++)
                 {
                     var conditions = GetConditionString(tableContent, i + 1, j + 1);
-                    if (conditions.Contains("範囲"))
-                    {
-                        list.Add(new CellEntity(
+                    list.Add(new CellEntity(
                         i + tableContent.ColumnHeaderHeight,
                         j + tableContent.RowHeaderWidth,
-                        EnumCellType.DataButtonCell, 1, 1, conditions));
-                    }
-                    else
-                    {
-                        list.Add(new CellEntity(
-                            i + tableContent.ColumnHeaderHeight,
-                            j + tableContent.RowHeaderWidth,
-                            EnumCellType.DataCell, 1, 1, conditions));
-                    }
+                        EnumCellType.DataCell, 1, 1, conditions));
                 }
             }
         }

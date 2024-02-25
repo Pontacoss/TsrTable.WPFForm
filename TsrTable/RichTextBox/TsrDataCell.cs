@@ -1,11 +1,13 @@
 ﻿using C1.WPF.RichTextBox.Documents;
+using System.Collections.Generic;
+using TsrTable.Domain.ValueObjects;
 using TsrTable.RichTextBox.TableData;
 
 namespace TsrTable.RichTextBox
 {
     public sealed class TsrDataCell : TsrCell
     {
-        public string Conditions => _cellEntity.Conditions;
+        public Conditions Conditions => _cellEntity.Conditions;
         public TsrDataCell() : base() { }
         internal TsrDataCell(CellEntity cellEntity) : base(cellEntity) 
         {
