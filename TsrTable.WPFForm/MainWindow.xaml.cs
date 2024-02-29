@@ -209,7 +209,7 @@ namespace TsrTable.WPFForm
 
             _cellList = TsrFacade.GetCellData(_cellList, _table);
 
-            var table= TsrFacade.CreateTableToWord(_tableContent, _cellList);
+            var table= TsrFacade.CreateTableToWord(_tableContent, _cellList,_tableDatas);
 
             
             word.Add(table);
@@ -251,7 +251,7 @@ namespace TsrTable.WPFForm
 
         private void TestReportButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new Window1(_tableDatas);
+            var fm = new Window1(HeaderList.ToList(), CriteriaList.ToList(), _tableDatas);
             var result = fm.ShowDialog();
         }
     }

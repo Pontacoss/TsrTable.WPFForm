@@ -1,12 +1,9 @@
-﻿using C1.WPF.FlexGrid;
-using C1.WPF.RichTextBox.Documents;
-using C1.WPF.Word;
+﻿using C1.WPF.Word;
 using C1.WPF.Word.Objects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TsrTable.Domain.Common;
+using TsrTable.Domain.Entities;
 using TsrTable.RichTextBox.TableData;
 
 namespace TsrTable.TableData
@@ -14,7 +11,8 @@ namespace TsrTable.TableData
     internal class WordTools
     {
         internal static RtfTable CreateTable(TableContent tableContent,
-            List<CellEntity> list)
+            List<CellEntity> list,
+            List<TableDataEntity> datas)
         {
             var table = new RtfTable(
                 tableContent.RowHeaderHeight + tableContent.ColumnHeaderHeight,
@@ -38,7 +36,7 @@ namespace TsrTable.TableData
                 else if (cellEntity.CellType == EnumCellType.CellHeader)
                     SetCellHeader(cell, cellEntity);
                 else
-                    SetDataCell(cell, cellEntity);
+                    SetDataCell(cell, cellEntity,datas);
             }
 
             table.Alignment = ContentAlignment.MiddleCenter;
@@ -54,7 +52,8 @@ namespace TsrTable.TableData
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Bold);
             if (cellEntity.Value != null)
             {
-                cell.Content.Add(new RtfString(cellEntity.Value));
+                cell.Content.Add(
+                    new RtfString(cellEntity.Value));
             }
             if (!cellEntity.Width.IsAuto)
             {
@@ -119,15 +118,18 @@ namespace TsrTable.TableData
             }
         }
 
-        private static void SetDataCell(RtfCell cell, CellEntity cellEntity)
+        private static void SetDataCell(RtfCell cell, CellEntity cellEntity, List<TableDataEntity> datas)
         {
             cell.Alignment = ContentAlignment.MiddleRight;
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Regular);
-            if (cellEntity.Value != null)
-            {
-                cell.Content.Add(new RtfString(cellEntity.Value));
-            }
+
+                cell.Content.Add(new RtfString(
+                    TsrTableTools.GetCellContent(
+                        cellEntity, datas, EnumTsrDocumentType.SpecSheet),
+                        font));
+            
+
             if (!cellEntity.Width.IsAuto)
             {
                 cell.Width = (float)cellEntity.Width.Value;

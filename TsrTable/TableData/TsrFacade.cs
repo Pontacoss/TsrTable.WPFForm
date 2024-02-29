@@ -13,7 +13,7 @@ namespace TsrTable.TableData
 {
     public class TsrFacade
     {
-        public static int FlexSheetWidth { get; } = 18;
+        public static int FlexSheetColumnCount { get; } = 18;
         public static int FlexSheetCellWidth { get; } = 35;
 
         public static List<CellEntity> CreateCellList(TableContent tableContent)
@@ -31,9 +31,10 @@ namespace TsrTable.TableData
         }
 
             public static RtfTable CreateTableToWord(TableContent tableContent,
-            List<CellEntity> list)
+            List<CellEntity> list,
+            List<TableDataEntity> datas)
         {
-            return WordTools.CreateTable(tableContent, list);
+            return WordTools.CreateTable(tableContent, list,datas);
         }
 
         public static C1Table CreateTableToRichTextBox(
@@ -52,11 +53,18 @@ namespace TsrTable.TableData
         }
 
         public static void CreateTableToExcel(C1XLBook book,
-            List<CellEntity> list)
+            List<CellEntity> list,
+            List<TableDataEntity> datas)
         {
-            ExcelTools.CreateTable(book, book.Sheets[0], list);
+            ExcelTools.CreateTable(book, list, datas);
         }
 
+        /// <summary>
+        /// RichTextBoxの表から各セルの幅・高さ・値を取得し、CellEntityに格納する。
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="table"></param>
+        /// <returns></returns>
         public static List<CellEntity> GetCellData(List<CellEntity> list,C1Table table)
         {
             return RichTextBoxTools.GetCellData(list, table);

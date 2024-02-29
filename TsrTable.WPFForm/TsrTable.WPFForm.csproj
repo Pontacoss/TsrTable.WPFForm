@@ -121,17 +121,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BulletControlWindow.xaml.cs">
+      <DependentUpon>BulletControlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FlexSheetCellSettingForm.xaml.cs">
       <DependentUpon>FlexSheetCellSettingForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="TableDataInputWindow.xaml.cs">
       <DependentUpon>TableDataInputWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ParagraphPartWindow.xaml.cs">
+      <DependentUpon>ParagraphPartWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModelEntities\TableDataVMEntity.cs" />
     <Compile Include="ViewModelEntities\TableHeaderVMEntity.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
+    <Page Include="BulletControlWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FlexSheetCellSettingForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -149,6 +159,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="TableDataInputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ParagraphPartWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

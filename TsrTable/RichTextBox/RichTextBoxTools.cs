@@ -1,13 +1,9 @@
-﻿using C1.WPF.FlexGrid;
-using C1.WPF.RichTextBox.Documents;
-using C1.WPF.Word.Objects;
+﻿using C1.WPF.RichTextBox.Documents;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
-using TsrTable.Domain.ValueObjects;
 using TsrTable.RichTextBox.TableData;
 using TsrTable.TableData;
 
@@ -30,7 +26,7 @@ namespace TsrTable.RichTextBox
                 {
                     Text = value,
                     Padding = new Thickness(0, 0, 0, 0),
-                    Margin = new Thickness(0)
+                    Margin = new Thickness(0),
                 });
             paragraph.Padding = new Thickness(0);
             paragraph.Margin = new Thickness(1);
@@ -40,16 +36,6 @@ namespace TsrTable.RichTextBox
             cell.Padding = new Thickness(0);
             cell.Margin = new Thickness(0);
             return cell;
-        }
-
-
-
-        private static void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var button =sender as Button;
-            if (button.Content.ToString() == "±") button.Content = "+";
-            else if (button.Content.ToString() == "+") button.Content = "-";
-            else if (button.Content.ToString() == "-") button.Content = "±";
         }
 
         internal static C1Table CreateTable(
@@ -78,12 +64,9 @@ namespace TsrTable.RichTextBox
                     cell = CreateColumnHeaderCell(cellEntity);
                 else if (cellEntity.CellType == EnumCellType.ColumnHeaderTitle)
                     cell = CreateColumnHeaderTitleCell(cellEntity);
-                else // if (cellEntity.CellType == EnumCellType.DataCell)
+                else
                     cell = CreateDataCell(cellEntity,datas);
-                //else
-                //{
-                //    cell = CreateDataButtonCell(cellEntity);
-                //}
+                
                 rows.First(x => x.Index == cellEntity.RowIndex).Children.Add(cell);
             }
             table.BorderCollapse = true;
@@ -92,25 +75,16 @@ namespace TsrTable.RichTextBox
         }
         private static C1TableCell CreateDataCell(CellEntity cellEntity,List<TableDataEntity> datas)
         {
-            if (datas != null)
-            {
-                var dataCell = datas.FirstOrDefault(x => x.Conditions == cellEntity.Conditions);
-                if (dataCell.Criteria != null)
-                {
-                    return new TsrDataCell(cellEntity).TsrCellExtensions(dataCell.Criteria.DisplayValue);
-                }
-            }
-            return new TsrDataCell(cellEntity).TsrCellExtensions(string.Empty);
-
-            // DataCellは、何種類か作成予定。規定値を選択して入れるタイプなど。
-
+            return new TsrDataCell(cellEntity).TsrCellExtensions(
+                TsrTableTools.GetCellContent(
+                    cellEntity, datas, EnumTsrDocumentType.SpecSheet));
         }
 
 
         private static C1TableCell CreateColumnHeaderCell(CellEntity cellEntity)
         {
             var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Value);
-            cell.Background = Brushes.LightGray;
+            cell.Background = System.Windows.Media.Brushes.LightGray;
             cell.TextAlignment = C1TextAlignment.Center;
             return cell;
         }
@@ -119,7 +93,7 @@ namespace TsrTable.RichTextBox
         {
             var cell = new TsrHeaderCell(cellEntity).TsrCellExtensions(cellEntity.Value);
             cell.FontWeight = FontWeights.Bold;
-            cell.Background = Brushes.LightGray;
+            cell.Background = System.Windows.Media.Brushes.LightGray;
             cell.TextAlignment = C1TextAlignment.Center;
             return cell;
         }

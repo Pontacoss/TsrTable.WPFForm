@@ -10,7 +10,6 @@ namespace TsrTable.RichTextBox.TableData
             var result = new List<TableHeaderEntity>();
             if (selector == 0)
             {
-
                 var entity = new TableHeaderEntity(1001, "トルクパターン", 1000, 0);
                 result.Add(entity);
 

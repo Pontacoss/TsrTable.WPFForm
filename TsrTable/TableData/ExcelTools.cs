@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using TsrTable.Domain.Common;
+using TsrTable.Domain.Entities;
 using TsrTable.RichTextBox.TableData;
 using static C1.Util.Win.Win32;
 
@@ -30,10 +32,15 @@ namespace TsrTable.TableData
 
     internal class ExcelTools
     {
-        internal static void CreateTable(C1XLBook book,XLSheet sheet, List<CellEntity> cellList)
+        internal static void CreateTable(
+            C1XLBook book,
+            List<CellEntity> cellList,
+            List<TableDataEntity> datas)
         {
+            var sheet = book.Sheets[0];
             sheet.DefaultColumnWidth = 500;
 
+            var documentType = EnumTsrDocumentType.TestReport;
             var containerStyle = SetContainerStyle(book);
             var columnHeaderStyle = SetColumnHeaderStyle(book);
             var rowHeaderStyle = SetRowHeaderStyle(book);
@@ -41,15 +48,12 @@ namespace TsrTable.TableData
 
             foreach (var cell in cellList)
             {
-                if (cell.Value != null)
-                {
-                    var ch = cell.Value?.ToCharArray();
-                    if (Regex.IsMatch(cell.Value, @"^\d+$"))
-                            sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = Convert.ToDouble(cell.Value);
-                    else
-                        sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = cell.Value;
+                var value = TsrTableTools.GetCellContent(cell, datas, documentType);
 
-                }
+                if (Regex.IsMatch(value, @"^\d+$"))
+                    sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = Convert.ToDouble(value);
+                else
+                    sheet[cell.SheetIndexRow, cell.SheetIndexColumn].Value = value;
 
                 var range = new XLCellRange(cell.SheetIndexRow, cell.SheetIndexRow + cell.SheetSpanRow - 1, 
                     cell.SheetIndexColumn, cell.SheetIndexColumn + cell.SheetSpanColumn - 1);
@@ -60,7 +64,7 @@ namespace TsrTable.TableData
                 else if (cell.CellType == EnumCellType.RowHeader) range.Style = rowHeaderStyle;
                 else if (cell.CellType == EnumCellType.CellHeader) range.Style = containerStyle;
                 else range.Style = dataCellStyle;
-
+                
             }
         }
 
@@ -72,8 +76,8 @@ namespace TsrTable.TableData
                 AlignHorz = XLAlignHorzEnum.Center,
                 AlignVert = XLAlignVertEnum.Center,
                 BackColor = System.Windows.Media.Colors.LightGray,
-                WordWrap = true
-                , ShrinkToFit = true
+                WordWrap = true,
+                ShrinkToFit = true
             };
             style.SetBorderStyle(XLLineStyleEnum.Thin);
             style.SetBorderColor(System.Windows.Media.Colors.Black);

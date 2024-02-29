@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Common\EnumToleranceType.cs" />
     <Compile Include="Common\EnumTsrDocumentType.cs" />
     <Compile Include="Entities\TableDataEntity.cs" />
     <Compile Include="Entities\TableHeaderEntity.cs" />

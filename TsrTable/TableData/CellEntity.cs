@@ -9,18 +9,18 @@ namespace TsrTable.RichTextBox.TableData
 {
     public sealed class CellEntity
     {
+        public EnumCellType CellType { get; }
+        public Conditions Conditions { get; }
+        public string Value { get; private set; } = string.Empty;
         public int RowIndex { get; }
         public int ColumnIndex { get; }
-        public EnumCellType CellType { get; }
-        public string Value { get; private set; }
         public int RowSpan { get; }
         public int ColumnSpan { get; }
-        public Conditions Conditions { get; }
-        
-        public int SheetSpanRow { get;  set; }
-        public int SheetSpanColumn { get;  set; }
-        public int SheetIndexRow { get;  set; }
-        public int SheetIndexColumn { get;  set; }
+
+        public int SheetSpanRow { get; set; }
+        public int SheetSpanColumn { get; set; }
+        public int SheetIndexRow { get; set; }
+        public int SheetIndexColumn { get; set; }
         public C1Length Width { get; set; }
         public C1Length Height { get; set; }
 
@@ -32,14 +32,14 @@ namespace TsrTable.RichTextBox.TableData
         /// <param name="value"></param>
         /// <param name="rowSpan"></param>
         /// <param name="columnSpan"></param>
-        public CellEntity(int rowIndex,int columnIndex, 
+        public CellEntity(int rowIndex, int columnIndex,
             EnumCellType cellType, string value,
             int rowSpan, int columnSpan)
         {
             RowIndex = rowIndex;
-            SheetIndexRow=rowIndex;
+            SheetIndexRow = rowIndex;
             ColumnIndex = columnIndex;
-            SheetIndexColumn=columnIndex;
+            SheetIndexColumn = columnIndex;
             CellType = cellType;
             Value = value ?? string.Empty;
             RowSpan = rowSpan;
@@ -55,7 +55,7 @@ namespace TsrTable.RichTextBox.TableData
         /// <param name="rowSpan"></param>
         /// <param name="columnSpan"></param>
         /// <param name="condition"></param>
-        public CellEntity(int rowIndex, int columnIndex, 
+        public CellEntity(int rowIndex, int columnIndex,
             EnumCellType cellType, int rowSpan,
             int columnSpan, Conditions condition)
         {
@@ -73,7 +73,7 @@ namespace TsrTable.RichTextBox.TableData
 
         public void SetSheetSpanColumn(int gap)
         {
-            SheetSpanColumn +=gap;
+            SheetSpanColumn += gap;
         }
         public bool CanChangeSpan(int gap)
         {
@@ -83,7 +83,8 @@ namespace TsrTable.RichTextBox.TableData
 
         public bool CanMove(int gap)
         {
-            if (SheetSpanColumn + SheetIndexColumn + gap > TsrFacade.FlexSheetWidth) return false;
+            if (SheetSpanColumn + SheetIndexColumn + gap >
+                TsrFacade.FlexSheetColumnCount) return false;
             return true;
         }
 
@@ -102,13 +103,5 @@ namespace TsrTable.RichTextBox.TableData
             if (value == null) return;
             Value = value;
         }
-
-        //public void SetCriteria(TableDataEntity entity)
-        //{
-        //    if (entity.Operators != null)
-        //    {
-        //        Criteria = new Criteria(entity.Criteria, entity.Operators, entity.Tolerance, entity.ToleranceType);
-        //    }
-        //}
     }
 }

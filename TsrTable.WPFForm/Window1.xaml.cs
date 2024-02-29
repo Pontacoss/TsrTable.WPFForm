@@ -11,6 +11,7 @@ using TsrTable.FlexSheet;
 using System.IO;
 using C1.WPF.Excel;
 using TsrTable.Domain.Entities;
+using static C1.Util.Win.Win32;
 
 namespace TsrTable.WPFForm
 {
@@ -28,19 +29,20 @@ namespace TsrTable.WPFForm
         private List<CellEntity> _cellList=new List<CellEntity>();
         private List<TableDataEntity> _datas;
 
-        public Window1(List<TableDataEntity> datas)
+        public Window1(
+            List<TableHeaderVMEntity> headerList,
+            List<TableHeaderVMEntity> criteriaList, 
+            List<TableDataEntity> datas)
         {
             InitializeComponent();
             _datas = datas;
 
             CriteriaPositionRadioButton.IsChecked = true;
 
-            var list = TableHeaderFake.GetData(1);
-            TableHeaderVMEntity.ConvertToVMEntities(list).ForEach(x => HeaderList.Add(x));
+            headerList.ForEach(x => HeaderList.Add(x));
             ContainerDataGrid.ItemsSource = HeaderList.ToList().FindAll(x => x.Parent == 0);
 
-            var list2 = TableHeaderFake.GetData(0);
-            TableHeaderVMEntity.ConvertToVMEntities(list2).ForEach(x => CriteriaList.Add(x));
+            criteriaList.ForEach(x => CriteriaList.Add(x));
             CriteriaDataGrid.ItemsSource = CriteriaList;
             
             InitializeGrid();
@@ -69,8 +71,9 @@ namespace TsrTable.WPFForm
             //cfs.PrintPreview("C1FlexSheet", scaleMode, new Thickness(96), int.MaxValue);
 
             var book = new C1.WPF.Excel.C1XLBook();
-            TsrFacade.CreateTableToExcel(book, _cellList);
+            TsrFacade.CreateTableToExcel(book, _cellList, _datas);
             book.Save("C:\\Users\\ey28754\\Desktop\\book.xlsx");
+            MessageBox.Show("Excel Document saved ");
 
             //var dlg = new Microsoft.Win32.SaveFileDialog();
             //dlg.DefaultExt = "xlsx";
@@ -208,13 +211,12 @@ namespace TsrTable.WPFForm
         private void InitializeGrid()
         {
             cfs.Columns.Clear();
-            while (cfs.Columns.Count < TsrFacade.FlexSheetWidth)
+            while (cfs.Columns.Count < TsrFacade.FlexSheetColumnCount)
             {
-                cfs.Columns.Add(new Column());
-            }
-            foreach (var col in cfs.Columns)
-            {
-                col.Width = new GridLength(TsrFacade.FlexSheetCellWidth);
+                cfs.Columns.Add(new Column()
+                {
+                    Width = new GridLength(TsrFacade.FlexSheetCellWidth)
+                });
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 using TsrTable.RichTextBox.TableData;
 using TsrTable.TableData;
@@ -21,31 +22,26 @@ namespace TsrTable.FlexSheet
             List<TableDataEntity> datas)
         {
             var xmm = cfs.MergeManager as ExcelMergeManager;
-            foreach (var cell in cellList)
+            var allCells=new CellRange(0,0,cfs.Rows.Count,cfs.Columns.Count);
+            xmm.RemoveRange(allCells);
+
+            foreach (var cellData in cellList)
             {
-                if (cell.CellType == EnumCellType.DataCell )
-                {
-                    var entity = datas.FirstOrDefault(x=>x.Conditions==cell.Conditions);
-                    if (entity.Criteria != null)
-                    {
-                        cfs[cell.SheetIndexRow, cell.SheetIndexColumn] = entity.Criteria.DisplayRange;
-                    }
-                }
-                else
-                {
-                    cfs[cell.SheetIndexRow, cell.SheetIndexColumn] = cell.Value;
-                }
-                var range = new CellRange(cell.SheetIndexRow, cell.SheetIndexColumn,
-                    cell.SheetIndexRow + cell.SheetSpanRow - 1, cell.SheetIndexColumn + cell.SheetSpanColumn - 1);
+                cfs[cellData.SheetIndexRow, cellData.SheetIndexColumn] =
+                    TsrTableTools.GetCellContent(cellData, datas,EnumTsrDocumentType.TestReport);
+
+                var range = new CellRange(cellData.SheetIndexRow, cellData.SheetIndexColumn,
+                    cellData.SheetIndexRow + cellData.SheetSpanRow - 1, 
+                    cellData.SheetIndexColumn + cellData.SheetSpanColumn - 1);
                 xmm.AddRange(range);
 
-                if (cell.CellType == EnumCellType.ColumnHeaderTitle) SetColumnHeaderTitle(cfs, range);
-                else if (cell.CellType == EnumCellType.ColumnHeader) SetColumnHeader(cfs, range);
-                else if (cell.CellType == EnumCellType.RowHeader) SetRowHeader(cfs, range);
-                else if(cell.CellType==EnumCellType.CellHeader) SetCellHeader(cfs, range);
-                else SetDatCell(cfs, range, cell);
-
+                if (cellData.CellType == EnumCellType.ColumnHeaderTitle) SetColumnHeaderTitle(cfs, range);
+                else if (cellData.CellType == EnumCellType.ColumnHeader) SetColumnHeader(cfs, range);
+                else if (cellData.CellType == EnumCellType.RowHeader) SetRowHeader(cfs, range);
+                else if (cellData.CellType == EnumCellType.CellHeader) SetCellHeader(cfs, range);
+                else SetDataCell(cfs, range);
                 //cfs.Invalidate();
+
             }
         }
 
@@ -78,7 +74,7 @@ namespace TsrTable.FlexSheet
             cfs.SetCellFormat(range.Cells, CellFormat.FontWeight, FontWeights.Bold);
         }
 
-        private static void SetDatCell(C1FlexSheet cfs, CellRange range,CellEntity cell)
+        private static void SetDataCell(C1FlexSheet cfs, CellRange range)
         {
             cfs.SetCellFormat(range.Cells, CellFormat.FontSize, _flexSheetFontSize);
             cfs.SetCellFormat(range.Cells, CellFormat.BorderThickness, new Thickness(1));

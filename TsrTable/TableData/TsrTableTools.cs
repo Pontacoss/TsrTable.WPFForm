@@ -273,6 +273,24 @@ namespace TsrTable.RichTextBox.TableData
                 rowIndex += container.CreateColumnHeaders(list, rowIndex, columnIndex);
             }
         }
-
+        internal static string GetCellContent(CellEntity cell, List<TableDataEntity> datas,EnumTsrDocumentType type)
+        {
+            if (datas != null)
+            {
+                var entity = datas.FirstOrDefault(x => x.Conditions == cell.Conditions);
+                if (entity !=null && entity.Criteria != null)
+                {
+                    if (type == EnumTsrDocumentType.TestReport)
+                    {
+                        return entity.Criteria.DisplayRange;
+                    }
+                    else
+                    {
+                        return entity.Criteria.DisplayValue;
+                    }
+                }
+            }
+            return cell.Value;
+        }
     }
 }
