@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Common\EnumTsrDocumentType.cs" />
+    <Compile Include="Entities\ParameterEntity.cs" />
     <Compile Include="Entities\TableDataEntity.cs" />
     <Compile Include="Entities\TableHeaderEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

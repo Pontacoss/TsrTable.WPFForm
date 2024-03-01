@@ -1,12 +1,8 @@
-﻿using C1.WPF.RichTextBox;
+﻿using C1.WPF.Extended;
+using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
-using C1.WPF.Word;
-using C1.WPF.Word.Objects;
-using org.jpedal.jbig2.segment;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
-using System.Xml.Linq;
 using TsrTable.RichTextBox;
 
 namespace TsrTable.WPFForm
@@ -40,46 +36,47 @@ namespace TsrTable.WPFForm
 
         private void InsertParameterButton_Click(object sender, RoutedEventArgs e)
         {
-
-            C1TextRange selectText = rtb.Selection;
-            //FontWeight? fw = this.c1RichTextBox1.Selection.FontWeight;
-            //this.c1RichTextBox1.Selection.FontWeight = fw.HasValue && fw.Value == FontWeights.Bold
-            //      ? FontWeights.Normal
-            //      : FontWeights.Bold;
-
-            var stat = selectText.Start;
-            var statRun = stat.Element as C1Run;
-
-            if (statRun == null) return;
-
-            var parent = statRun.Parent;
-            if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
-            {
-                parent.Children.Insert(statRun.Index + 1, new TsrParameter("パラメータ"));
-                parent.Children.Insert(statRun.Index + 2, new C1Run()
-                {
-                    Text = statRun.Text.Substring(stat.Offset, statRun.Text.Length - stat.Offset)
-                });
-                statRun.Text = statRun.Text.Substring(0, stat.Offset);
-            }
-            else if (stat.Offset == 0)
-            {
-                parent.Children.Insert(statRun.Index, new TsrParameter("パラメータ"));
-            }
-            else if (stat.Offset == statRun.Text.Length)
-            {
-                parent.Children.Insert(statRun.Index + 1, new TsrParameter("パラメータ"));
-            }
+            var span = new C1Span();
+            span.Children.Add(new TsrParameter("パラメータ"));
+            span.IsEditable = false;
+            InsertElement(span);
         }
 
         private void InsertSubScriptButton_Click(object sender, RoutedEventArgs e)
         {
-            var word=new C1WordDocument();
-            word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
+            var fm = new SuperSubScriptWindow();
+            fm.ShowDialog();
 
-            var paragraph = new RtfParagraph();
+            if (fm.BaseScriptString == string.Empty) return;
+            var run = new C1Run()
+            {
+                Text = fm.BaseScriptString,
+                IsEditable=false
+            };
+            var run2 = new C1Run
+            {
+                IsEditable = false
+            };
+            if (fm.SuperScriptString != string.Empty)
+            {
+                run2.Text = fm.SuperScriptString;
+                run2.TextDecorations = C1TextDecorations.Strikethrough;
+                run2.VerticalAlignment = C1VerticalAlignment.Super;
+            }
+            else if (fm.SubScriptString != string.Empty)
+            {
+                run2.Text = fm.SubScriptString;
+                run2.VerticalAlignment = C1VerticalAlignment.Sub;
+            }
+            else return;
 
-            var section=new RtfSection();
+            var span = new C1Span();
+            span.Children.Add(run);
+            span.Children.Add(run2);
+            span.IsEditable = false;
+            
+            InsertElement(span);
+        
         }
         private void RemoveBullet(C1List target)
         {
@@ -110,7 +107,24 @@ namespace TsrTable.WPFForm
         }
         private void InsertSuperScriptButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            var selection = rtb.Selection;
+            if (selection.TextDecorations == C1TextDecorations.Strikethrough)
+            {
+                selection.TextDecorations = null;
+            }
+            else
+            {
+                selection.TextDecorations=C1TextDecorations.Strikethrough;
+                selection.TextDecorations[0].LocationOffset = 0;
+                selection.TextDecorations[0].Thickness = 0.1;
+                ColorPicker.Palette = ColorPalette.GetColorPalette(Office2007ColorTheme.Standard);
+            }
+            //var word=new C1WordDocument();
+            //word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
+
+            //var paragraph = new RtfParagraph();
+
+            //var section=new RtfSection();
         }
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
@@ -140,5 +154,34 @@ namespace TsrTable.WPFForm
             }
             rtb.Document.Blocks.Insert(index, list);
         }
+
+        private void InsertElement(C1Inline element)
+        {
+            C1TextRange selectText = rtb.Selection;
+            var stat = selectText.Start;
+            var statRun = stat.Element as C1Run;
+            if (statRun == null) return;
+
+            var parent = statRun.Parent as C1Paragraph;
+            if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
+            {
+                parent.Children.Insert(statRun.Index + 1, element);
+                parent.Children.Insert(statRun.Index + 2, new C1Run()
+                {
+                    Text = statRun.Text.Substring(stat.Offset, statRun.Text.Length - stat.Offset)
+                });
+                statRun.Text = statRun.Text.Substring(0, stat.Offset);
+            }
+            else if (stat.Offset == 0)
+            {
+                parent.Children.Insert(statRun.Index, element);
+            }
+            else if (stat.Offset == statRun.Text.Length)
+            {
+                parent.Children.Insert(statRun.Index + 1, element);
+                parent.Children.Insert(statRun.Index + 2, new C1Run());
+            }
+        }
     }
+
 }

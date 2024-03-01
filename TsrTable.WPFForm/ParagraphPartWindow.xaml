@@ -7,6 +7,7 @@
        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+        WindowStartupLocation="CenterScreen"
       Title="ParagraphPartWindow">
 
     <Grid>
@@ -30,19 +31,21 @@
                         Width="100" Height="35" Margin="5"
                         Name="InsertParameterButton"
                         Click="InsertParameterButton_Click"/>
-                <Button Content="箇条書き挿入" 
+                <Button Content="箇条書き" 
                         Width="100" Height="35" Margin="5"
                         Name="InsertBulletPointButton"
                         Click="InsertBulletPointButton_Click"/>
-                <Button Content="上付き文字挿入" 
+                <Button Content="" 
                         Width="100" Height="35" Margin="5"
                         Name="InsertSuperScriptButton"
                         Click="InsertSuperScriptButton_Click"/>
-                <Button Content="下付き文字挿入"  
+                <Button Content="上下付き文字挿入"  
                         Width="100" Height="35" Margin="5"
                         Name="InsertSubScriptButton"
                         Click="InsertSubScriptButton_Click"/>
             </StackPanel>
+            <c1:C1ColorPicker HorizontalAlignment="Left" Margin="61,49,0,0" Grid.Row="1" VerticalAlignment="Top"
+                              Name="ColorPicker"/>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">
             <c1:C1RichTextBoxToolbar RichTextBox="{Binding ElementName=rtb}" DockPanel.Dock="Top"/>

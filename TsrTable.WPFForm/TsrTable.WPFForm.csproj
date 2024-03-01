@@ -68,6 +68,9 @@
     <Reference Include="C1.WPF.Excel.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <HintPath>..\packages\C1.Xaml.WPF.Excel.Ja.4.6.20233.801\lib\net462\C1.WPF.Excel.4.6.2.dll</HintPath>
     </Reference>
+    <Reference Include="C1.WPF.Extended.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\C1.Xaml.WPF.Extended.Ja.4.6.20233.801\lib\net462\C1.WPF.Extended.4.6.2.dll</HintPath>
+    </Reference>
     <Reference Include="C1.WPF.FlexGrid.4.6.2, Version=4.6.20233.801, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <HintPath>..\packages\C1.Xaml.WPF.FlexGrid.Ja.4.6.20233.801\lib\net462\C1.WPF.FlexGrid.4.6.2.dll</HintPath>
     </Reference>
@@ -127,6 +130,9 @@
     <Compile Include="FlexSheetCellSettingForm.xaml.cs">
       <DependentUpon>FlexSheetCellSettingForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SuperSubScriptWindow.xaml.cs">
+      <DependentUpon>SuperSubScriptWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TableDataInputWindow.xaml.cs">
       <DependentUpon>TableDataInputWindow.xaml</DependentUpon>
     </Compile>
@@ -158,6 +164,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SuperSubScriptWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TableDataInputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
