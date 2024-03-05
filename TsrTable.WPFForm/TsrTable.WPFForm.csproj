@@ -130,6 +130,9 @@
     <Compile Include="FlexSheetCellSettingForm.xaml.cs">
       <DependentUpon>FlexSheetCellSettingForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PostScriptWindow.xaml.cs">
+      <DependentUpon>PostScriptWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SuperSubScriptWindow.xaml.cs">
       <DependentUpon>SuperSubScriptWindow.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PostScriptWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SuperSubScriptWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

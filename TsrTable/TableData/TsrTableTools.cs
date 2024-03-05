@@ -55,10 +55,10 @@ namespace TsrTable.RichTextBox.TableData
             var entities = new List<TableHeaderEntity>();
             entities.Add(new TableHeaderEntity(1000, "試験項目", false, true, true));
             entities.AddRange(criteriaList);
-            //foreach (var criteriaSubContainer in criteriaList)
-            //{
-            //    entities.AddRange(CriteriaSetting(criteriaSubContainer, documentType));
-            //}
+            foreach (var criteriaSubContainer in criteriaList)
+            {
+                entities.AddRange(CriteriaHeaderSetting(criteriaSubContainer, documentType));
+            }
             // 基準値を行、列に振り分け
             if (criteriaPosition == true)
                 columnHeaderList.AddRange(GetItemSource(entities));
@@ -159,46 +159,48 @@ namespace TsrTable.RichTextBox.TableData
             return null;
         }
 
-        private static List<TableHeaderEntity> CriteriaSetting(
+        private static List<TableHeaderEntity> CriteriaHeaderSetting(
             TableHeaderEntity criteriaSubContainer,
             EnumTsrDocumentType documentType)
         {
             var criteriaHeaders = new List<TableHeaderEntity>();
-            criteriaHeaders.Add(
-                new TableHeaderEntity(
-                    Convert.ToInt32(criteriaSubContainer.Id + "1"),
-                    "基準値",
-                    criteriaSubContainer.Id,
-                    criteriaSubContainer.Level));
+            
             if (documentType == EnumTsrDocumentType.SpecSheet)
             {
+                return criteriaHeaders;
                 //criteriaHeaders.Add(
                 //    new TableHeaderEntity(
                 //        Convert.ToInt32(criteriaSubContainer.Id + "2"),
                 //        "公差",
                 //        criteriaSubContainer.Id,
                 //        criteriaSubContainer.Level));
-                criteriaHeaders.Add(
-                    new TableHeaderEntity(
-                        Convert.ToInt32(criteriaSubContainer.Id + "3"),
-                        "範囲",
-                        Convert.ToInt32(criteriaSubContainer.Id ),
-                        criteriaSubContainer.Level));
-                criteriaHeaders.Add(
-                    new TableHeaderEntity(
-                        Convert.ToInt32(criteriaSubContainer.Id + "4"),
-                        "値",
-                        Convert.ToInt32(criteriaSubContainer.Id ),
-                        criteriaSubContainer.Level));
-                criteriaHeaders.Add(
-                    new TableHeaderEntity(
-                        Convert.ToInt32(criteriaSubContainer.Id + "5"),
-                        "単位",
-                        Convert.ToInt32(criteriaSubContainer.Id ),
-                        criteriaSubContainer.Level));
+                //criteriaHeaders.Add(
+                //    new TableHeaderEntity(
+                //        Convert.ToInt32(criteriaSubContainer.Id + "3"),
+                //        "範囲",
+                //        Convert.ToInt32(criteriaSubContainer.Id ),
+                //        criteriaSubContainer.Level));
+                //criteriaHeaders.Add(
+                //    new TableHeaderEntity(
+                //        Convert.ToInt32(criteriaSubContainer.Id + "4"),
+                //        "値",
+                //        Convert.ToInt32(criteriaSubContainer.Id ),
+                //        criteriaSubContainer.Level));
+                //criteriaHeaders.Add(
+                //    new TableHeaderEntity(
+                //        Convert.ToInt32(criteriaSubContainer.Id + "5"),
+                //        "単位",
+                //        Convert.ToInt32(criteriaSubContainer.Id ),
+                //        criteriaSubContainer.Level));
             }
             else
             {
+                criteriaHeaders.Add(
+                    new TableHeaderEntity(
+                        Convert.ToInt32(criteriaSubContainer.Id + "1"),
+                        "基準値",
+                        criteriaSubContainer.Id,
+                        criteriaSubContainer.Level));
                 criteriaHeaders.Add(
                     new TableHeaderEntity(
                          Convert.ToInt32(criteriaSubContainer.Id + "2"),
@@ -273,6 +275,7 @@ namespace TsrTable.RichTextBox.TableData
                 rowIndex += container.CreateColumnHeaders(list, rowIndex, columnIndex);
             }
         }
+
         internal static string GetCellContent(CellEntity cell, List<TableDataEntity> datas,EnumTsrDocumentType type)
         {
             if (datas != null)

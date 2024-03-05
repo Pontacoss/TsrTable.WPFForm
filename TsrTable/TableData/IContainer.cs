@@ -8,7 +8,7 @@ using System.Windows.Documents;
 
 namespace TsrTable.RichTextBox.TableData
 {
-    internal interface IContainer
+    public interface IContainer
     {
         bool IsTitleVisible { get; }
         bool IsMeasurementItem { get; }

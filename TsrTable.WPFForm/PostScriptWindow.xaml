@@ -1,0 +1,13 @@
+﻿<Window x:Class="TsrTable.WPFForm.PostScriptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TsrTable.WPFForm"
+        mc:Ignorable="d"
+        Title="PostScriptWindow" Height="150" Width="400">
+    <DockPanel LastChildFill="True">
+        <Button Content="追記" DockPanel.Dock="Bottom" Click="Button_Click"/>
+        <TextBox Name="PostScriptText" TextWrapping="Wrap" DockPanel.Dock="Top"/>
+    </DockPanel>
+</Window>

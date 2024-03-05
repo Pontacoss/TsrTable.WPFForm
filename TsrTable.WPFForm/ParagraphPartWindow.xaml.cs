@@ -1,8 +1,15 @@
 ﻿using C1.WPF.Extended;
 using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
+using C1.WPF.Word;
+using C1.WPF.Word.Objects;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using TsrTable.RichTextBox;
 
 namespace TsrTable.WPFForm
@@ -30,9 +37,15 @@ namespace TsrTable.WPFForm
                 " \r\n組立図：　H14E673～H14E677\t \r\nWIRING DIAGRAM (主回路): H14E516 \r\nWIRING DIAGRAM (制御回路): H14E695 ";
 
             rtb.FontSize = 10.5;
-            rtb.ViewMode = TextViewMode.Print;
+            rtb.ViewMode = TextViewMode.Draft;
             rtb.Zoom = 1.3;
+            rtb.HideSelection = false;
+            rtb.DefaultParagraphMargin = new Thickness(0, 0, 0, 0);
+
+
+
         }
+
 
         private void InsertParameterButton_Click(object sender, RoutedEventArgs e)
         {
@@ -51,7 +64,7 @@ namespace TsrTable.WPFForm
             var run = new C1Run()
             {
                 Text = fm.BaseScriptString,
-                IsEditable=false
+                IsEditable = false
             };
             var run2 = new C1Run
             {
@@ -74,13 +87,13 @@ namespace TsrTable.WPFForm
             span.Children.Add(run);
             span.Children.Add(run2);
             span.IsEditable = false;
-            
+
             InsertElement(span);
-        
+
         }
         private void RemoveBullet(C1List target)
         {
-            foreach(var item in target.ListItems)
+            foreach (var item in target.ListItems)
             {
                 foreach (var children in item.Children)
                 {
@@ -95,11 +108,11 @@ namespace TsrTable.WPFForm
             foreach (var element in rtb.Selection.Blocks)
             {
                 var parent = element.Parent;
-                if (element.GetType() == typeof(C1List)) return (C1List) element;
+                if (element.GetType() == typeof(C1List)) return (C1List)element;
 
                 while (parent.GetType() != typeof(C1Document))
                 {
-                    if (parent.GetType() == typeof(C1List)) return (C1List) parent;
+                    if (parent.GetType() == typeof(C1List)) return (C1List)parent;
                     parent = parent.Parent;
                 }
             }
@@ -114,17 +127,18 @@ namespace TsrTable.WPFForm
             }
             else
             {
-                selection.TextDecorations=C1TextDecorations.Strikethrough;
+                selection.TextDecorations = C1TextDecorations.Strikethrough;
                 selection.TextDecorations[0].LocationOffset = 0;
                 selection.TextDecorations[0].Thickness = 0.1;
                 ColorPicker.Palette = ColorPalette.GetColorPalette(Office2007ColorTheme.Standard);
             }
-            //var word=new C1WordDocument();
-            //word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
+            var word = new C1WordDocument();
+            word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
+            var pairs = new KeyValuePair<int, string>();
+            word.AddListTexts(RtfListType.LowerRomanNumeral, pairs);
+            var paragraph = new RtfParagraph();
 
-            //var paragraph = new RtfParagraph();
-
-            //var section=new RtfSection();
+            var section = new RtfSection();
         }
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
@@ -136,7 +150,7 @@ namespace TsrTable.WPFForm
                 RemoveBullet(target);
                 return;
             }
-            
+
             var fm = new BulletControlWindow();
             fm.ShowDialog();
 
@@ -182,6 +196,49 @@ namespace TsrTable.WPFForm
                 parent.Children.Insert(statRun.Index + 2, new C1Run());
             }
         }
-    }
 
+        private void EditableChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            rtb.IsReadOnly = rtb.IsReadOnly == true ? false : true;
+        }
+
+        private void PostScriptButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fm = new PostScriptWindow();
+            fm.ShowDialog();
+
+            var button = new Button()
+            {
+                Content = "編集",
+                FontSize = 8,
+            };
+            button.Click += Button_Click;
+
+            var postScript=new TsrPostScript(fm.Text);
+            postScript.AddButton(button);
+
+            if (fm.Text.Length > 0)
+            {
+                InsertElement(postScript);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var postScript = button.Tag as TsrPostScript;
+            if (postScript == null) return;
+            var fm = new PostScriptWindow(postScript.Text);
+            fm.ShowDialog();
+
+            if (fm.Text.Length > 0)
+            {
+                postScript.EditText(fm.Text);
+            }
+            else
+            {
+                rtb.Document.Children.Remove(postScript);
+            }
+        }
+    }
 }

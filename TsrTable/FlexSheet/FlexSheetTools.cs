@@ -88,8 +88,5 @@ namespace TsrTable.FlexSheet
             cfs.SetCellFormat(range.Cells, CellFormat.BorderThickness, new Thickness(1));
             cfs.SetCellFormat(range.Cells, CellFormat.BorderBrush, System.Windows.Media.Brushes.Black);
         }
-
-
-
     }
 }

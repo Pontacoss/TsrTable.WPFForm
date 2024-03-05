@@ -119,7 +119,7 @@ namespace TsrTable.WPFForm
             if (CriteriaTextBox.Text is null) return;
             if (CriteriaTextBox.Text == string.Empty) return;
 
-            // todo Criteria Sub Container の作り方検討
+            // todo Criteria Header の作り方検討
             var id = CriteriaList.Count * 100 + 1001;
             CriteriaList.Add(new TableHeaderVMEntity(
                 new TableHeaderEntity(id, CriteriaTextBox.Text, 1000, 0)));

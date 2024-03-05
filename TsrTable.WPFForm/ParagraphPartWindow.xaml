@@ -35,7 +35,7 @@
                         Width="100" Height="35" Margin="5"
                         Name="InsertBulletPointButton"
                         Click="InsertBulletPointButton_Click"/>
-                <Button Content="" 
+                <Button Content="取消線" 
                         Width="100" Height="35" Margin="5"
                         Name="InsertSuperScriptButton"
                         Click="InsertSuperScriptButton_Click"/>
@@ -43,13 +43,21 @@
                         Width="100" Height="35" Margin="5"
                         Name="InsertSubScriptButton"
                         Click="InsertSubScriptButton_Click"/>
+                <Button Content="ReadOnly"  
+                        Width="100" Height="35" Margin="5"
+                        Name="EditableChangeButton"
+                        Click="EditableChangeButton_Click"/>
+                <Button Content="追記"  
+                        Width="100" Height="35" Margin="5"
+                        Name="PostScriptButton"
+                        Click="PostScriptButton_Click"/>
             </StackPanel>
             <c1:C1ColorPicker HorizontalAlignment="Left" Margin="61,49,0,0" Grid.Row="1" VerticalAlignment="Top"
                               Name="ColorPicker"/>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">
             <c1:C1RichTextBoxToolbar RichTextBox="{Binding ElementName=rtb}" DockPanel.Dock="Top"/>
-            <c1:C1RichTextBox x:Name="rtb" DockPanel.Dock="Bottom"/>
+            <c1:C1RichTextBox x:Name="rtb" DockPanel.Dock="Bottom" />
         </DockPanel>
     </Grid>
 </Window>
