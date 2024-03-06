@@ -41,9 +41,6 @@ namespace TsrTable.WPFForm
             rtb.Zoom = 1.3;
             rtb.HideSelection = false;
             rtb.DefaultParagraphMargin = new Thickness(0, 0, 0, 0);
-
-
-
         }
 
 
@@ -132,13 +129,6 @@ namespace TsrTable.WPFForm
                 selection.TextDecorations[0].Thickness = 0.1;
                 ColorPicker.Palette = ColorPalette.GetColorPalette(Office2007ColorTheme.Standard);
             }
-            var word = new C1WordDocument();
-            word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
-            var pairs = new KeyValuePair<int, string>();
-            word.AddListTexts(RtfListType.LowerRomanNumeral, pairs);
-            var paragraph = new RtfParagraph();
-
-            var section = new RtfSection();
         }
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
@@ -176,6 +166,7 @@ namespace TsrTable.WPFForm
             var statRun = stat.Element as C1Run;
             if (statRun == null) return;
 
+            //todo 親にParagraph以外がくる場合あり
             var parent = statRun.Parent as C1Paragraph;
             if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
             {
@@ -206,19 +197,17 @@ namespace TsrTable.WPFForm
         {
             var fm = new PostScriptWindow();
             fm.ShowDialog();
-
-            var button = new Button()
-            {
-                Content = "編集",
-                FontSize = 8,
-            };
-            button.Click += Button_Click;
-
-            var postScript=new TsrPostScript(fm.Text);
-            postScript.AddButton(button);
-
             if (fm.Text.Length > 0)
             {
+                var button = new Button()
+                {
+                    Content = "編集",
+                    FontSize = 8,
+                };
+                button.Click += Button_Click;
+
+                var postScript = new TsrPostScript(fm.Text);
+                postScript.AddButton(button);
                 InsertElement(postScript);
             }
         }
@@ -228,6 +217,7 @@ namespace TsrTable.WPFForm
             var button = sender as Button;
             var postScript = button.Tag as TsrPostScript;
             if (postScript == null) return;
+
             var fm = new PostScriptWindow(postScript.Text);
             fm.ShowDialog();
 
@@ -237,8 +227,32 @@ namespace TsrTable.WPFForm
             }
             else
             {
-                rtb.Document.Children.Remove(postScript);
+                var canRemove= SeekAndDelete(rtb.Document.Children,postScript);
             }
+        }
+
+        private bool SeekAndDelete(Collection<C1TextElement> collection, C1TextElement target)
+        {
+
+            foreach(var item in collection)
+            {
+                if(item == target)
+                {
+                    collection.Remove(item);
+                    return true;
+                }
+                if(SeekAndDelete(item.Children, target)) return true;
+                
+            }
+            return false;   
+        }
+
+        private void LoadFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var word = new C1WordDocument();
+            word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
+            //var pairs = new KeyValuePair<int, string>();
+            //word.AddListTexts(RtfListType.LowerRomanNumeral, pairs);
         }
     }
 }

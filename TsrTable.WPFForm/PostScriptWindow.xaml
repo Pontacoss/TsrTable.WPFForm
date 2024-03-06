@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TsrTable.WPFForm"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="PostScriptWindow" Height="150" Width="400">
     <DockPanel LastChildFill="True">
-        <Button Content="追記" DockPanel.Dock="Bottom" Click="Button_Click"/>
-        <TextBox Name="PostScriptText" TextWrapping="Wrap" DockPanel.Dock="Top"/>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+                <Button Content="削除"  Width="120"   Click="DeleteButton_Click" Margin="5"/>
+            <Button Content="追記"  Width="120" Click="Button_Click" Margin="5"/>
+        </StackPanel>
+        <TextBox Name="PostScriptText" 
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap" 
+                 DockPanel.Dock="Top"/>
     </DockPanel>
 </Window>

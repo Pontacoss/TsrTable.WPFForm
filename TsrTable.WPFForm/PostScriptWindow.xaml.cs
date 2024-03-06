@@ -36,5 +36,11 @@ namespace TsrTable.WPFForm
             Text=PostScriptText.Text;
             this.Close();
         }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Text = string.Empty;
+            this.Close();
+        }
     }
 }

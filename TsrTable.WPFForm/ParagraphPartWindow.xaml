@@ -54,6 +54,14 @@
             </StackPanel>
             <c1:C1ColorPicker HorizontalAlignment="Left" Margin="61,49,0,0" Grid.Row="1" VerticalAlignment="Top"
                               Name="ColorPicker"/>
+            <StackPanel Orientation="Vertical" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Grid.Column="1" Grid.Row="0">
+                <Button Content="Load File"  
+                            Width="100" Height="35" Margin="5"
+                            Name="LoadFileButton"
+                            Click="LoadFileButton_Click"/>
+            </StackPanel>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">
             <c1:C1RichTextBoxToolbar RichTextBox="{Binding ElementName=rtb}" DockPanel.Dock="Top"/>
