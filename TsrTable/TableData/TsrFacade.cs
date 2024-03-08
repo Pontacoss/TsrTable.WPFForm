@@ -1,13 +1,13 @@
-﻿using C1.WPF.FlexGrid;
+﻿using C1.WPF.Excel;
+using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System.Collections.Generic;
-using TsrTable.FlexSheet;
-using TsrTable.RichTextBox.TableData;
-using TsrTable.RichTextBox;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
-using C1.WPF.Excel;
+using TsrTable.FlexSheet;
+using TsrTable.RichTextBox;
+using TsrTable.RichTextBox.TableData;
 
 namespace TsrTable.TableData
 {
@@ -30,11 +30,12 @@ namespace TsrTable.TableData
             return TsrTableTools.GetTableContent(headerList, criteriaList, documentType, criteriaPosition);
         }
 
-            public static RtfTable CreateTableToWord(TableContent tableContent,
+        public static RtfTable CreateTableToWord(
+            TableContent tableContent,
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
-            return WordTools.CreateTable(tableContent, list,datas);
+            return WordTools.CreateTable(tableContent, list, datas);
         }
 
         public static C1Table CreateTableToRichTextBox(
@@ -42,7 +43,7 @@ namespace TsrTable.TableData
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
-            return RichTextBoxTools.CreateTable(tableContent, list,datas);
+            return RichTextBoxTools.CreateTable(tableContent, list, datas);
         }
         public static void CreateTableToFlexSheet(
             C1FlexSheet cfs,
@@ -52,7 +53,8 @@ namespace TsrTable.TableData
             FlexSheetTools.CreateTable(cfs, list, datas);
         }
 
-        public static void CreateTableToExcel(C1XLBook book,
+        public static void CreateTableToExcel(
+            C1XLBook book,
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
@@ -65,7 +67,7 @@ namespace TsrTable.TableData
         /// <param name="list"></param>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static List<CellEntity> GetCellData(List<CellEntity> list,C1Table table)
+        public static List<CellEntity> GetCellData(List<CellEntity> list, C1Table table)
         {
             return RichTextBoxTools.GetCellData(list, table);
         }

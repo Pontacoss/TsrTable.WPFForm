@@ -4,13 +4,13 @@ using System.Linq;
 namespace TsrTable.RichTextBox.TableData
 {
     /// <summary>
-    /// 表作成に必要なデータを格納するクラス
+    /// 表作成に必要なHeaderの情報を格納するクラス
     /// </summary>
     public sealed class TableContent
     {
         public string TableName { get; }
-        public int ColumnHeaderHeight { get;  }
-        public int RowHeaderHeight { get;  } 
+        public int ColumnHeaderHeight { get; }
+        public int RowHeaderHeight { get; }
         public int ColumnHeaderWidth { get; }
         public int RowHeaderWidth { get; }
         public SpanCounter RowSpanCounter { get; }
@@ -25,8 +25,8 @@ namespace TsrTable.RichTextBox.TableData
         /// <param name="rowHeaders"></param>
         /// <param name="columnHeaders"></param>
         public TableContent(string tableName,
-            IList<HeaderBase> rowHeaders,
-            IList<HeaderBase> columnHeaders)
+            IEnumerable<HeaderBase> rowHeaders,
+            IEnumerable<HeaderBase> columnHeaders)
         {
             TableName = tableName;
             RowHeaders = rowHeaders;
@@ -64,12 +64,12 @@ namespace TsrTable.RichTextBox.TableData
             ColumnSpanCounter = columnSpanCounter;
             ColumnHeaderWidth = columnSpanCounter.GetNodesCount();
 
-            SetUnitSizeAndRepeat(RowHeaders.OfType<IContainer>(),RowSpanCounter);
+            SetUnitSizeAndRepeat(RowHeaders.OfType<IContainer>(), RowSpanCounter);
             SetUnitSizeAndRepeat(ColumnHeaders.OfType<IContainer>(), ColumnSpanCounter);
 
         }
 
-        private void SetUnitSizeAndRepeat(IEnumerable<IContainer> list ,SpanCounter spanConuter)
+        private void SetUnitSizeAndRepeat(IEnumerable<IContainer> list, SpanCounter spanConuter)
         {
             // 各ContainerのUnitSizeとRepeat回数の取得
             int repeat = spanConuter.BlockSpan;

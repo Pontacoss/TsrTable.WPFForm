@@ -1,57 +1,72 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Media;
 
 namespace TsrTable.RichTextBox
 {
     public sealed class TsrPostScript : C1Span
     {
-        public string Text 
+        private C1Run _run;
+        private C1InlineUIContainer _container;
+
+        public string Text
         {
             get
             {
-                var run = Children.First(x => x.GetType() == typeof(C1Run)) as C1Run;
-                return run.Text;
+                return _run.Text;
             }
-            private set 
+            private set
             {
-                var run = Children.First(x => x.GetType() == typeof(C1Run)) as C1Run;
-                run.Text = value;
+                _run.Text = value;
             }
-
         }
-        public TsrPostScript() { }
-        public TsrPostScript(string text)
+        private Color _color;
+        public Color Color
         {
-            var run = new C1Run()
+            get { return _color; }
+            private set
             {
-                Foreground = System.Windows.Media.Brushes.Blue,
+                _color = value;
+                _run.Foreground = new SolidColorBrush(_color);
+            }
+        }
+
+        public TsrPostScript() { }
+        public TsrPostScript(string text, Color color)
+        {
+            _run = new C1Run()
+            {
                 Background = null,
                 BorderThickness = new Thickness(0),
                 Padding = new Thickness(0),
             };
 
-            var container = new C1InlineUIContainer() { };
-            Children.Add(run);
-            Children.Add(container);
+            // 編集ボタン格納用のUIContainerを作成して入れておく
+            _container = new C1InlineUIContainer() { };
+            Children.Add(_run);
+            Children.Add(_container);
 
             Text = text;
+            Color = color;
         }
 
         public void AddButton(Button button)
         {
             button.Tag = this;
-            var container=Children.First(x=>x.GetType()==typeof(C1InlineUIContainer)) as C1InlineUIContainer;
-            container.Content = button;
+            _container.Content = button;
         }
 
-        public void EditText(string text)
+        public void EditText(string text, Color color)
         {
-            Text=text;
+            if (string.IsNullOrEmpty(text))
+            {
+                this.Parent.Children.Remove(this);
+                return;
+            }
+            Text = text;
+            Color = color;
+
         }
     }
 }

@@ -52,8 +52,6 @@
                         Name="PostScriptButton"
                         Click="PostScriptButton_Click"/>
             </StackPanel>
-            <c1:C1ColorPicker HorizontalAlignment="Left" Margin="61,49,0,0" Grid.Row="1" VerticalAlignment="Top"
-                              Name="ColorPicker"/>
             <StackPanel Orientation="Vertical" 
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     Grid.Column="1" Grid.Row="0">

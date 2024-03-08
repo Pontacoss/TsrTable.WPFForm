@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TsrTable.WPFForm
 {
@@ -19,21 +8,43 @@ namespace TsrTable.WPFForm
     /// </summary>
     public partial class PostScriptWindow : Window
     {
-        public string Text { get; set; } = string.Empty;
+        public string Text
+        {
+            get
+            {
+                return PostScriptText.Text ?? string.Empty;
+            }
+            private set
+            {
+                PostScriptText.Text = value ?? string.Empty;
+            }
+        }
+        public Color Color
+        {
+            get
+            {
+                return MyColorPicker.SelectedColor;
+            }
+            private set
+            {
+                MyColorPicker.SelectedColor = value;
+            }
+        }
+
         public PostScriptWindow()
         {
             InitializeComponent();
         }
 
-        public PostScriptWindow(string text)
+        public PostScriptWindow(string text, Color color)
         {
             InitializeComponent();
-            PostScriptText.Text = text;
+            Text = text;
+            Color = color;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Text=PostScriptText.Text;
             this.Close();
         }
 
@@ -41,6 +52,11 @@ namespace TsrTable.WPFForm
         {
             Text = string.Empty;
             this.Close();
+        }
+
+        private void C1ColorPicker_SelectedColorChanged(object sender, C1.WPF.PropertyChangedEventArgs<Color> e)
+        {
+            PostScriptText.Foreground = new SolidColorBrush(e.NewValue);
         }
     }
 }

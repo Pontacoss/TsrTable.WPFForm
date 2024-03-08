@@ -1,13 +1,8 @@
-﻿using C1.WPF.Extended;
-using C1.WPF.RichTextBox;
+﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word;
-using C1.WPF.Word.Objects;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using TsrTable.RichTextBox;
@@ -70,7 +65,6 @@ namespace TsrTable.WPFForm
             if (fm.SuperScriptString != string.Empty)
             {
                 run2.Text = fm.SuperScriptString;
-                run2.TextDecorations = C1TextDecorations.Strikethrough;
                 run2.VerticalAlignment = C1VerticalAlignment.Super;
             }
             else if (fm.SubScriptString != string.Empty)
@@ -127,7 +121,6 @@ namespace TsrTable.WPFForm
                 selection.TextDecorations = C1TextDecorations.Strikethrough;
                 selection.TextDecorations[0].LocationOffset = 0;
                 selection.TextDecorations[0].Thickness = 0.1;
-                ColorPicker.Palette = ColorPalette.GetColorPalette(Office2007ColorTheme.Standard);
             }
         }
 
@@ -166,8 +159,7 @@ namespace TsrTable.WPFForm
             var statRun = stat.Element as C1Run;
             if (statRun == null) return;
 
-            //todo 親にParagraph以外がくる場合あり
-            var parent = statRun.Parent as C1Paragraph;
+            var parent = statRun.Parent; // as C1Paragraph;
             if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
             {
                 parent.Children.Insert(statRun.Index + 1, element);
@@ -190,61 +182,46 @@ namespace TsrTable.WPFForm
 
         private void EditableChangeButton_Click(object sender, RoutedEventArgs e)
         {
-            rtb.IsReadOnly = rtb.IsReadOnly == true ? false : true;
+            rtb.IsReadOnly = rtb.IsReadOnly != true;
         }
 
         private void PostScriptButton_Click(object sender, RoutedEventArgs e)
         {
             var fm = new PostScriptWindow();
             fm.ShowDialog();
+
+            // TsrPostScriptインスタンスの生成
+            // ボタンを押したときのイベントをDomainに渡すやり方が分からなかったので
+            // こちらでボタン生成し、AddButtonメソッドで差し込み。
             if (fm.Text.Length > 0)
             {
                 var button = new Button()
                 {
                     Content = "編集",
                     FontSize = 8,
-                };
-                button.Click += Button_Click;
 
-                var postScript = new TsrPostScript(fm.Text);
+                };
+                button.Click += PostScriptInnerButton_Click;
+
+                var postScript = new TsrPostScript(fm.Text, fm.Color);
                 postScript.AddButton(button);
                 InsertElement(postScript);
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            var postScript = button.Tag as TsrPostScript;
-            if (postScript == null) return;
-
-            var fm = new PostScriptWindow(postScript.Text);
+            if (!(sender is Button button))
+            {
+                throw new NotImplementedException();
+            }
+            if (!(button.Tag is TsrPostScript postScript))
+            {
+                throw new NotImplementedException();
+            }
+            var fm = new PostScriptWindow(postScript.Text, postScript.Color);
             fm.ShowDialog();
-
-            if (fm.Text.Length > 0)
-            {
-                postScript.EditText(fm.Text);
-            }
-            else
-            {
-                var canRemove= SeekAndDelete(rtb.Document.Children,postScript);
-            }
-        }
-
-        private bool SeekAndDelete(Collection<C1TextElement> collection, C1TextElement target)
-        {
-
-            foreach(var item in collection)
-            {
-                if(item == target)
-                {
-                    collection.Remove(item);
-                    return true;
-                }
-                if(SeekAndDelete(item.Children, target)) return true;
-                
-            }
-            return false;   
+            postScript.EditText(fm.Text, fm.Color);
         }
 
         private void LoadFileButton_Click(object sender, RoutedEventArgs e)

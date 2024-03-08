@@ -36,11 +36,11 @@ namespace TsrTable.TableData
                 else if (cellEntity.CellType == EnumCellType.CellHeader)
                     SetCellHeader(cell, cellEntity);
                 else
-                    SetDataCell(cell, cellEntity,datas);
+                    SetDataCell(cell, cellEntity, datas);
             }
 
             table.Alignment = ContentAlignment.MiddleCenter;
-            
+
             return table;
         }
 
@@ -52,8 +52,7 @@ namespace TsrTable.TableData
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Bold);
             if (cellEntity.Value != null)
             {
-                cell.Content.Add(
-                    new RtfString(cellEntity.Value));
+                cell.Content.Add(new RtfString(cellEntity.Value));
             }
             if (!cellEntity.Width.IsAuto)
             {
@@ -124,11 +123,11 @@ namespace TsrTable.TableData
             cell.SetRectBorder(RtfBorderStyle.Single, System.Windows.Media.Colors.Black, 1);
             var font = new Font("MS UI Gothic", 10, RtfFontStyle.Regular);
 
-                cell.Content.Add(new RtfString(
-                    TsrTableTools.GetCellContent(
-                        cellEntity, datas, EnumTsrDocumentType.SpecSheet),
-                        font));
-            
+            cell.Content.Add(new RtfString(
+                TsrTableTools.GetCellContent(
+                    cellEntity, datas, EnumTsrDocumentType.SpecSheet),
+                    font));
+
 
             if (!cellEntity.Width.IsAuto)
             {
