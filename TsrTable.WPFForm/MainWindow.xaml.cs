@@ -1,20 +1,18 @@
-﻿using C1.WPF.Word;
-using C1.WPF.RichTextBox;
+﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
+using C1.WPF.Word;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using TsrTable.RichTextBox;
-using TsrTable.RichTextBox.TableData;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
-using TsrTable.WPFForm.ViewModelEntities;
-using Microsoft.Win32;
-using System.Windows.Documents;
-using System.Collections.Generic;
+using TsrTable.RichTextBox;
+using TsrTable.RichTextBox.TableData;
 using TsrTable.TableData;
-using System;
-using System.Collections;
+using TsrTable.WPFForm.ViewModelEntities;
 
 namespace TsrTable.WPFForm
 {
@@ -35,12 +33,12 @@ namespace TsrTable.WPFForm
         private List<CellEntity> _cellList;
         private C1Table _table;
         private List<TableDataEntity> _tableDatas;
- 
+
         public MainWindow()
         {
             InitializeComponent();
-            
-            rtb.ViewMode= TextViewMode.Draft ;
+
+            rtb.ViewMode = TextViewMode.Draft;
             rtb.Zoom = 1.5;
 
             CriteriaPositionRadioButton.IsChecked = true;
@@ -98,7 +96,7 @@ namespace TsrTable.WPFForm
                 if (cell is TsrDataCell dataCell)
                 {
                     tb1.Text = string.Format("Row:{0}, Column:{1}  {3} \n{2}",
-                        dataCell.RowIndex, dataCell.ColumnIndex, dataCell.Conditions,dataCell.Width.Value);
+                        dataCell.RowIndex, dataCell.ColumnIndex, dataCell.Conditions, dataCell.Width.Value);
                 }
                 else if (cell is TsrHeaderCell headerCell)
                 {
@@ -179,7 +177,7 @@ namespace TsrTable.WPFForm
             HeaderTextBox.Text = string.Empty;
         }
 
-        private void ContainerDataGrid_SelectedCellsChanged(object sender, 
+        private void ContainerDataGrid_SelectedCellsChanged(object sender,
             System.Windows.Controls.SelectedCellsChangedEventArgs e)
         {
             if (ContainerDataGrid.SelectedItem is TableHeaderVMEntity item)
@@ -209,9 +207,8 @@ namespace TsrTable.WPFForm
 
             _cellList = TsrFacade.GetCellData(_cellList, _table);
 
-            var table= TsrFacade.CreateTableToWord(_tableContent, _cellList,_tableDatas);
+            var table = TsrFacade.CreateTableToWord(_cellList, _tableDatas);
 
-            
             word.Add(table);
 
             using (var stream = dlg.OpenFile())
@@ -231,8 +228,8 @@ namespace TsrTable.WPFForm
         {
             if (_tableDatas == null)
             {
-                var dataCellList = _cellList.FindAll(x => 
-                    x.CellType == TableData.EnumCellType.DataCell);
+                var dataCellList = _cellList.FindAll(x =>
+                    x.CellType == EnumCellType.DataCell);
                 _tableDatas = new List<TableDataEntity>();
                 foreach (var cell in dataCellList)
                 {

@@ -1,7 +1,4 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using System.Collections.Generic;
-using System.Windows.Documents;
-using TsrTable.Domain.Entities;
 using TsrTable.Domain.ValueObjects;
 using TsrTable.TableData;
 
@@ -92,6 +89,7 @@ namespace TsrTable.RichTextBox.TableData
         {
             SheetSpanRow += gap;
         }
+
         public bool CanChangeSpanRow(int gap)
         {
             if (SheetSpanRow + gap == 0) return false;

@@ -4,12 +4,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TsrTable.WPFForm"
+        xmlns:local2="clr-namespace:TsrTable.RichTextBox;assembly=TsrTable"
        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
         WindowStartupLocation="CenterScreen"
       Title="ParagraphPartWindow">
-
+    <Window.Resources>
+        <ResourceDictionary >
+            <SolidColorBrush x:Key="testBrush" Color="Red"/>
+            
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -55,10 +62,18 @@
             <StackPanel Orientation="Vertical" 
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     Grid.Column="1" Grid.Row="0">
+                <Button Content="Sub Title"  
+                            Width="100" Height="35" Margin="5"
+                            Name="SubTitleButton"
+                            Click="SubTitleButton_Click"/>
                 <Button Content="Load File"  
                             Width="100" Height="35" Margin="5"
                             Name="LoadFileButton"
                             Click="LoadFileButton_Click"/>
+                <Button Content="Extract Objects"  
+                            Width="100" Height="35" Margin="5"
+                            Name="ExtractButton"
+                            Click="ExtractButton_Click"/>
             </StackPanel>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">

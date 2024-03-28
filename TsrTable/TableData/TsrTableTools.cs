@@ -1,12 +1,12 @@
-﻿using TsrTable.Domain.Entities;
-using System.Text;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using TsrTable.TableData;
+using System.Text;
+using System.Windows;
 using TsrTable.Domain.Common;
+using TsrTable.Domain.Entities;
 using TsrTable.Domain.ValueObjects;
+using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox.TableData
 {
@@ -40,7 +40,7 @@ namespace TsrTable.RichTextBox.TableData
         /// <param name="documentType"></param>
         /// <param name="criteriaPosition"></param>
         /// <returns></returns>
-        internal static TableContent   GetTableContent(
+        internal static TableContent GetTableContent(
             List<TableHeaderEntity> headerList,
             List<TableHeaderEntity> criteriaList,
             EnumTsrDocumentType documentType,
@@ -92,12 +92,12 @@ namespace TsrTable.RichTextBox.TableData
         private static List<string> GetConditionStringSub(IEnumerable<HeaderBase> HeaderList, int Index)
         {
             var sb = new StringBuilder();
-            var list=new List<string>();
+            var list = new List<string>();
             foreach (var header in HeaderList.OfType<IContainer>())
             {
                 var condition = header.GetConditionStringByContainer(Index);
-                if(condition != null)
-                    list.Add(header.GetConditionStringByContainer(Index));
+                if (condition != null)
+                    list.Add(condition);
             }
             return list;
         }
@@ -164,7 +164,7 @@ namespace TsrTable.RichTextBox.TableData
             EnumTsrDocumentType documentType)
         {
             var criteriaHeaders = new List<TableHeaderEntity>();
-            
+
             if (documentType == EnumTsrDocumentType.SpecSheet)
             {
                 return criteriaHeaders;
@@ -248,7 +248,7 @@ namespace TsrTable.RichTextBox.TableData
 
         private static void CreateDataCellArea(
             TableContent tableContent,
-           List<CellEntity> list)
+            List<CellEntity> list)
         {
             for (int i = 0; i < tableContent.RowHeaderHeight; i++)
             {
@@ -276,12 +276,12 @@ namespace TsrTable.RichTextBox.TableData
             }
         }
 
-        internal static string GetCellContent(CellEntity cell, List<TableDataEntity> datas,EnumTsrDocumentType type)
+        internal static string GetCellContent(CellEntity cell, List<TableDataEntity> datas, EnumTsrDocumentType type)
         {
             if (datas != null)
             {
                 var entity = datas.FirstOrDefault(x => x.Conditions == cell.Conditions);
-                if (entity !=null && entity.Criteria != null)
+                if (entity != null && entity.Criteria != null)
                 {
                     if (type == EnumTsrDocumentType.TestReport)
                     {

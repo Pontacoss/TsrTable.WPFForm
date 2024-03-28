@@ -10,13 +10,14 @@ namespace TsrTable.TableData
 {
     internal class WordTools
     {
-        internal static RtfTable CreateTable(TableContent tableContent,
+        internal static RtfTable CreateTable(
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
-            var table = new RtfTable(
-                tableContent.RowHeaderHeight + tableContent.ColumnHeaderHeight,
-                tableContent.RowHeaderWidth + tableContent.ColumnHeaderWidth);
+            var maxRow = list.Max(x => x.RowIndex + x.RowSpan);
+            var maxColumn = list.Max(x => x.ColumnIndex + x.ColumnSpan);
+
+            var table = new RtfTable(maxRow, maxColumn);
             table.IsCellsFitPage = false;
 
             foreach (var cellEntity in list)

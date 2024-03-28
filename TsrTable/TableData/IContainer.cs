@@ -1,10 +1,4 @@
-﻿using C1.WPF.RichTextBox.Documents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
+﻿using System.Collections.Generic;
 
 namespace TsrTable.RichTextBox.TableData
 {
@@ -26,10 +20,6 @@ namespace TsrTable.RichTextBox.TableData
         int SetUnitSize(SpanCounter spanCounter, int repaetCellHeight);
         int SetRepeat(int repeat);
         string GetConditionStringByContainer(int Index);
-
-        // ContainerBaseに移動
-        //CellEntity CreateCellHeader(int columnHeaderHeight, int columnIndex);
-        //int CreateRowHeaders(List<CellEntity> list, int columnHeaderHeight, int columnIndex);
 
         int CreateColumnHeaders(List<CellEntity> list, int rowIndex, int columnIndex);
         int CreateColumnContainerTitles(List<CellEntity> list, int rowIndex, int columnIndex);

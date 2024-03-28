@@ -2,10 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using TsrTable.RichTextBox.TableData;
+using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox
 {
-    public sealed class TsrPostScript : C1Span
+    public sealed class RtbPostScript : C1Span, IRtbElement
     {
         private C1Run _run;
         private C1InlineUIContainer _container;
@@ -32,8 +34,8 @@ namespace TsrTable.RichTextBox
             }
         }
 
-        public TsrPostScript() { }
-        public TsrPostScript(string text, Color color)
+        public RtbPostScript() { }
+        public RtbPostScript(string text, Color color)
         {
             _run = new C1Run()
             {
@@ -41,20 +43,26 @@ namespace TsrTable.RichTextBox
                 BorderThickness = new Thickness(0),
                 Padding = new Thickness(0),
             };
-
-            // 編集ボタン格納用のUIContainerを作成して入れておく
-            _container = new C1InlineUIContainer() { };
             Children.Add(_run);
-            Children.Add(_container);
-
             Text = text;
             Color = color;
         }
 
-        public void AddButton(Button button)
+        public RtbPostScript(string text, Color color, RoutedEventHandler action) :
+             this(text, color)
         {
+            var button = new Button()
+            {
+                Content = "編集",
+                FontSize = 8,
+            };
+            button.Click += action;
             button.Tag = this;
+
+            _container = new C1InlineUIContainer() { };
             _container.Content = button;
+
+            Children.Add(_container);
         }
 
         public void EditText(string text, Color color)
@@ -66,7 +74,11 @@ namespace TsrTable.RichTextBox
             }
             Text = text;
             Color = color;
+        }
 
+        public ITsrElement ToTsr()
+        {
+            return new TsrPostScript(Text, Color);
         }
     }
 }

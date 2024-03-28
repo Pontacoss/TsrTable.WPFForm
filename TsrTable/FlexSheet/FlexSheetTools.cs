@@ -1,9 +1,5 @@
 ﻿using C1.WPF.FlexGrid;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
@@ -22,16 +18,16 @@ namespace TsrTable.FlexSheet
             List<TableDataEntity> datas)
         {
             var xmm = cfs.MergeManager as ExcelMergeManager;
-            var allCells=new CellRange(0,0,cfs.Rows.Count,cfs.Columns.Count);
+            var allCells = new CellRange(0, 0, cfs.Rows.Count, cfs.Columns.Count);
             xmm.RemoveRange(allCells);
 
             foreach (var cellData in cellList)
             {
                 cfs[cellData.SheetIndexRow, cellData.SheetIndexColumn] =
-                    TsrTableTools.GetCellContent(cellData, datas,EnumTsrDocumentType.TestReport);
+                    TsrTableTools.GetCellContent(cellData, datas, EnumTsrDocumentType.TestReport);
 
                 var range = new CellRange(cellData.SheetIndexRow, cellData.SheetIndexColumn,
-                    cellData.SheetIndexRow + cellData.SheetSpanRow - 1, 
+                    cellData.SheetIndexRow + cellData.SheetSpanRow - 1,
                     cellData.SheetIndexColumn + cellData.SheetSpanColumn - 1);
                 xmm.AddRange(range);
 

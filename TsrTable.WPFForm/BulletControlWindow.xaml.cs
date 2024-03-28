@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using TextMarkerStyle = C1.WPF.RichTextBox.Documents.TextMarkerStyle;
 
 namespace TsrTable.WPFForm
@@ -8,58 +9,34 @@ namespace TsrTable.WPFForm
     /// </summary>
     public partial class BulletControlWindow : Window
     {
-        public TextMarkerStyle MarkerStyle;
+        public TextMarkerStyle MarkerStyle { get; private set; } = TextMarkerStyle.Disc;
+
         public BulletControlWindow()
         {
             InitializeComponent();
         }
 
-        private void CircleButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MarkerStyle = TextMarkerStyle.Circle;
+            if (!(sender is Button button)) return;
+            if (button.Name == "CircleButton")
+                MarkerStyle = TextMarkerStyle.Circle;
+            else if (button.Name == "SquareButton")
+                MarkerStyle = TextMarkerStyle.Square;
+            else if (button.Name == "DiscButton")
+                MarkerStyle = TextMarkerStyle.Disc;
+            else if (button.Name == "DecimalButton")
+                MarkerStyle = TextMarkerStyle.Decimal;
+            else if (button.Name == "BoxButton")
+                MarkerStyle = TextMarkerStyle.Box;
+            else if (button.Name == "LowerRomanButton")
+                MarkerStyle = TextMarkerStyle.LowerRoman;
+            else if (button.Name == "UpperLatinButton")
+                MarkerStyle = TextMarkerStyle.UpperLatin;
+            else if (button.Name == "LowerLatinButton")
+                MarkerStyle = TextMarkerStyle.LowerLatin;
             this.Close();
         }
 
-        private void SquareButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.Square;
-            this.Close();
-        }
-
-        private void LowerLatinButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.LowerLatin;
-            this.Close();
-        }
-
-        private void UpperLatinButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.UpperLatin;
-            this.Close();
-        }
-
-        private void DecimalButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.Decimal;
-            this.Close();
-        }
-
-        private void LowerRomanButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.LowerRoman;
-            this.Close();
-        }
-
-        private void DiscButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.Disc;
-            this.Close();
-        }
-
-        private void BoxButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerStyle = TextMarkerStyle.Box;
-            this.Close();
-        }
     }
 }

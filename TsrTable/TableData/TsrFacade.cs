@@ -31,11 +31,10 @@ namespace TsrTable.TableData
         }
 
         public static RtfTable CreateTableToWord(
-            TableContent tableContent,
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
-            return WordTools.CreateTable(tableContent, list, datas);
+            return WordTools.CreateTable(list, datas);
         }
 
         public static C1Table CreateTableToRichTextBox(
@@ -43,7 +42,7 @@ namespace TsrTable.TableData
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
-            return RichTextBoxTools.CreateTable(tableContent, list, datas);
+            return RichTextBoxTools.CreateTable(list, datas);
         }
         public static void CreateTableToFlexSheet(
             C1FlexSheet cfs,

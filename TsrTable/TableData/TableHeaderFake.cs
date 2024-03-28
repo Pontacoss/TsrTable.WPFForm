@@ -27,11 +27,11 @@ namespace TsrTable.RichTextBox.TableData
                 result.Add(entity2);
                 var entity3 = new TableHeaderEntity(entity2, 21, "AW0", 1);
                 result.Add(entity3);
-                result.Add(new TableHeaderEntity(entity3, 211, "45%", 1));
+                //result.Add(new TableHeaderEntity(entity3, 211, "45%", 1));
                 var entity31 = new TableHeaderEntity(entity2, 22, "AW3", 1);
                 result.Add(entity31);
-                result.Add(new TableHeaderEntity(entity31, 221, "45%", 1));
-                result.Add(new TableHeaderEntity(entity31, 231, "75%", 1));
+                //result.Add(new TableHeaderEntity(entity31, 221, "45%", 1));
+                //result.Add(new TableHeaderEntity(entity31, 231, "75%", 1));
 
                 var entity4 = new TableHeaderEntity(30, "試験条件2\n車輪径", true, false, true);
                 result.Add(entity4);

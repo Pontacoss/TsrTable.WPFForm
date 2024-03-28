@@ -39,15 +39,16 @@ namespace TsrTable.RichTextBox
         }
 
         internal static C1Table CreateTable(
-            TableContent tableContent,
             List<CellEntity> list,
             List<TableDataEntity> datas)
         {
             // C1TableとC1TableRowのインスタンスを生成
             var table = new C1Table();
             var rows = new C1TableRowGroup();
-            for (int i = 0; i < tableContent.RowHeaderHeight +
-                tableContent.ColumnHeaderHeight; i++)
+
+            var maxRow = list.Max(x => x.RowIndex + x.RowSpan);
+
+            for (int i = 0; i < maxRow; i++)
             {
                 rows.Rows.Add(new C1TableRow());
             }
@@ -65,15 +66,15 @@ namespace TsrTable.RichTextBox
                 else if (cellEntity.CellType == EnumCellType.ColumnHeaderTitle)
                     cell = CreateColumnHeaderTitleCell(cellEntity);
                 else
-                    cell = CreateDataCell(cellEntity,datas);
-                
+                    cell = CreateDataCell(cellEntity, datas);
+
                 rows.First(x => x.Index == cellEntity.RowIndex).Children.Add(cell);
             }
             table.BorderCollapse = true;
             table.Margin = new Thickness(5);
             return table;
         }
-        private static C1TableCell CreateDataCell(CellEntity cellEntity,List<TableDataEntity> datas)
+        private static C1TableCell CreateDataCell(CellEntity cellEntity, List<TableDataEntity> datas)
         {
             return new TsrDataCell(cellEntity).TsrCellExtensions(
                 TsrTableTools.GetCellContent(
@@ -115,11 +116,11 @@ namespace TsrTable.RichTextBox
             return cell;
         }
 
-        internal static List<CellEntity> GetCellData(this List<CellEntity> list,C1Table table)
+        internal static List<CellEntity> GetCellData(this List<CellEntity> list, C1Table table)
         {
-            foreach(var row in table.RowGroups.First().Rows)
+            foreach (var row in table.RowGroups.First().Rows)
             {
-                foreach(var cell in row.Cells.OfType<TsrCell>())
+                foreach (var cell in row.Cells.OfType<TsrCell>())
                 {
                     var cellEntity = list.First(x => x.RowIndex == cell.RowIndex && x.ColumnIndex == cell.ColumnIndex);
                     cellEntity.Width = cell.Width;

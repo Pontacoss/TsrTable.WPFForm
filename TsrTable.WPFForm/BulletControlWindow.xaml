@@ -19,24 +19,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button Content="Circle 〇" Grid.Column="0" Grid.Row="0"
-                Click="CircleButton_Click"/>
+                Click="Button_Click" Name="CircleButton"/>
         <Button Content="Square　□" Grid.Column="1" Grid.Row="0"
-                Click="SquareButton_Click"/>
+                Click="Button_Click" Name="SquareButton"/>
         
         <Button Content="Disc　・" Grid.Column="0" Grid.Row="1"
-        Click="DiscButton_Click"/>
+                Click="Button_Click" Name="DiscButton"/>
         <Button Content="Box　■" Grid.Column="1" Grid.Row="1"
-        Click="BoxButton_Click"/>
+                Click="Button_Click" Name="BoxButton"/>
         
         <Button Content="1.,2.,3." Grid.Column="0" Grid.Row="2"
-                Click="DecimalButton_Click"/>
+                Click="Button_Click" Name="DecimalButton"/>
         <Button Content="i.,ii.,iii." Grid.Column="1" Grid.Row="2"
-                Click="LowerRomanButton_Click"/>
+                Click="Button_Click" Name="LowerRomanButton"/>
 
         <Button Content="a.,b.,c." Grid.Column="0" Grid.Row="3"
-        Click="LowerLatinButton_Click"/>
+                Click="Button_Click" Name="LowerLatinButton"/>
         <Button Content="A.,B.,C." Grid.Column="1" Grid.Row="3"
-        Click="UpperLatinButton_Click"/>
+                Click="Button_Click" Name="UpperLatinButton"/>
 
 
     </Grid>
