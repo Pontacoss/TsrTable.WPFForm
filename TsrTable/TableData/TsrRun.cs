@@ -23,14 +23,13 @@ namespace TsrTable.TableData
             throw new NotImplementedException();
         }
 
-        public C1TextElement ToRtb()
-        {
-            return new C1Run() { Text = this.Text };
-        }
-
         public RtfObject ToWord()
         {
             throw new NotImplementedException();
         }
+
+        public C1TextElement GetRtbInstance()
+            => new C1Run() { Text = this.Text };
+
     }
 }

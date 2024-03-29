@@ -9,6 +9,7 @@ namespace TsrTable.RichTextBox
     public sealed class RtbBullet : C1List, IRtbElement
     {
         public RtbBullet() { }
+
         public RtbBullet(C1RichTextBox rtb, int index, TextMarkerStyle marker)
         {
             MarkerStyle = marker;
@@ -18,15 +19,13 @@ namespace TsrTable.RichTextBox
             {
                 var element = rtb.Selection.Blocks.First(x => x.Index == index);
                 rtb.Document.Blocks.Remove(element);
-                var listItem = new C1ListItem();
-                listItem.Children.Add(element);
-                Children.Add(listItem);
+                var item = new RtbBulletItem(element);
+                Children.Add(item);
             }
         }
 
-        public ITsrElement ToTsr()
-        {
-            return new TsrBullet(this);
-        }
+        public ITsrElement GetTsrInstance()
+            => new TsrBullet(this);
+
     }
 }

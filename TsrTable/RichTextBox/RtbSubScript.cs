@@ -25,10 +25,11 @@ namespace TsrTable.RichTextBox
             };
             Children.Add(run);
             Children.Add(run2);
+            IsEditable = false;
         }
-        public ITsrElement ToTsr()
-        {
-            return new TsrSubScript(BaseScript, SubScript);
-        }
+
+        public ITsrElement GetTsrInstance()
+            => new TsrSubScript(BaseScript, SubScript);
+
     }
 }

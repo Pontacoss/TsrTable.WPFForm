@@ -1,39 +1,62 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System;
-using System.Windows.Media.Imaging;
+using System.Windows.Controls;
+using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
 {
-    internal static class TsrSentenceTools
+    public static class TsrSentenceTools
     {
-        public static ITsrElement ConvertC1ToTsr(C1TextElement element)
+        public static C1TextElement ToRtb(this ITsrElement element)
         {
-            if (element is C1Paragraph c1p)
+            if (element == null) return null;
+
+            C1TextElement textElement = element.GetRtbInstance();
+            if (element is ITsrBlock block)
             {
-                return new TsrParagraph(c1p);
+                foreach (var child in block.Children)
+                {
+                    textElement.Children.Add(child.ToRtb());
+                }
             }
+            return textElement;
+        }
+
+        public static ITsrElement ToTsr(this C1TextElement element)
+        {
+            ITsrElement tsrElement;
+            if (element is C1Paragraph paragraph)
+                tsrElement = new TsrParagraph(paragraph);
             else if (element is C1Run run)
             {
                 if (run.TextDecorations == C1TextDecorations.Strikethrough)
                 {
-                    return new TsrStrikethrough(run.Text);
+                    tsrElement = new TsrStrikethrough(run.Text);
                 }
                 else
                 {
-                    return new TsrRun(run.Text);
+                    tsrElement = new TsrRun(run.Text);
                 }
             }
-            else if (element is C1InlineUIContainer container)
+            else if (element is IRtbElement rtbe)
+                tsrElement = rtbe.GetTsrInstance();
+            else if (element is C1InlineUIContainer ui)
             {
-                var bitmap = container.Content as BitmapImage;
-                if (bitmap != null)
-                {
-                    return new TsrInlineFigure(container);
-                }
+                if (ui.Content is Button)
+                    return null;
                 throw new NotImplementedException();
             }
             else
                 throw new NotImplementedException();
+
+            if (tsrElement is ITsrBlock block)
+            {
+                foreach (var child in element.Children)
+                {
+                    block.Children.Add(child.ToTsr());
+                }
+            }
+            return tsrElement;
         }
     }
 }

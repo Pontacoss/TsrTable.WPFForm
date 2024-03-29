@@ -7,7 +7,7 @@ namespace TsrTable.TableData
 {
     public interface ITsrElement
     {
-        C1TextElement ToRtb();
+        C1TextElement GetRtbInstance();
         RtfObject ToWord();
         void ToFlexSheet(C1FlexSheet cfs);
         void ToExcel(C1XLBook book);

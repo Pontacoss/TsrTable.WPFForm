@@ -2,6 +2,7 @@
 using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
+using System;
 using System.Collections.Generic;
 using TsrTable.Domain.Entities;
 using TsrTable.FlexSheet;
@@ -44,7 +45,12 @@ namespace TsrTable.TableData
 
         public C1TextElement ToRtb()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public C1TextElement GetRtbInstance()
+        {
+            throw new NotImplementedException();
         }
     }
 }

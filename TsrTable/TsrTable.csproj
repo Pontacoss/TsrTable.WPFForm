@@ -105,6 +105,7 @@
     <Compile Include="FlexSheet\FlexSheetTools.cs" />
     <Compile Include="RichTextBox\IRtbElement.cs" />
     <Compile Include="RichTextBox\RichTextBoxTools.cs" />
+    <Compile Include="RichTextBox\RtbBulletItem.cs" />
     <Compile Include="RichTextBox\RtbBullet.cs" />
     <Compile Include="RichTextBox\RtbSubScript.cs" />
     <Compile Include="RichTextBox\RtbSuperScript.cs" />
@@ -114,7 +115,9 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RichTextBox\TsrParameter.cs" />
+    <Compile Include="TableData\ITsrBlock.cs" />
     <Compile Include="TableData\TsrBullet.cs" />
+    <Compile Include="TableData\TsrBulletItem.cs" />
     <Compile Include="TableData\TsrInlineFigure.cs" />
     <Compile Include="TableData\TsrPostScript.cs" />
     <Compile Include="RichTextBox\RtbPostScript.cs" />

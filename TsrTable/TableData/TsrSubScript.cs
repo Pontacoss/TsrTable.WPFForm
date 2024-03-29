@@ -2,6 +2,7 @@
 using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
+using System;
 using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
@@ -16,24 +17,22 @@ namespace TsrTable.TableData
             SubScript = subScript;
         }
 
-        public C1TextElement ToRtb()
-        {
-            return new RtbSuperScript(BaseScript, SubScript);
-        }
-
         public RtfObject ToWord()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ToFlexSheet(C1FlexSheet cfs)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ToExcel(C1XLBook book)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
+
+        public C1TextElement GetRtbInstance() => new RtbSubScript(BaseScript, SubScript);
+
     }
 }

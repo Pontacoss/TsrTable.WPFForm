@@ -33,5 +33,10 @@ namespace TsrTable.TableData
         {
             throw new NotImplementedException();
         }
+
+        public C1TextElement GetRtbInstance()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

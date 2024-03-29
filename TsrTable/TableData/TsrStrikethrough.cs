@@ -14,12 +14,12 @@ namespace TsrTable.TableData
             Text = text;
         }
 
-        public C1TextElement ToRtb()
-        {
-            var run = new C1Run() { Text = this.Text };
-            run.TextDecorations = C1TextDecorations.Strikethrough;
-            return run;
-        }
+        //public C1TextElement ToRtb()
+        //{
+        //    var run = new C1Run() { Text = this.Text };
+        //    run.TextDecorations = C1TextDecorations.Strikethrough;
+        //    return run;
+        //}
 
         public RtfObject ToWord()
         {
@@ -34,6 +34,13 @@ namespace TsrTable.TableData
         public void ToExcel(C1XLBook book)
         {
             throw new NotImplementedException();
+        }
+
+        public C1TextElement GetRtbInstance()
+        {
+            var run = new C1Run() { Text = this.Text };
+            run.TextDecorations = C1TextDecorations.Strikethrough;
+            return run;
         }
     }
 }

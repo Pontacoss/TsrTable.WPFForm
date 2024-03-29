@@ -27,7 +27,22 @@ namespace TsrTable.TableData
             ImageWidth = container.Width;
         }
 
-        public C1TextElement ToRtb()
+        public RtfObject ToWord()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ToFlexSheet(C1FlexSheet cfs)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ToExcel(C1XLBook book)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public C1TextElement GetRtbInstance()
         {
             // バイナリデータから画像をファイルに書き出し
             using (var ms = new MemoryStream(Binary))
@@ -47,21 +62,6 @@ namespace TsrTable.TableData
                 Height = ImageHeight,
                 Width = ImageWidth,
             };
-        }
-
-        public RtfObject ToWord()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void ToFlexSheet(C1FlexSheet cfs)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void ToExcel(C1XLBook book)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

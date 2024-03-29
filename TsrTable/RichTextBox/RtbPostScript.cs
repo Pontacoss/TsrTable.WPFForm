@@ -9,6 +9,7 @@ namespace TsrTable.RichTextBox
 {
     public sealed class RtbPostScript : C1Span, IRtbElement
     {
+
         private C1Run _run;
         private C1InlineUIContainer _container;
 
@@ -42,8 +43,10 @@ namespace TsrTable.RichTextBox
                 Background = null,
                 BorderThickness = new Thickness(0),
                 Padding = new Thickness(0),
+                IsEditable = false,
             };
             Children.Add(_run);
+            IsEditable = false;
             Text = text;
             Color = color;
         }
@@ -76,9 +79,8 @@ namespace TsrTable.RichTextBox
             Color = color;
         }
 
-        public ITsrElement ToTsr()
-        {
-            return new TsrPostScript(Text, Color);
-        }
+        public ITsrElement GetTsrInstance()
+            => new TsrPostScript(Text, Color);
+
     }
 }

@@ -27,9 +27,9 @@ namespace TsrTable.RichTextBox
             Children.Add(run2);
             IsEditable = false;
         }
-        public ITsrElement ToTsr()
-        {
-            return new TsrSuperScript(BaseScript, SuperScript);
-        }
+
+        public ITsrElement GetTsrInstance()
+            => new TsrSuperScript(BaseScript, SuperScript);
+
     }
 }

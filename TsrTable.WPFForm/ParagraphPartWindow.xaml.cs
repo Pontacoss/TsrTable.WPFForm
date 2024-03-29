@@ -57,33 +57,33 @@ namespace TsrTable.WPFForm
             }
             else if (fm.SubScriptString != string.Empty)
             {
-                InsertInlineObject(new RtbSubScript(fm.BaseScriptString, fm.SuperScriptString));
+                InsertInlineObject(new RtbSubScript(fm.BaseScriptString, fm.SubScriptString));
             }
             else return;
         }
 
-        private void RemoveBullet(C1List target)
+        private void RemoveBullet(RtbBullet target)
         {
-            foreach (var item in target.ListItems)
+            foreach (var item in target.Children)
             {
-                foreach (var children in item.Children)
+                foreach (var child in item.Children)
                 {
-                    rtb.Document.Blocks.Insert(target.Index, children.Clone());
+                    rtb.Document.Blocks.Insert(target.Index, child.Clone());
                 }
             }
             rtb.Document.Blocks.Remove(target);
         }
 
-        private C1List GetC1ListInSelection()
+        private RtbBullet GetC1ListInSelection()
         {
             foreach (var element in rtb.Selection.Blocks)
             {
                 var parent = element.Parent;
-                if (element.GetType() == typeof(C1List)) return (C1List)element;
+                if (element.GetType() == typeof(RtbBullet)) return (RtbBullet)element;
 
                 while (parent.GetType() != typeof(C1Document))
                 {
-                    if (parent.GetType() == typeof(C1List)) return (C1List)parent;
+                    if (parent.GetType() == typeof(RtbBullet)) return (RtbBullet)parent;
                     parent = parent.Parent;
                 }
             }
@@ -121,8 +121,8 @@ namespace TsrTable.WPFForm
 
             var bullet = new RtbBullet(rtb, index, fm.MarkerStyle);
 
-
-            rtb.Document.Blocks.Insert(index, bullet);
+            rtb.Document.Blocks.Add(bullet);
+            //rtb.Document.Blocks.Insert(index, bullet);
         }
         /// <summary>
         /// 現在のキャレット位置にC1Inlineオブジェクトを挿入する。

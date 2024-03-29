@@ -7,17 +7,14 @@ using System.Collections.ObjectModel;
 
 namespace TsrTable.TableData
 {
-    public class TsrSentence : ITsrElement
+    public class TsrSentence : ITsrElement, ITsrBlock
     {
         public Collection<ITsrElement> Children { get; set; } = new Collection<ITsrElement>();
         public TsrSentence(C1Document doc)
         {
             foreach (var child in doc.Children)
             {
-                if (child is C1Paragraph paragraph)
-                {
-                    this.Children.Add(new TsrParagraph(paragraph));
-                }
+                this.Children.Add(child.ToTsr());
             }
         }
 
@@ -31,19 +28,13 @@ namespace TsrTable.TableData
             throw new NotImplementedException();
         }
 
-        public C1TextElement ToRtb()
-        {
-            var element = new C1Paragraph();
-            foreach (ITsrElement child in Children)
-            {
-                element.Children.Add(child.ToRtb());
-            }
-            return element;
-        }
 
         public RtfObject ToWord()
         {
             throw new NotImplementedException();
         }
+
+        public C1TextElement GetRtbInstance() => new C1Paragraph();
+
     }
 }
