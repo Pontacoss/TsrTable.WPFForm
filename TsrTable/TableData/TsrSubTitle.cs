@@ -4,23 +4,22 @@ using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
 using System.Collections.ObjectModel;
+using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
 {
-    public class TsrSentence : ITsrElement, ITsrBlock
+    public sealed class TsrSubTitle : ITsrBlock, ITsrElement
     {
-        public Collection<ITsrElement> Children { get; set; } = new Collection<ITsrElement>();
-        public TsrSentence(C1Document doc)
+        public string SubTitle { get; }
+        public Collection<ITsrElement> Children { get; }
+            = new Collection<ITsrElement>();
+
+        public TsrSubTitle(string subTitle)
         {
-            foreach (var child in doc.Children)
-            {
-                var element = child.ToTsr();
-                if (element != null)
-                {
-                    this.Children.Add(element);
-                }
-            }
+            SubTitle = subTitle;
         }
+        public C1TextElement GetRtbInstance() => new RtbSubTitle(SubTitle);
+
 
         public void ToExcel(C1XLBook book)
         {
@@ -32,13 +31,9 @@ namespace TsrTable.TableData
             throw new NotImplementedException();
         }
 
-
         public RtfObject ToWord()
         {
             throw new NotImplementedException();
         }
-
-        public C1TextElement GetRtbInstance() => new C1Paragraph();
-
     }
 }

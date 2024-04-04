@@ -1,15 +1,16 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System.Windows;
+using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox
 {
-    public class TsrSubTitle : C1Span
+    public class RtbSubTitle : C1Paragraph, IRtbElement
     {
         public string ItemNumber { get; private set; } = "[自動採番]";
         public string SubTitle { get; }
 
-        public TsrSubTitle() { }
-        public TsrSubTitle(string subTitle)
+        public RtbSubTitle() { }
+        public RtbSubTitle(string subTitle)
         {
             SubTitle = subTitle;
             var itemNumberRun = new C1Run()
@@ -31,6 +32,11 @@ namespace TsrTable.RichTextBox
 
             this.Children.Add(itemNumberRun);
             this.Children.Add(subTitleRun);
+        }
+
+        public ITsrElement GetTsrInstance()
+        {
+            return new TsrSubTitle(SubTitle);
         }
     }
 }

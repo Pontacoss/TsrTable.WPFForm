@@ -133,6 +133,9 @@
     <Compile Include="PostScriptWindow.xaml.cs">
       <DependentUpon>PostScriptWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubTitleWindow.xaml.cs">
+      <DependentUpon>SubTitleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SuperSubScriptWindow.xaml.cs">
       <DependentUpon>SuperSubScriptWindow.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PostScriptWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubTitleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

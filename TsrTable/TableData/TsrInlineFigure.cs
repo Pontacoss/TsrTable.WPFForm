@@ -2,8 +2,8 @@
 using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
+using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 
@@ -17,51 +17,72 @@ namespace TsrTable.TableData
 
         public TsrInlineFigure(C1InlineUIContainer container)
         {
-            var bmp = container.Content as BitmapImage;
-            var stream = bmp.StreamSource;
-            Binary = new byte[stream.Length];
-            stream.Position = 0;
-            stream.Read(Binary, 0, (int)stream.Length);
+            if (container.Content is BitmapImage bmp)
+            {
+                var stream = bmp.StreamSource;
+                Binary = new byte[stream.Length];
+                stream.Position = 0;
+                stream.Read(Binary, 0, (int)stream.Length);
+            }
+            else if (container.Content is System.Windows.Controls.Image img)
+            {
+                BitmapImage source = img.Source as BitmapImage;
+                using (var fs = source.StreamSource)
+                {
+                    Binary = new byte[fs.Length];
+                    fs.Write(Binary, 0, (int)fs.Length);
+                    var writer = new BinaryWriter(fs);
+                    writer.Write(Binary);
 
+                    //fs.Position = 0;
+                    //fs.Read(Binary, 0, (int)fs.Length);
+                }
+                //using (var ms = new FileStream(uri, FileMode.Open))
+                //{
+                //    Binary = new byte[ms.Length];
+                //    ms.Position = 0;
+                //    ms.Read(Binary, 0, (int)ms.Length);
+                //}
+            }
             ImageHeight = container.Height;
             ImageWidth = container.Width;
         }
 
         public RtfObject ToWord()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ToFlexSheet(C1FlexSheet cfs)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ToExcel(C1XLBook book)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public C1TextElement GetRtbInstance()
         {
-            // バイナリデータから画像をファイルに書き出し
+            // バイナリデータからBitmp経由でBitmapImageに変換
             using (var ms = new MemoryStream(Binary))
             {
                 var bmp = new Bitmap(ms);
-                bmp.Save("C:\\Temp\\temp.png", ImageFormat.Png);
-            }
+                var bmpImage = bmp.ToBitmapImage();
 
-            return new C1InlineUIContainer()
-            {
-                Content = new System.Windows.Controls.Image()
+                return new C1InlineUIContainer()
                 {
-                    Source = new BitmapImage(
-                        new System.Uri("C:\\Temp\\temp.png",
-                        System.UriKind.Relative)),
-                },
-                Height = ImageHeight,
-                Width = ImageWidth,
-            };
+                    Content = new System.Windows.Controls.Image()
+                    {
+                        Source = bmpImage,
+                    },
+                    Height = ImageHeight,
+                    Width = ImageWidth,
+                };
+            }
         }
+
+
     }
 }

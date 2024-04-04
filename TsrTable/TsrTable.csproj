@@ -107,6 +107,8 @@
     <Compile Include="RichTextBox\RichTextBoxTools.cs" />
     <Compile Include="RichTextBox\RtbBulletItem.cs" />
     <Compile Include="RichTextBox\RtbBullet.cs" />
+    <Compile Include="RichTextBox\RtbButtonContainer.cs" />
+    <Compile Include="RichTextBox\RtbSentenceTools.cs" />
     <Compile Include="RichTextBox\RtbSubScript.cs" />
     <Compile Include="RichTextBox\RtbSuperScript.cs" />
     <Compile Include="RichTextBox\TsrCell.cs" />
@@ -114,14 +116,15 @@
     <Compile Include="RichTextBox\TsrHeaderCell.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RichTextBox\TsrParameter.cs" />
+    <Compile Include="RichTextBox\RtbParameter.cs" />
     <Compile Include="TableData\ITsrBlock.cs" />
     <Compile Include="TableData\TsrBullet.cs" />
     <Compile Include="TableData\TsrBulletItem.cs" />
     <Compile Include="TableData\TsrInlineFigure.cs" />
+    <Compile Include="TableData\TsrParameter.cs" />
     <Compile Include="TableData\TsrPostScript.cs" />
     <Compile Include="RichTextBox\RtbPostScript.cs" />
-    <Compile Include="RichTextBox\TsrSubTitle.cs" />
+    <Compile Include="RichTextBox\RtbSubTitle.cs" />
     <Compile Include="TableData\BlockContainer.cs" />
     <Compile Include="TableData\CellEntity.cs" />
     <Compile Include="TableData\ContainerBase.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="TableData\TsrSentenceTools.cs" />
     <Compile Include="TableData\TsrStrikethrough.cs" />
     <Compile Include="TableData\TsrSubScript.cs" />
+    <Compile Include="TableData\TsrSubTitle.cs" />
     <Compile Include="TableData\TsrSuperScript.cs" />
     <Compile Include="TableData\TsrTable.cs" />
     <Compile Include="TableData\TsrTableTools.cs" />

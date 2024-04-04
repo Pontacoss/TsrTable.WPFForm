@@ -44,8 +44,8 @@
                         Click="InsertBulletPointButton_Click"/>
                 <Button Content="取消線" 
                         Width="100" Height="35" Margin="5"
-                        Name="InsertSuperScriptButton"
-                        Click="InsertSuperScriptButton_Click"/>
+                        Name="InsertStrikethroughButton"
+                        Click="InsertStrikethroughButton_Click"/>
                 <Button Content="上下付き文字挿入"  
                         Width="100" Height="35" Margin="5"
                         Name="InsertSubScriptButton"

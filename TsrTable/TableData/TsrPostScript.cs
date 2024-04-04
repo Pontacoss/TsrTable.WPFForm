@@ -2,29 +2,23 @@
 using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
-using System.Windows;
+using System.Collections.ObjectModel;
 using System.Windows.Media;
 using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox.TableData
 {
-    public sealed class TsrPostScript : ITsrElement
+    public sealed class TsrPostScript : ITsrElement, ITsrBlock
     {
-        public string Text { get; }
-
         public Color Color { get; }
 
-        //public Collection<ITsrElement> Children { get; }
-        //    = new Collection<ITsrElement>();
+        public Collection<ITsrElement> Children { get; }
+            = new Collection<ITsrElement>();
 
-        private RoutedEventHandler _action;
-
-        public TsrPostScript(string text, Color color)
+        public TsrPostScript(Color color)
         {
-            Text = text;
             Color = color;
         }
-
 
         public RtfObject ToWord()
         {
@@ -42,7 +36,7 @@ namespace TsrTable.RichTextBox.TableData
         }
 
         public C1TextElement GetRtbInstance()
-            => new RtbPostScript(Text, Color);
+            => new RtbPostScript(Color);
 
     }
 }

@@ -9,50 +9,16 @@ namespace TsrTable.RichTextBox
 {
     public sealed class RtbPostScript : C1Span, IRtbElement
     {
-
-        private C1Run _run;
-        private C1InlineUIContainer _container;
-
-        public string Text
-        {
-            get
-            {
-                return _run.Text;
-            }
-            private set
-            {
-                _run.Text = value;
-            }
-        }
-        private Color _color;
-        public Color Color
-        {
-            get { return _color; }
-            private set
-            {
-                _color = value;
-                _run.Foreground = new SolidColorBrush(_color);
-            }
-        }
+        public Color Color { get; private set; }
 
         public RtbPostScript() { }
-        public RtbPostScript(string text, Color color)
+        public RtbPostScript(Color color)
         {
-            _run = new C1Run()
-            {
-                Background = null,
-                BorderThickness = new Thickness(0),
-                Padding = new Thickness(0),
-                IsEditable = false,
-            };
-            Children.Add(_run);
-            IsEditable = false;
-            Text = text;
             Color = color;
+            IsEditable = false;
         }
 
-        public RtbPostScript(string text, Color color, RoutedEventHandler action) :
-             this(text, color)
+        public void SetAction(RoutedEventHandler action)
         {
             var button = new Button()
             {
@@ -62,25 +28,21 @@ namespace TsrTable.RichTextBox
             button.Click += action;
             button.Tag = this;
 
-            _container = new C1InlineUIContainer() { };
-            _container.Content = button;
-
-            Children.Add(_container);
+            Children.Add(new RtbButtonContainer(button));
         }
 
-        public void EditText(string text, Color color)
+        public void EditText(Color color)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                this.Parent.Children.Remove(this);
-                return;
-            }
-            Text = text;
+            //if (string.IsNullOrEmpty(RtbContent.Text))
+            //{
+            //    this.Parent.Children.Remove(this);
+            //    return;
+            //}
             Color = color;
         }
 
         public ITsrElement GetTsrInstance()
-            => new TsrPostScript(Text, Color);
+            => new TsrPostScript(Color);
 
     }
 }

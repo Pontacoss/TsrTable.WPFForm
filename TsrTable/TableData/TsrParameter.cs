@@ -3,16 +3,19 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
-using System.Collections.ObjectModel;
+using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
 {
-    public class TsrParagraph : ITsrElement, ITsrBlock
+    public class TsrParameter : ITsrElement
     {
-        public Collection<ITsrElement> Children { get; }
-            = new Collection<ITsrElement>();
-        public TsrParagraph(C1Paragraph paragraph) { }
+        public string Name { get; }
+        public C1TextElement GetRtbInstance() => new RtbParameter(Name);
 
+        public TsrParameter(string name)
+        {
+            Name = name;
+        }
         public void ToExcel(C1XLBook book)
         {
             throw new NotImplementedException();
@@ -27,9 +30,5 @@ namespace TsrTable.TableData
         {
             throw new NotImplementedException();
         }
-
-        public C1TextElement GetRtbInstance()
-            => new C1Paragraph();
-
     }
 }

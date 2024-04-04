@@ -7,19 +7,40 @@
         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" x:Class="TsrTable.WPFForm.PostScriptWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="追記編集ウィンドウ" Height="150" Width="400">
+        Title="追記編集ウィンドウ" Height="350" Width="700">
     <DockPanel LastChildFill="True">
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-            <c1:C1ColorPicker Name="MyColorPicker" Width="40" Margin="0,5,50,5" Height="30" 
-                              SelectedColorChanged="C1ColorPicker_SelectedColorChanged"/>
-            <Button Content="削除"  Width="120"   Click="DeleteButton_Click" Margin="5"/>
-            <Button Content="追記"  Width="120" Click="Button_Click" Margin="5" />
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="left">
+            <Button Content="P挿入"  
+                    Width="100" Height="35" Margin="5"
+                    Name="InsertParameterButton"
+                    Click="InsertParameterButton_Click"/>
+            <Button Content="箇条書き" 
+                    Width="100" Height="35" Margin="5"
+                    Name="InsertBulletPointButton"
+                    Click="InsertBulletPointButton_Click"/>
+            <Button Content="上下付き文字挿入"  
+                    Width="100" Height="35" Margin="5"
+                    Name="InsertSubScriptButton"
+                    Click="InsertSubScriptButton_Click"/>
+            <Button Content="Sub Title"  
+                    Width="100" Height="35" Margin="5"
+                    Name="SubTitleButton"
+                    Click="SubTitleButton_Click"/>
+            <c1:C1ColorPicker Name="MyColorPicker" Width="40" Margin="5" Height="30" 
+                  SelectedColorChanged="C1ColorPicker_SelectedColorChanged"/>
         </StackPanel>
-        <TextBox x:Name="PostScriptText"
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+            <Button Content="削除"  Width="120" Height="35"  Click="DeleteButton_Click" Margin="5"/>
+            <Button Content="追記"  Width="120" Height="35" Click="Button_Click" Margin="5" />
+        </StackPanel>
+        <!--<TextBox x:Name="PostScriptText"
                  AcceptsReturn="True"
                  TextWrapping="Wrap" 
                  DockPanel.Dock="Top"
-                 Margin="5"/>
-        
+                 Margin="5"/>-->
+        <c1:C1RichTextBox x:Name="PostScriptRichTextBox"
+                          Margin="5"
+                          DockPanel.Dock="Top"/>
+
     </DockPanel>
 </Window>

@@ -2,7 +2,6 @@
 using C1.WPF.RichTextBox.Documents;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TsrTable.RichTextBox;
@@ -42,7 +41,7 @@ namespace TsrTable.WPFForm
 
         private void InsertParameterButton_Click(object sender, RoutedEventArgs e)
         {
-            InsertInlineObject(new TsrParameter("パラメータ"));
+            rtb.InsertParameter("パラメータ");
         }
 
         private void InsertSubScriptButton_Click(object sender, RoutedEventArgs e)
@@ -53,142 +52,66 @@ namespace TsrTable.WPFForm
             if (fm.BaseScriptString == string.Empty) return;
             if (fm.SuperScriptString != string.Empty)
             {
-                InsertInlineObject(new RtbSuperScript(fm.BaseScriptString, fm.SuperScriptString));
+                rtb.InsertSuperScript(fm.BaseScriptString, fm.SuperScriptString);
             }
             else if (fm.SubScriptString != string.Empty)
             {
-                InsertInlineObject(new RtbSubScript(fm.BaseScriptString, fm.SubScriptString));
+                rtb.InsertSubScript(fm.BaseScriptString, fm.SubScriptString);
             }
             else return;
         }
 
-        private void RemoveBullet(RtbBullet target)
+        private void InsertStrikethroughButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in target.Children)
-            {
-                foreach (var child in item.Children)
-                {
-                    rtb.Document.Blocks.Insert(target.Index, child.Clone());
-                }
-            }
-            rtb.Document.Blocks.Remove(target);
-        }
-
-        private RtbBullet GetC1ListInSelection()
-        {
-            foreach (var element in rtb.Selection.Blocks)
-            {
-                var parent = element.Parent;
-                if (element.GetType() == typeof(RtbBullet)) return (RtbBullet)element;
-
-                while (parent.GetType() != typeof(C1Document))
-                {
-                    if (parent.GetType() == typeof(RtbBullet)) return (RtbBullet)parent;
-                    parent = parent.Parent;
-                }
-            }
-            return null;
-        }
-        private void InsertSuperScriptButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selection = rtb.Selection;
-            if (selection.TextDecorations == C1TextDecorations.Strikethrough)
-            {
-                selection.TextDecorations = null;
-            }
-            else
-            {
-                selection.TextDecorations = C1TextDecorations.Strikethrough;
-                selection.TextDecorations[0].LocationOffset = 0;
-                selection.TextDecorations[0].Thickness = 0.1;
-            }
+            rtb.InsertStrikethrough();
         }
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
         {
-            // 選択範囲内に箇条書きがある場合、最初の箇条書きを削除する。
-            var target = GetC1ListInSelection();
-            if (target != null)
-            {
-                RemoveBullet(target);
-                return;
-            }
-
+            if (RtbSentenceTools.RemoveBullet(rtb)) return;
             var fm = new BulletControlWindow();
             fm.ShowDialog();
-
-            var index = rtb.Selection.Blocks.First().Index;
-
-            var bullet = new RtbBullet(rtb, index, fm.MarkerStyle);
-
-            rtb.Document.Blocks.Add(bullet);
-            //rtb.Document.Blocks.Insert(index, bullet);
-        }
-        /// <summary>
-        /// 現在のキャレット位置にC1Inlineオブジェクトを挿入する。
-        /// </summary>
-        /// <param name="element"></param>
-        private void InsertInlineObject(C1Inline element)
-        {
-            C1TextRange selectText = rtb.Selection;
-            var stat = selectText.Start;
-            var statRun = stat.Element as C1Run;
-            if (statRun == null) return;
-
-            var parent = statRun.Parent; // as C1Paragraph;
-            if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
-            {
-                parent.Children.Insert(statRun.Index + 1, element);
-                parent.Children.Insert(statRun.Index + 2, new C1Run()
-                {
-                    Text = statRun.Text.Substring(stat.Offset, statRun.Text.Length - stat.Offset)
-                });
-                statRun.Text = statRun.Text.Substring(0, stat.Offset);
-            }
-            else if (stat.Offset == 0)
-            {
-                parent.Children.Insert(statRun.Index, element);
-            }
-            else if (stat.Offset == statRun.Text.Length)
-            {
-                parent.Children.Insert(statRun.Index + 1, element);
-                parent.Children.Insert(statRun.Index + 2, new C1Run());
-            }
-        }
-
-        private void EditableChangeButton_Click(object sender, RoutedEventArgs e)
-        {
-            rtb.IsReadOnly = rtb.IsReadOnly != true;
+            rtb.InsertBullet(fm.MarkerStyle);
         }
 
         private void PostScriptButton_Click(object sender, RoutedEventArgs e)
         {
             var fm = new PostScriptWindow();
             fm.ShowDialog();
-
-            if (fm.Text.Length > 0)
-            {
-                InsertInlineObject(
-                    new RtbPostScript(
-                        fm.Text,
-                        fm.Color,
-                        PostScriptInnerButton_Click));
-            }
+            rtb.InsertPostScript(fm.RtbContent, fm.Color, PostScriptInnerButton_Click);
+            fm.Close();
         }
-
         private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!(sender is Button button))
+            var button = sender as Button;
+            var postScript = button.Tag as RtbPostScript;
+            try
             {
-                throw new NotImplementedException();
+                var fm = new PostScriptWindow(postScript);
+                var result = fm.ShowDialog();
             }
-            if (!(button.Tag is RtbPostScript postScript))
+            catch (Exception ex)
             {
-                throw new NotImplementedException();
+
             }
-            var fm = new PostScriptWindow(postScript.Text, postScript.Color);
+
+            //if (result == false)
+            //{
+            //    rtb.DeleteTextElement(postScript);
+            //}
+            //rtb.EditPostScript(postScript, fm.Color);
+        }
+
+        private void SubTitleButton_Click(object sender, RoutedEventArgs e)
+        {
+            var fm = new SubTitleWindow();
             fm.ShowDialog();
-            postScript.EditText(fm.Text, fm.Color);
+            rtb.InsertSubTitle(fm.Text);
+        }
+
+        private void EditableChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            rtb.IsReadOnly = rtb.IsReadOnly != true;
         }
 
         private void LoadFileButton_Click(object sender, RoutedEventArgs e)
@@ -204,35 +127,27 @@ namespace TsrTable.WPFForm
             rtb.Document.Children.Add(sentence.ToRtb());
 
 
+            // 取消線のリスト化
+            var list = SeekStrikethroughRecrusion(rtb.Document);
 
-            var list = new List<C1Run>();
-            foreach (var element in rtb.Document.Children)
-            {
-                if (element is C1Run)
-                {
-                    if (element.TextDecorations == C1TextDecorations.Strikethrough)
-                    {
-                        list.Add((C1Run)element);
-                    }
-                }
-                else
-                {
-                    list.AddRange(SeekStrikethroughRecrusion(element));
-                }
-            }
         }
 
+        /// <summary>
+        /// 文章中にある取消線を全てリスト化する。
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         private List<C1Run> SeekStrikethroughRecrusion(C1TextElement element)
         {
             var list = new List<C1Run>();
             foreach (var child in element.Children)
             {
-
-                if (child is C1Run)
+                if (child is C1Run run)
                 {
-                    if (child.TextDecorations == C1TextDecorations.Strikethrough)
+                    if (run.TextDecorations
+                        == C1TextDecorations.Strikethrough)
                     {
-                        list.Add((C1Run)child);
+                        list.Add(run);
                     }
                 }
                 else
@@ -243,16 +158,7 @@ namespace TsrTable.WPFForm
             return list;
         }
 
-        private void SubTitleButton_Click(object sender, RoutedEventArgs e)
-        {
-            var fm = new PostScriptWindow();
-            fm.ShowDialog();
 
-            if (fm.Text.Length > 0)
-            {
-                InsertInlineObject(new TsrSubTitle(fm.Text));
-            }
-        }
 
         private void ExtractButton_Click(object sender, RoutedEventArgs e)
         {

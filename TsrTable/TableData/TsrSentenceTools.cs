@@ -1,6 +1,10 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
@@ -11,15 +15,19 @@ namespace TsrTable.TableData
         {
             if (element == null) return null;
 
-            C1TextElement textElement = element.GetRtbInstance();
+            C1TextElement rtbInstance = element.GetRtbInstance();
             if (element is ITsrBlock block)
             {
                 foreach (var child in block.Children)
                 {
-                    textElement.Children.Add(child.ToRtb());
+                    var rtbElement = child.ToRtb();
+                    if (rtbElement != null)
+                    {
+                        rtbInstance.Children.Add(rtbElement);
+                    }
                 }
             }
-            return textElement;
+            return rtbInstance;
         }
 
         public static ITsrElement ToTsr(this C1TextElement element)
@@ -44,6 +52,8 @@ namespace TsrTable.TableData
             {
                 if (ui.Content is Button)
                     return null;
+                else if (ui.Content is System.Windows.Controls.Image || ui.Content is BitmapImage)
+                    return new TsrInlineFigure(ui);
                 throw new NotImplementedException();
             }
             else
@@ -53,10 +63,32 @@ namespace TsrTable.TableData
             {
                 foreach (var child in element.Children)
                 {
-                    block.Children.Add(child.ToTsr());
+                    var tsrChild = child.ToTsr();
+                    if (tsrChild != null)
+                    {
+                        block.Children.Add(tsrChild);
+                    }
                 }
             }
             return tsrElement;
+        }
+
+        public static BitmapImage ToBitmapImage(this Bitmap bitmap)
+        {
+            using (var memory = new MemoryStream())
+            {
+                bitmap.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+
+                return bitmapImage;
+            }
         }
     }
 }
