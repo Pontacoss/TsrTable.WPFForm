@@ -20,7 +20,7 @@ namespace TsrTable.RichTextBox
             var run2 = new C1Run
             {
                 IsEditable = false,
-                Text = superScript,
+                Text = SuperScript,
                 VerticalAlignment = C1VerticalAlignment.Super
             };
             Children.Add(run);

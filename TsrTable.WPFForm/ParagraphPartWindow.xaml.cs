@@ -1,6 +1,5 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +33,7 @@ namespace TsrTable.WPFForm
             rtb.FontSize = 10.5;
             rtb.ViewMode = TextViewMode.Draft;
             rtb.Zoom = 1.3;
-            rtb.HideSelection = false;
+            rtb.HideSelection = true;
             rtb.DefaultParagraphMargin = new Thickness(0, 0, 0, 0);
         }
 
@@ -77,29 +76,18 @@ namespace TsrTable.WPFForm
         private void PostScriptButton_Click(object sender, RoutedEventArgs e)
         {
             var fm = new PostScriptWindow();
-            fm.ShowDialog();
-            rtb.InsertPostScript(fm.RtbContent, fm.Color, PostScriptInnerButton_Click);
-            fm.Close();
+            if (fm.ShowDialog() == true)
+                rtb.InsertPostScript(fm.NewValue, PostScriptInnerButton_Click);
         }
         private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var postScript = button.Tag as RtbPostScript;
-            try
-            {
-                var fm = new PostScriptWindow(postScript);
-                var result = fm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
 
-            }
-
-            //if (result == false)
-            //{
-            //    rtb.DeleteTextElement(postScript);
-            //}
-            //rtb.EditPostScript(postScript, fm.Color);
+            var fm = new PostScriptWindow(postScript);
+            postScript.Remove();
+            if (fm.ShowDialog() == true)
+                rtb.InsertPostScript(fm.NewValue, PostScriptInnerButton_Click);
         }
 
         private void SubTitleButton_Click(object sender, RoutedEventArgs e)

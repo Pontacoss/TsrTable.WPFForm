@@ -33,16 +33,7 @@ namespace TsrTable.TableData
                     fs.Write(Binary, 0, (int)fs.Length);
                     var writer = new BinaryWriter(fs);
                     writer.Write(Binary);
-
-                    //fs.Position = 0;
-                    //fs.Read(Binary, 0, (int)fs.Length);
                 }
-                //using (var ms = new FileStream(uri, FileMode.Open))
-                //{
-                //    Binary = new byte[ms.Length];
-                //    ms.Position = 0;
-                //    ms.Read(Binary, 0, (int)ms.Length);
-                //}
             }
             ImageHeight = container.Height;
             ImageWidth = container.Width;

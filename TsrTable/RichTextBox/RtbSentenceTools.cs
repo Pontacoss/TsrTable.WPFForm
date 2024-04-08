@@ -2,7 +2,6 @@
 using C1.WPF.RichTextBox.Documents;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 
 namespace TsrTable.RichTextBox
 {
@@ -13,14 +12,8 @@ namespace TsrTable.RichTextBox
             InsertInlineObject(rtb, new RtbParameter(name));
             return rtb;
         }
-        public static C1RichTextBox InsertPostScript(this C1RichTextBox rtb, C1RichTextBox subRtb, Color color, RoutedEventHandler action)
+        public static C1RichTextBox InsertPostScript(this C1RichTextBox rtb, RtbPostScript postScript, RoutedEventHandler action)
         {
-            var postScript = new RtbPostScript(color);
-            foreach (var element in subRtb.Document.Blocks)
-            {
-                //element.Foreground = new SolidColorBrush(color);
-                postScript.Children.Add(element);
-            }
             postScript.SetAction(action);
             InsertInlineObject(rtb, postScript);
             return rtb;
@@ -57,12 +50,6 @@ namespace TsrTable.RichTextBox
             return false;
         }
 
-        public static C1RichTextBox EditPostScript(this C1RichTextBox rtb, RtbPostScript sender, Color color)
-        {
-            sender.EditText(color);
-            return rtb;
-        }
-
         public static C1RichTextBox InsertStrikethrough(this C1RichTextBox rtb)
         {
             var selection = rtb.Selection;
@@ -91,14 +78,15 @@ namespace TsrTable.RichTextBox
         public static C1RichTextBox InsertBullet(this C1RichTextBox rtb, C1.WPF.RichTextBox.Documents.TextMarkerStyle style)
         {
             var index = rtb.Selection.Blocks.First().Index;
-            var bullet = new RtbBullet(rtb, style);
+            var bullet = new C1List() { MarkerStyle = style }; // new RtbBullet(rtb, style);
 
             var count = rtb.Selection.Blocks.Count();
             for (int i = 0; i < count; i++)
             {
                 var element = rtb.Selection.Blocks.First(x => x.Index == index);
                 rtb.Document.Blocks.Remove(element);
-                var item = new RtbBulletItem(element);
+                var item = new C1ListItem();
+                item.Children.Add(element);
                 bullet.Children.Add(item);
             }
 
@@ -159,23 +147,23 @@ namespace TsrTable.RichTextBox
             }
         }
 
-        private static RtbBullet GetBulletInSelection(C1RichTextBox rtb)
+        private static C1List GetBulletInSelection(C1RichTextBox rtb)
         {
             foreach (var element in rtb.Selection.Blocks)
             {
                 var parent = element.Parent;
-                if (element.GetType() == typeof(RtbBullet)) return (RtbBullet)element;
+                if (element.GetType() == typeof(C1List)) return (C1List)element;
 
                 while (parent.GetType() != typeof(C1Document))
                 {
-                    if (parent.GetType() == typeof(RtbBullet)) return (RtbBullet)parent;
+                    if (parent.GetType() == typeof(C1List)) return (C1List)parent;
                     parent = parent.Parent;
                 }
             }
             return null;
         }
 
-        private static void RemoveBullet(C1RichTextBox rtb, RtbBullet target)
+        private static void RemoveBullet(C1RichTextBox rtb, C1List target)
         {
             foreach (var item in target.Children)
             {

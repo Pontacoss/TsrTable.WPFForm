@@ -56,6 +56,19 @@ namespace TsrTable.TableData
                     return new TsrInlineFigure(ui);
                 throw new NotImplementedException();
             }
+            else if (element is C1List c1List)
+            {
+                return new TsrBullet(c1List.MarkerStyle);
+            }
+            else if (element is C1ListItem c1ListItem)
+            {
+                var tsrListItem = new TsrBulletItem();
+                foreach (var child in c1ListItem.Children)
+                {
+                    tsrListItem.Children.Add(child.ToTsr());
+                }
+                return tsrListItem;
+            }
             else
                 throw new NotImplementedException();
 

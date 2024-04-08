@@ -10,14 +10,14 @@ namespace TsrTable.RichTextBox.TableData
 {
     public sealed class TsrPostScript : ITsrElement, ITsrBlock
     {
-        public Color Color { get; }
+        public Brush Foreground { get; }
 
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
 
-        public TsrPostScript(Color color)
+        public TsrPostScript(Brush color)
         {
-            Color = color;
+            Foreground = color;
         }
 
         public RtfObject ToWord()
@@ -36,7 +36,7 @@ namespace TsrTable.RichTextBox.TableData
         }
 
         public C1TextElement GetRtbInstance()
-            => new RtbPostScript(Color);
+            => new RtbPostScript(Foreground);
 
     }
 }

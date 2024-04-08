@@ -1,7 +1,5 @@
-﻿using C1.WPF.RichTextBox;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using TsrTable.RichTextBox;
 
@@ -12,17 +10,17 @@ namespace TsrTable.WPFForm
     /// </summary>
     public partial class PostScriptWindow : Window
     {
-        public C1RichTextBox RtbContent => PostScriptRichTextBox;
+        public RtbPostScript NewValue { get; private set; }
 
-        public Color Color
+        public Brush Brush
         {
             get
             {
-                return MyColorPicker.SelectedColor;
+                return new SolidColorBrush(MyColorPicker.SelectedColor);
             }
             private set
             {
-                MyColorPicker.SelectedColor = value;
+                MyColorPicker.SelectedColor = (value as SolidColorBrush).Color;
             }
         }
 
@@ -33,9 +31,18 @@ namespace TsrTable.WPFForm
 
         public PostScriptWindow(RtbPostScript rtbPostScript) : this()
         {
-            rtbPostScript.Children.FirstOrDefault(x => x.GetType() == typeof(RtbButtonContainer)).Remove();
-            PostScriptRichTextBox.Document.Children.Add(rtbPostScript);
-            Color = rtbPostScript.Color;
+            Brush = rtbPostScript.Foreground;
+
+            PostScriptRichTextBox.Document.Remove(0, PostScriptRichTextBox.Document.Count());
+
+            foreach (var item in rtbPostScript.Children)
+            {
+                if (!(item is RtbButtonContainer))
+                {
+                    PostScriptRichTextBox.Document.Children.Add(item.Clone());
+                }
+            }
+            ChangeColor(Brush);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -45,7 +52,15 @@ namespace TsrTable.WPFForm
                 DialogResult = false;
             }
             else
+            {
+                //todo 追記の仕方2パターン　paragraph内かSpanか
                 DialogResult = true;
+                NewValue = new RtbPostScript(Brush);
+                foreach (var element in PostScriptRichTextBox.Document.Children)
+                {
+                    NewValue.Children.Add(element.Clone());
+                }
+            }
             this.Close();
         }
 
@@ -55,13 +70,20 @@ namespace TsrTable.WPFForm
             this.Close();
         }
 
-        private void C1ColorPicker_SelectedColorChanged(object sender, C1.WPF.PropertyChangedEventArgs<Color> e)
+        private void ChangeColor(Brush brush)
         {
-            foreach (var element in PostScriptRichTextBox.Document.Children)
+            foreach (var element in PostScriptRichTextBox.Document.EnumerateSubtree())
             {
-                element.Foreground = new SolidColorBrush(e.NewValue);
+                element.Foreground = brush;
             }
         }
+
+        private void C1ColorPicker_SelectedColorChanged(object sender, C1.WPF.PropertyChangedEventArgs<Color> e)
+        {
+            var brush = new SolidColorBrush(e.NewValue);
+            ChangeColor(brush);
+        }
+
         private void InsertParameterButton_Click(object sender, RoutedEventArgs e)
         {
             PostScriptRichTextBox.InsertParameter("パラメータ");
@@ -90,21 +112,6 @@ namespace TsrTable.WPFForm
             var fm = new BulletControlWindow();
             fm.ShowDialog();
             PostScriptRichTextBox.InsertBullet(fm.MarkerStyle);
-        }
-
-        private void PostScriptButton_Click(object sender, RoutedEventArgs e)
-        {
-            var fm = new PostScriptWindow();
-            fm.ShowDialog();
-            PostScriptRichTextBox.InsertPostScript(fm.RtbContent, fm.Color, PostScriptInnerButton_Click);
-        }
-        private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            var postScript = button.Tag as RtbPostScript;
-            var fm = new PostScriptWindow(postScript);
-            fm.ShowDialog();
-            PostScriptRichTextBox.EditPostScript(postScript, fm.Color);
         }
 
         private void SubTitleButton_Click(object sender, RoutedEventArgs e)

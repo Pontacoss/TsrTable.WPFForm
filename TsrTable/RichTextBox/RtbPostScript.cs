@@ -7,14 +7,15 @@ using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox
 {
-    public sealed class RtbPostScript : C1Span, IRtbElement
+    public sealed class RtbPostScript : C1Paragraph, IRtbElement
     {
-        public Color Color { get; private set; }
-
-        public RtbPostScript() { }
-        public RtbPostScript(Color color)
+        public RtbPostScript()
         {
-            Color = color;
+            Foreground = System.Windows.Media.Brushes.Red;
+        }
+        public RtbPostScript(Brush color)
+        {
+            Foreground = color;
             IsEditable = false;
         }
 
@@ -31,18 +32,8 @@ namespace TsrTable.RichTextBox
             Children.Add(new RtbButtonContainer(button));
         }
 
-        public void EditText(Color color)
-        {
-            //if (string.IsNullOrEmpty(RtbContent.Text))
-            //{
-            //    this.Parent.Children.Remove(this);
-            //    return;
-            //}
-            Color = color;
-        }
-
         public ITsrElement GetTsrInstance()
-            => new TsrPostScript(Color);
+            => new TsrPostScript(Foreground);
 
     }
 }

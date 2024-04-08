@@ -25,6 +25,7 @@ namespace TsrTable.RichTextBox
             IsEditable = false;
         }
 
-        public ITsrElement GetTsrInstance() => new TsrParameter(ParameterName);
+        public ITsrElement GetTsrInstance()
+            => new TsrParameter(ParameterName);
     }
 }

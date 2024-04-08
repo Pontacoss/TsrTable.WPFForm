@@ -3,7 +3,6 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System.Collections.ObjectModel;
-using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
 {
@@ -11,13 +10,7 @@ namespace TsrTable.TableData
     {
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
-        public TsrBulletItem(RtbBulletItem items)
-        {
-            //foreach (var child in items.Children)
-            //{
-            //    Children.Add(child.ToTsr());
-            //}
-        }
+        public TsrBulletItem() { }
 
         public RtfObject ToWord()
         {
@@ -35,7 +28,7 @@ namespace TsrTable.TableData
         }
 
         public C1TextElement GetRtbInstance()
-            => new RtbBulletItem();
+            => new C1ListItem();
 
     }
 }
