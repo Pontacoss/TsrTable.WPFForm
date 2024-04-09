@@ -75,10 +75,14 @@
                             Name="ExtractButton"
                             Click="ExtractButton_Click"/>
             </StackPanel>
+            <DockPanel LastChildFill="True" 
+                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+                <TextBox Name="JsonTextBlock" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+            </DockPanel>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">
             <c1:C1RichTextBoxToolbar RichTextBox="{Binding ElementName=rtb}" DockPanel.Dock="Top"/>
-            <c1:C1RichTextBox x:Name="rtb" DockPanel.Dock="Bottom" />
+            <c1:C1RichTextBox x:Name="rtb" DockPanel.Dock="Bottom" TextWrapping="Wrap"/>
         </DockPanel>
     </Grid>
 </Window>

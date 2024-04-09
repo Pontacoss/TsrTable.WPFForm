@@ -34,6 +34,11 @@ namespace TsrTable.RichTextBox
             this.Children.Add(subTitleRun);
         }
 
+        public override C1TextElement Clone()
+        {
+            return new RtbSubTitle(SubTitle);
+        }
+
         public ITsrElement GetTsrInstance()
         {
             return new TsrSubTitle(SubTitle);

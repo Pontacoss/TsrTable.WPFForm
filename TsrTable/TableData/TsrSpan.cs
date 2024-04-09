@@ -8,18 +8,18 @@ using System.Text.Json.Serialization;
 
 namespace TsrTable.TableData
 {
-    public class TsrParagraph : ITsrElement, ITsrBlock
+    internal class TsrSpan : ITsrElement, ITsrBlock
     {
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
 
         [JsonConstructor]
-        public TsrParagraph(Collection<ITsrElement> children)
+        public TsrSpan(Collection<ITsrElement> children)
         {
             Children = children;
         }
 
-        public TsrParagraph() { }
+        public TsrSpan() { }
 
         public void ToExcel(C1XLBook book)
         {
@@ -37,7 +37,7 @@ namespace TsrTable.TableData
         }
 
         public C1TextElement GetRtbInstance()
-            => new C1Paragraph()
+            => new C1Span()
             {
                 Padding = new System.Windows.Thickness(0),
                 Margin = new System.Windows.Thickness(0),

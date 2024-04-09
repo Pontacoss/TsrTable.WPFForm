@@ -24,14 +24,23 @@ namespace TsrTable.WPFForm
             }
         }
 
-        public PostScriptWindow()
+        private RoutedEventHandler _action;
+
+        public PostScriptWindow(RoutedEventHandler action)
         {
+            _action = action;
             InitializeComponent();
+            PostScriptRichTextBox.DefaultParagraphMargin = new Thickness(0);
         }
 
-        public PostScriptWindow(RtbPostScript rtbPostScript) : this()
+        public PostScriptWindow(RtbPostScript rtbPostScript, RoutedEventHandler action) : this(action)
         {
             Brush = rtbPostScript.Foreground;
+            var button = rtbPostScript.EnumerateSubtree().OfType<RtbButtonContainer>().FirstOrDefault();
+            if (button != null)
+            {
+                button.Remove();
+            }
 
             PostScriptRichTextBox.Document.Remove(0, PostScriptRichTextBox.Document.Count());
 
@@ -56,10 +65,12 @@ namespace TsrTable.WPFForm
                 //todo 追記の仕方2パターン　paragraph内かSpanか
                 DialogResult = true;
                 NewValue = new RtbPostScript(Brush);
+
                 foreach (var element in PostScriptRichTextBox.Document.Children)
                 {
                     NewValue.Children.Add(element.Clone());
                 }
+                NewValue.SetAction(_action);
             }
             this.Close();
         }

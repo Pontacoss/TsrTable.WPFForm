@@ -4,12 +4,21 @@ using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace TsrTable.TableData
 {
     public class TsrSentence : ITsrElement, ITsrBlock
     {
-        public Collection<ITsrElement> Children { get; set; } = new Collection<ITsrElement>();
+        public Collection<ITsrElement> Children { get; set; }
+            = new Collection<ITsrElement>();
+        public TsrSentence() { }
+        [JsonConstructor]
+        public TsrSentence(Collection<ITsrElement> children)
+        {
+            Children = children;
+        }
+
         public TsrSentence(C1Document doc)
         {
             foreach (var child in doc.Children)
@@ -38,7 +47,7 @@ namespace TsrTable.TableData
             throw new NotImplementedException();
         }
 
-        public C1TextElement GetRtbInstance() => new C1Paragraph();
+        public C1TextElement GetRtbInstance() => new C1Document();
 
     }
 }

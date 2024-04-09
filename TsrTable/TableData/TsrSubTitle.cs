@@ -4,6 +4,7 @@ using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
@@ -13,6 +14,13 @@ namespace TsrTable.TableData
         public string SubTitle { get; }
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
+
+        [JsonConstructor]
+        public TsrSubTitle(string subTitle,
+            Collection<ITsrElement> children) : this(subTitle)
+        {
+            Children = children;
+        }
 
         public TsrSubTitle(string subTitle)
         {

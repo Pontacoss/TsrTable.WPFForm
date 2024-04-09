@@ -3,6 +3,7 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
 using TsrTable.TableData;
 
@@ -10,14 +11,24 @@ namespace TsrTable.RichTextBox.TableData
 {
     public sealed class TsrPostScript : ITsrElement, ITsrBlock
     {
-        public Brush Foreground { get; }
+        private Brush _color;
+        public string Color => _color.ToString();
 
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
 
+        [JsonConstructor]
+        public TsrPostScript(string color,
+            Collection<ITsrElement> children)
+        {
+            _color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
+            Children = children;
+
+        }
+
         public TsrPostScript(Brush color)
         {
-            Foreground = color;
+            _color = color;
         }
 
         public RtfObject ToWord()
@@ -36,7 +47,7 @@ namespace TsrTable.RichTextBox.TableData
         }
 
         public C1TextElement GetRtbInstance()
-            => new RtbPostScript(Foreground);
+            => new RtbPostScript(_color);
 
     }
 }

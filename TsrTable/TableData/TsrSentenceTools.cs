@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using TsrTable.RichTextBox;
@@ -33,8 +34,14 @@ namespace TsrTable.TableData
         public static ITsrElement ToTsr(this C1TextElement element)
         {
             ITsrElement tsrElement;
-            if (element is C1Paragraph paragraph)
-                tsrElement = new TsrParagraph(paragraph);
+            if (element is IRtbElement rtbe)
+                tsrElement = rtbe.GetTsrInstance();
+            else if (element is C1Document)
+                tsrElement = new TsrSentence();
+            else if (element is C1Paragraph)
+                tsrElement = new TsrParagraph();
+            else if (element is C1Span)
+                tsrElement = new TsrSpan();
             else if (element is C1Run run)
             {
                 if (run.TextDecorations == C1TextDecorations.Strikethrough)
@@ -46,31 +53,27 @@ namespace TsrTable.TableData
                     tsrElement = new TsrRun(run.Text);
                 }
             }
-            else if (element is IRtbElement rtbe)
-                tsrElement = rtbe.GetTsrInstance();
             else if (element is C1InlineUIContainer ui)
             {
                 if (ui.Content is Button)
                     return null;
                 else if (ui.Content is System.Windows.Controls.Image || ui.Content is BitmapImage)
-                    return new TsrInlineFigure(ui);
+                    tsrElement = new TsrInlineFigure(ui);
                 throw new NotImplementedException();
             }
             else if (element is C1List c1List)
             {
-                return new TsrBullet(c1List.MarkerStyle);
+                tsrElement = new TsrBullet(c1List.MarkerStyle);
             }
-            else if (element is C1ListItem c1ListItem)
+            else if (element is C1ListItem)
             {
-                var tsrListItem = new TsrBulletItem();
-                foreach (var child in c1ListItem.Children)
-                {
-                    tsrListItem.Children.Add(child.ToTsr());
-                }
-                return tsrListItem;
+                tsrElement = new TsrBulletItem();
             }
             else
-                throw new NotImplementedException();
+            {
+                MessageBox.Show("未実装 例外  ", element.ToString());
+                return null;
+            }
 
             if (tsrElement is ITsrBlock block)
             {

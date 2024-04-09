@@ -3,6 +3,7 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace TsrTable.TableData
 {
@@ -10,7 +11,15 @@ namespace TsrTable.TableData
     {
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
+
         public TsrBulletItem() { }
+
+        [JsonConstructor]
+        public TsrBulletItem(Collection<ITsrElement> children)
+        {
+            Children = children;
+        }
+
 
         public RtfObject ToWord()
         {

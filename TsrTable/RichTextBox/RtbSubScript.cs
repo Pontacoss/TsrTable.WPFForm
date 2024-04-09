@@ -28,6 +28,11 @@ namespace TsrTable.RichTextBox
             IsEditable = false;
         }
 
+        public override C1TextElement Clone()
+        {
+            return new RtbSubScript(BaseScript, SubScript);
+        }
+
         public ITsrElement GetTsrInstance()
             => new TsrSubScript(BaseScript, SubScript);
 

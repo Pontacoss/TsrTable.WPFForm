@@ -4,6 +4,7 @@ using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace TsrTable.TableData
 {
@@ -12,6 +13,15 @@ namespace TsrTable.TableData
         public TextMarkerStyle MarkerStyle { get; }
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
+
+        [JsonConstructor]
+        public TsrBullet(
+            TextMarkerStyle markerStyle,
+            Collection<ITsrElement> children) : this(markerStyle)
+        {
+            Children = children;
+        }
+
         public TsrBullet(TextMarkerStyle markerStyle)
         {
             MarkerStyle = markerStyle;

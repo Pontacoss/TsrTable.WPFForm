@@ -1,7 +1,6 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
 using System.Linq;
-using System.Windows;
 
 namespace TsrTable.RichTextBox
 {
@@ -12,9 +11,9 @@ namespace TsrTable.RichTextBox
             InsertInlineObject(rtb, new RtbParameter(name));
             return rtb;
         }
-        public static C1RichTextBox InsertPostScript(this C1RichTextBox rtb, RtbPostScript postScript, RoutedEventHandler action)
+
+        public static C1RichTextBox InsertPostScript(this C1RichTextBox rtb, RtbPostScript postScript)
         {
-            postScript.SetAction(action);
             InsertInlineObject(rtb, postScript);
             return rtb;
         }
@@ -75,28 +74,30 @@ namespace TsrTable.RichTextBox
             }
             return false;
         }
-        public static C1RichTextBox InsertBullet(this C1RichTextBox rtb, C1.WPF.RichTextBox.Documents.TextMarkerStyle style)
+        public static C1RichTextBox InsertBullet(this C1RichTextBox rtb,
+            C1.WPF.RichTextBox.Documents.TextMarkerStyle style)
         {
+            var parent = rtb.Selection.Blocks.First().Parent;
             var index = rtb.Selection.Blocks.First().Index;
-            var bullet = new C1List() { MarkerStyle = style }; // new RtbBullet(rtb, style);
-
+            var bullet = new C1List() { MarkerStyle = style };
             var count = rtb.Selection.Blocks.Count();
+
             for (int i = 0; i < count; i++)
             {
                 var element = rtb.Selection.Blocks.First(x => x.Index == index);
-                rtb.Document.Blocks.Remove(element);
+                parent.Children.Remove(element);
                 var item = new C1ListItem();
                 item.Children.Add(element);
                 bullet.Children.Add(item);
             }
 
-            rtb.Document.Blocks.Insert(index, bullet);
+            parent.Children.Insert(index, bullet);
             return rtb;
         }
 
         public static C1RichTextBox InsertSubScript(this C1RichTextBox rtb, string baseScriptString, string subScriptString)
         {
-            InsertInlineObject(rtb, new RtbSuperScript(baseScriptString, subScriptString));
+            InsertInlineObject(rtb, new RtbSubScript(baseScriptString, subScriptString));
             return rtb;
         }
 
@@ -165,20 +166,16 @@ namespace TsrTable.RichTextBox
 
         private static void RemoveBullet(C1RichTextBox rtb, C1List target)
         {
+            var counter = 1;
             foreach (var item in target.Children)
             {
-                for (var j = 0; j < item.Children.Count; j++)
+                foreach (var child in item.Children)
                 {
-                    item.Children[j].UnGroup();
+                    target.Parent.Children.Insert(target.Index + counter, child.Clone());
+                    counter++;
                 }
-                //foreach (var child in item.Children)
-                //{
-                //    child.UnGroup();
-                //    //rtb.Document.Blocks.Insert(target.Index, child.Clone());
-                //}
             }
-            target.UnGroup();
-            //rtb.Document.Blocks.Remove(target);
+            target.Parent.Children.Remove(target);
         }
     }
 }

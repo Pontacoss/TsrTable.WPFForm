@@ -1,6 +1,9 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using TsrTable.RichTextBox;
@@ -75,19 +78,22 @@ namespace TsrTable.WPFForm
 
         private void PostScriptButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new PostScriptWindow();
+            var fm = new PostScriptWindow(PostScriptInnerButton_Click);
             if (fm.ShowDialog() == true)
-                rtb.InsertPostScript(fm.NewValue, PostScriptInnerButton_Click);
+                rtb.InsertPostScript(fm.NewValue);
         }
         private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var postScript = button.Tag as RtbPostScript;
 
-            var fm = new PostScriptWindow(postScript);
-            postScript.Remove();
+            var fm = new PostScriptWindow(postScript, PostScriptInnerButton_Click);
             if (fm.ShowDialog() == true)
-                rtb.InsertPostScript(fm.NewValue, PostScriptInnerButton_Click);
+            {
+                var index = postScript.Index;
+                postScript.Parent.Children.Insert(index, fm.NewValue);
+            }
+            postScript.Remove();
         }
 
         private void SubTitleButton_Click(object sender, RoutedEventArgs e)
@@ -106,13 +112,30 @@ namespace TsrTable.WPFForm
         {
             //var word = new C1WordDocument();
             //word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
+            var sentence = rtb.Document.ToTsr();
 
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            };
+            var serializer = JsonSerializer.Serialize(sentence, options);
 
-            var sentence = new TsrSentence(rtb.Document);
+            JsonTextBlock.Text = serializer + serializer.Count();
+
+            var tsrSentence = JsonSerializer.Deserialize<TsrSentence>(serializer, options);
 
             rtb.Document.Children.Clear();
 
-            rtb.Document.Children.Add(sentence.ToRtb());
+            foreach (var child in tsrSentence.Children)
+                rtb.Document.Children.Add(child.ToRtb());
+
+            foreach (var postScript in rtb.Document.EnumerateSubtree().OfType<RtbPostScript>())
+            {
+                postScript.SetAction(PostScriptInnerButton_Click);
+            }
 
 
             // 取消線のリスト化

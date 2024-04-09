@@ -1,4 +1,5 @@
 ﻿using C1.WPF.RichTextBox.Documents;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,9 +14,9 @@ namespace TsrTable.RichTextBox
         {
             Foreground = System.Windows.Media.Brushes.Red;
         }
-        public RtbPostScript(Brush color)
+        public RtbPostScript(Brush brush)
         {
-            Foreground = color;
+            Foreground = brush;
             IsEditable = false;
         }
 
@@ -29,7 +30,9 @@ namespace TsrTable.RichTextBox
             button.Click += action;
             button.Tag = this;
 
-            Children.Add(new RtbButtonContainer(button));
+            var lastElement = Children.Last();
+
+            lastElement.Children.Add(new RtbButtonContainer(button));
         }
 
         public ITsrElement GetTsrInstance()
