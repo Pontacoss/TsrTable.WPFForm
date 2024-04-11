@@ -110,6 +110,7 @@
     <Compile Include="RichTextBox\RtbBulletItem.cs" />
     <Compile Include="RichTextBox\RtbBullet.cs" />
     <Compile Include="RichTextBox\RtbButtonContainer.cs" />
+    <Compile Include="RichTextBox\RtbInlineFigure.cs" />
     <Compile Include="RichTextBox\RtbInlinePostScript.cs" />
     <Compile Include="RichTextBox\RtbSentenceTools.cs" />
     <Compile Include="RichTextBox\RtbSubScript.cs" />
