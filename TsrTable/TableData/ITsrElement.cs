@@ -20,6 +20,7 @@ namespace TsrTable.TableData
     [JsonDerivedType(typeof(TsrSubTitle), nameof(TsrSubTitle))]
     [JsonDerivedType(typeof(TsrSuperScript), nameof(TsrSuperScript))]
     [JsonDerivedType(typeof(TsrPostScript), nameof(TsrPostScript))]
+    [JsonDerivedType(typeof(TsrInlinePostScript), nameof(TsrInlinePostScript))]
     public interface ITsrElement
     {
         C1TextElement GetRtbInstance();

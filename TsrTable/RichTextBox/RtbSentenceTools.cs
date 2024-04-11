@@ -12,7 +12,7 @@ namespace TsrTable.RichTextBox
             return rtb;
         }
 
-        public static C1RichTextBox InsertPostScript(this C1RichTextBox rtb, RtbPostScript postScript)
+        public static C1RichTextBox InsertPostScript(this C1RichTextBox rtb, C1TextElement postScript)
         {
             InsertInlineObject(rtb, postScript);
             return rtb;
@@ -79,7 +79,7 @@ namespace TsrTable.RichTextBox
         {
             var parent = rtb.Selection.Blocks.First().Parent;
             var index = rtb.Selection.Blocks.First().Index;
-            var bullet = new C1List() { MarkerStyle = style };
+            var bullet = new C1List() { MarkerStyle = style, Margin = new System.Windows.Thickness(40, 0, 0, 0) };
             var count = rtb.Selection.Blocks.Count();
 
             for (int i = 0; i < count; i++)
@@ -128,6 +128,7 @@ namespace TsrTable.RichTextBox
             if (statRun == null) return;
 
             var parent = statRun.Parent;
+            // 途中に挿入する場合
             if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
             {
                 parent.Children.Insert(statRun.Index + 1, element);
@@ -137,15 +138,19 @@ namespace TsrTable.RichTextBox
                 });
                 statRun.Text = statRun.Text.Substring(0, stat.Offset);
             }
+            // 頭に挿入する場合
             else if (stat.Offset == 0)
             {
                 parent.Children.Insert(statRun.Index, element);
             }
+            // 最後に入れる場合
             else if (stat.Offset == statRun.Text.Length)
             {
                 parent.Children.Insert(statRun.Index + 1, element);
                 parent.Children.Insert(statRun.Index + 2, new C1Run());
             }
+
+            rtb.Selection = new C1TextRange(new C1TextPointer(statRun, 0));
         }
 
         private static C1List GetBulletInSelection(C1RichTextBox rtb)

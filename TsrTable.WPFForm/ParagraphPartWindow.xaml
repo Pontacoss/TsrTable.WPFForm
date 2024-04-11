@@ -10,13 +10,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
         WindowStartupLocation="CenterScreen"
       Title="ParagraphPartWindow">
-    <Window.Resources>
-        <ResourceDictionary >
-            <SolidColorBrush x:Key="testBrush" Color="Red"/>
-            
-        </ResourceDictionary>
-    </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -75,9 +69,17 @@
                             Name="ExtractButton"
                             Click="ExtractButton_Click"/>
             </StackPanel>
-            <DockPanel LastChildFill="True" 
+            <DockPanel LastChildFill="True"  Margin="5"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-                <TextBox Name="JsonTextBlock" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                <StackPanel Orientation="Horizontal"  DockPanel.Dock="Top" >
+                    <CheckBox Name="IndentedCheckBox" Content="Indented" IsChecked="True" Margin="5" />
+                    <TextBlock Name="JsonTextCountTextBlock" Margin="5"/>
+                </StackPanel>
+                <TextBox Name="JsonTextBox"  Margin="5"
+                         TextWrapping="Wrap"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+
+                         DockPanel.Dock="Bottom"/>
             </DockPanel>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">

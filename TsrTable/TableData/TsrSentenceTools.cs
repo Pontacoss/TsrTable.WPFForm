@@ -50,6 +50,7 @@ namespace TsrTable.TableData
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty(run.Text)) return null;
                     tsrElement = new TsrRun(run.Text);
                 }
             }
@@ -57,9 +58,10 @@ namespace TsrTable.TableData
             {
                 if (ui.Content is Button)
                     return null;
-                else if (ui.Content is System.Windows.Controls.Image || ui.Content is BitmapImage)
+                else if (ui.Content is System.Windows.Controls.Image || ui.Content is System.Windows.Media.Imaging.BitmapImage)
                     tsrElement = new TsrInlineFigure(ui);
-                throw new NotImplementedException();
+                else
+                    throw new NotImplementedException();
             }
             else if (element is C1List c1List)
             {

@@ -6,12 +6,15 @@ namespace TsrTable.RichTextBox
 {
     public class RtbSubTitle : C1Paragraph, IRtbElement
     {
-        public string ItemNumber { get; private set; } = "[自動採番]";
+        public string ItemNumber { get; private set; }
         public string SubTitle { get; }
 
         public RtbSubTitle() { }
-        public RtbSubTitle(string subTitle)
+        public RtbSubTitle(string subTitle, string itemNumber = "[自動採番]")
         {
+            ItemNumber = itemNumber;
+            IsEditable = false;
+            Margin = new Thickness(0);
             SubTitle = subTitle;
             var itemNumberRun = new C1Run()
             {
@@ -29,9 +32,13 @@ namespace TsrTable.RichTextBox
                 Padding = new Thickness(0),
                 FontWeight = FontWeights.Bold,
             };
-
+            var paragraph = new C1Paragraph()
+            {
+                Margin = new Thickness(20, 0, 0, 0),
+            };
             this.Children.Add(itemNumberRun);
             this.Children.Add(subTitleRun);
+            this.Children.Add(paragraph);
         }
 
         public override C1TextElement Clone()

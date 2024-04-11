@@ -28,6 +28,7 @@
                     Click="SubTitleButton_Click"/>
             <c1:C1ColorPicker Name="MyColorPicker" Width="40" Margin="5" Height="30" 
                   SelectedColorChanged="C1ColorPicker_SelectedColorChanged"/>
+
         </StackPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Content="削除"  Width="120" Height="35"  Click="DeleteButton_Click" Margin="5"/>

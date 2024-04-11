@@ -9,7 +9,7 @@ using TsrTable.RichTextBox;
 
 namespace TsrTable.TableData
 {
-    public sealed class TsrSubTitle : ITsrBlock, ITsrElement
+    public sealed class TsrSubTitle : ITsrElement
     {
         public string SubTitle { get; }
         public Collection<ITsrElement> Children { get; }

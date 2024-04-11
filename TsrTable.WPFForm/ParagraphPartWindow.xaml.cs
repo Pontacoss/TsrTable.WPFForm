@@ -19,25 +19,43 @@ namespace TsrTable.WPFForm
         public ParagraphPartWindow()
         {
             InitializeComponent();
-
-            rtb.Text = "＜試験仕様＞ \r\nHCN-P827： 6.1項を参照すること。" +
-                " \r\n\r\n＜所内向け追加指示および注意事項＞ \r\n" +
-                "銘板、表記は外形図：H7R2149と一致していることを確認する。" +
-                " \r\n\r\nその他詳細は、伊ミキ-63811に従うこと。なお伊ミキ-63811は以下の項目を記載している。" +
-                " \r\n3.1\t一般外観検査\t\t\t3.9\tカバー状態検査" +
-                " \r\n3.2\t絶縁物検査\t\t\t3.10\t表面処理検査 \r\n" +
-                "3.3\t取付け状態検査\t\t3.11\t表示検査 \r\n3.4\t締付け状態検査\t\t" +
-                "3.12\t銘板検査 \r\n3.5\t配線及び結線検査\t\t3.13\t付属品検査 \r\n" +
-                "3.6\t動作調整検査\t\t\t3.14\t配管検査 \r\n3.7\t電導接触部検査\t\t" +
-                "3.15\t光ファイバーケーブル配線検査 \r\n3.8\t寸法検査\r\n\r\n" +
-                "IECの項目分けに従い、配線チェックをVisual Inspectionの項目に統合している。配線チェックを忘れず行うこと。" +
-                " \r\n組立図：　H14E673～H14E677\t \r\nWIRING DIAGRAM (主回路): H14E516 \r\nWIRING DIAGRAM (制御回路): H14E695 ";
-
             rtb.FontSize = 10.5;
             rtb.ViewMode = TextViewMode.Draft;
             rtb.Zoom = 1.3;
             rtb.HideSelection = true;
             rtb.DefaultParagraphMargin = new Thickness(0, 0, 0, 0);
+
+            var para4 = new C1Paragraph();
+            var para2 = new C1Paragraph();
+            var run2 = new C1Run();
+            var para3 = new C1Paragraph();
+            var run3 = new C1Run();
+            var run4 = new C1Run();
+
+            var run1 = rtb.Document.Children[0].Children[0] as C1Run;
+            run1.Text = "＜試験仕様＞ \r\nHCN-P827： 6.1項を参照すること。\r\n\r\n";
+
+            run2.Text = " ＜所内向け追加指示および注意事項＞ \r\n" +
+                "銘板、表記は外形図：H7R2149と一致していることを確認する。";
+            para2.Children.Add(run2);
+            run3.Text = "その他詳細は、伊ミキ - 63811に従うこと。なお伊ミキ - 63811は以下の項目を記載している。" +
+                " \r\n3.1\t一般外観検査\t\t\t3.9\tカバー状態検査" +
+                " \r\n3.2\t絶縁物検査\t\t\t3.10\t表面処理検査 \r\n" +
+                "3.3\t取付け状態検査\t\t3.11\t表示検査 \r\n3.4\t締付け状態検査\t\t" +
+                "3.12\t銘板検査 \r\n3.5\t配線及び結線検査\t\t3.13\t付属品検査 \r\n" +
+                "3.6\t動作調整検査\t\t\t3.14\t配管検査 \r\n3.7\t電導接触部検査\t\t" +
+                "3.15\t光ファイバーケーブル配線検査 \r\n3.8\t寸法検査\r\n\r\n";
+            para3.Children.Add(run3);
+
+            run4.Text = "IECの項目分けに従い、配線チェックをVisual Inspectionの項目に統合している。配線チェックを忘れず行うこと。" +
+                " \r\n組立図：　H14E673～H14E677\t \r\nWIRING DIAGRAM (主回路): H14E516 \r\nWIRING DIAGRAM (制御回路): H14E695 ";
+            para4.Children.Add(run4);
+
+            rtb.Document.Children.Add(para2);
+            rtb.Document.Children.Add(para3);
+            rtb.Document.Children.Add(para4);
+
+
         }
 
 
@@ -78,16 +96,20 @@ namespace TsrTable.WPFForm
 
         private void PostScriptButton_Click(object sender, RoutedEventArgs e)
         {
+            var IsInline = sender is RtbInlinePostScript;
             var fm = new PostScriptWindow(PostScriptInnerButton_Click);
             if (fm.ShowDialog() == true)
                 rtb.InsertPostScript(fm.NewValue);
+
         }
         private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var postScript = button.Tag as RtbPostScript;
+            var postScript = button.Tag as C1TextElement;
 
             var fm = new PostScriptWindow(postScript, PostScriptInnerButton_Click);
+
+            // todo PostScriptWindowを×ボタンで消した場合の挙動(キャンセル)が書けていない。
             if (fm.ShowDialog() == true)
             {
                 var index = postScript.Index;
@@ -116,14 +138,15 @@ namespace TsrTable.WPFForm
 
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true,
+                WriteIndented = IndentedCheckBox.IsChecked == true,
                 PropertyNameCaseInsensitive = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             };
             var serializer = JsonSerializer.Serialize(sentence, options);
 
-            JsonTextBlock.Text = serializer + serializer.Count();
+            JsonTextBox.Text = serializer;
+            JsonTextCountTextBlock.Text = serializer.Count().ToString();
 
             var tsrSentence = JsonSerializer.Deserialize<TsrSentence>(serializer, options);
 
@@ -132,11 +155,10 @@ namespace TsrTable.WPFForm
             foreach (var child in tsrSentence.Children)
                 rtb.Document.Children.Add(child.ToRtb());
 
-            foreach (var postScript in rtb.Document.EnumerateSubtree().OfType<RtbPostScript>())
+            foreach (var postScript in rtb.Document.EnumerateSubtree().OfType<IRtbPostScript>())
             {
                 postScript.SetAction(PostScriptInnerButton_Click);
             }
-
 
             // 取消線のリスト化
             var list = SeekStrikethroughRecrusion(rtb.Document);

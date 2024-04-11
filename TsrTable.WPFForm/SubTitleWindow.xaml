@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TsrTable.WPFForm"
         mc:Ignorable="d"
-        Title="SubTitleWindow" Height="150" Width="400">
+        WindowStartupLocation="CenterScreen"
+        Title="SubTitleWindow" Height="150" Width="400" IsTabStop="False">
     <DockPanel LastChildFill="True">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-            <Button Content="削除"  Width="120" Height="35"  Click="DeleteButton_Click" Margin="5"/>
-            <Button Content="追記"  Width="120" Height="35" Click="Button_Click" Margin="5" />
+            <Button Content="削除"  Width="120" Height="35"  Click="DeleteButton_Click" Margin="5" IsTabStop="False"/>
+            <Button Content="挿入"  Width="120" Height="35" Click="Button_Click" Margin="5" TabIndex="1"/>
         </StackPanel>
-        <TextBox x:Name="SubTitleText"
-             AcceptsReturn="True"
+        <TextBox x:Name="SubTitleText" TabIndex="0" 
+             InputMethod.PreferredImeState="On" 
+                 InputMethod.PreferredImeConversionMode="FullShape,Native"
+             AcceptsReturn="False"
              TextWrapping="Wrap" 
              DockPanel.Dock="Top"
              Margin="5"/>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using C1.WPF.RichTextBox.Documents;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using TsrTable.RichTextBox;
@@ -10,7 +11,7 @@ namespace TsrTable.WPFForm
     /// </summary>
     public partial class PostScriptWindow : Window
     {
-        public RtbPostScript NewValue { get; private set; }
+        public C1TextElement NewValue { get; private set; }
 
         public Brush Brush
         {
@@ -33,22 +34,37 @@ namespace TsrTable.WPFForm
             PostScriptRichTextBox.DefaultParagraphMargin = new Thickness(0);
         }
 
-        public PostScriptWindow(RtbPostScript rtbPostScript, RoutedEventHandler action) : this(action)
+        public PostScriptWindow(C1TextElement rtbPostScript, RoutedEventHandler action)
         {
+            _action = action;
+            InitializeComponent();
+            var IsInline = rtbPostScript is RtbInlinePostScript;
+
+            PostScriptRichTextBox.DefaultParagraphMargin = new Thickness(0);
+
             Brush = rtbPostScript.Foreground;
-            var button = rtbPostScript.EnumerateSubtree().OfType<RtbButtonContainer>().FirstOrDefault();
-            if (button != null)
+
+            rtbPostScript.EnumerateSubtree()
+                .OfType<RtbButtonContainer>().FirstOrDefault()?.Remove();
+
+            C1TextElement baseParagraph;
+            if (IsInline)
             {
-                button.Remove();
+                baseParagraph = PostScriptRichTextBox.Document.
+                    Children.First(x => x.GetType() == typeof(C1Paragraph));
+            }
+            else
+            {
+                baseParagraph = PostScriptRichTextBox.Document;
             }
 
-            PostScriptRichTextBox.Document.Remove(0, PostScriptRichTextBox.Document.Count());
+            baseParagraph.Children.Clear();
 
             foreach (var item in rtbPostScript.Children)
             {
                 if (!(item is RtbButtonContainer))
                 {
-                    PostScriptRichTextBox.Document.Children.Add(item.Clone());
+                    baseParagraph.Children.Add(item.Clone());
                 }
             }
             ChangeColor(Brush);
@@ -62,15 +78,32 @@ namespace TsrTable.WPFForm
             }
             else
             {
-                //todo 追記の仕方2パターン　paragraph内かSpanか
                 DialogResult = true;
-                NewValue = new RtbPostScript(Brush);
 
-                foreach (var element in PostScriptRichTextBox.Document.Children)
+                var paragraphCount = PostScriptRichTextBox.Document.EnumerateSubtree().OfType<C1Block>().Count();
+
+                C1TextElement baseParagraph;
+                if (paragraphCount == 1)
                 {
-                    NewValue.Children.Add(element.Clone());
+                    baseParagraph = PostScriptRichTextBox.Document.Children.First(x => x.GetType() == typeof(C1Block));
+                    NewValue = new RtbInlinePostScript(Brush, _action);
                 }
-                NewValue.SetAction(_action);
+                else
+                {
+                    baseParagraph = PostScriptRichTextBox.Document;
+                    NewValue = new RtbPostScript(Brush);
+                }
+
+                int counter = 0;
+                foreach (var element in baseParagraph.Children)
+                {
+                    NewValue.Children.Insert(counter, element.Clone());
+                    counter++;
+                }
+                if (NewValue is RtbPostScript outline)
+                {
+                    outline.SetAction(_action);
+                }
             }
             this.Close();
         }

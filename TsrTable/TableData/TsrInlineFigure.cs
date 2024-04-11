@@ -5,6 +5,7 @@ using C1.WPF.Word.Objects;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Text.Json.Serialization;
 using System.Windows.Media.Imaging;
 
 namespace TsrTable.TableData
@@ -14,6 +15,14 @@ namespace TsrTable.TableData
         public byte[] Binary { get; } = null;
         public C1Length ImageHeight { get; }
         public C1Length ImageWidth { get; }
+
+        [JsonConstructor]
+        public TsrInlineFigure(byte[] binary, C1Length imageHeight, C1Length imageWidth)
+        {
+            Binary = binary;
+            ImageHeight = imageHeight;
+            ImageWidth = imageWidth;
+        }
 
         public TsrInlineFigure(C1InlineUIContainer container)
         {
@@ -26,6 +35,7 @@ namespace TsrTable.TableData
             }
             else if (container.Content is System.Windows.Controls.Image img)
             {
+                //todo 画像のデータ取り込みが出来ない。
                 BitmapImage source = img.Source as BitmapImage;
                 using (var fs = source.StreamSource)
                 {

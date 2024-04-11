@@ -105,10 +105,12 @@
   <ItemGroup>
     <Compile Include="FlexSheet\FlexSheetTools.cs" />
     <Compile Include="RichTextBox\IRtbElement.cs" />
+    <Compile Include="RichTextBox\IRtbPostScript.cs" />
     <Compile Include="RichTextBox\RichTextBoxTools.cs" />
     <Compile Include="RichTextBox\RtbBulletItem.cs" />
     <Compile Include="RichTextBox\RtbBullet.cs" />
     <Compile Include="RichTextBox\RtbButtonContainer.cs" />
+    <Compile Include="RichTextBox\RtbInlinePostScript.cs" />
     <Compile Include="RichTextBox\RtbSentenceTools.cs" />
     <Compile Include="RichTextBox\RtbSubScript.cs" />
     <Compile Include="RichTextBox\RtbSuperScript.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="TableData\TsrBulletItem.cs" />
     <Compile Include="TableData\TsrInlineFigure.cs" />
     <Compile Include="TableData\TsrParameter.cs" />
+    <Compile Include="TableData\TsrInlinePostScript.cs" />
     <Compile Include="TableData\TsrPostScript.cs" />
     <Compile Include="RichTextBox\RtbPostScript.cs" />
     <Compile Include="RichTextBox\RtbSubTitle.cs" />

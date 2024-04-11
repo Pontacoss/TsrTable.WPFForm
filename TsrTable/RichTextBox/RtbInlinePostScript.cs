@@ -1,5 +1,4 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,18 +7,18 @@ using TsrTable.TableData;
 
 namespace TsrTable.RichTextBox
 {
-    public sealed class RtbPostScript : C1Paragraph, IRtbElement, IRtbPostScript
+    public sealed class RtbInlinePostScript : C1Span, IRtbElement, IRtbPostScript
     {
-        public RtbPostScript()
+        public RtbInlinePostScript()
         {
             Foreground = System.Windows.Media.Brushes.Red;
         }
 
-        public RtbPostScript(Brush brush, RoutedEventHandler action) : this(brush)
+        public RtbInlinePostScript(Brush brush, RoutedEventHandler action) : this(brush)
         {
             SetAction(action);
         }
-        public RtbPostScript(Brush brush)
+        public RtbInlinePostScript(Brush brush)
         {
             Foreground = brush;
             IsEditable = false;
@@ -34,12 +33,12 @@ namespace TsrTable.RichTextBox
             };
             button.Click += action;
             button.Tag = this;
-            Children.OfType<C1Block>().Last().
-                Children.Add(new RtbButtonContainer(button));
+
+            Children.Add(new RtbButtonContainer(button));
         }
 
         public ITsrElement GetTsrInstance()
-            => new TsrPostScript(Foreground);
+            => new TsrInlinePostScript(Foreground);
 
     }
 }
