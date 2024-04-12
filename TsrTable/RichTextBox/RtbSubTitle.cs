@@ -38,7 +38,6 @@ namespace TsrTable.RichTextBox
             };
             this.Children.Add(itemNumberRun);
             this.Children.Add(subTitleRun);
-            this.Children.Add(paragraph);
         }
 
         public override C1TextElement Clone()

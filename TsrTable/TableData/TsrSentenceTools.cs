@@ -12,10 +12,13 @@ namespace TsrTable.TableData
 {
     public static class TsrSentenceTools
     {
+        /// <summary>
+        /// ITsrElementを子要素も含めて対応するC1TextElementに変換する。
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns>C1TextElement(Nullable)</returns>
         public static C1TextElement ToRtb(this ITsrElement element)
         {
-            if (element == null) return null;
-
             C1TextElement rtbInstance = element.GetRtbInstance();
             if (element is ITsrBlock block)
             {
@@ -31,6 +34,12 @@ namespace TsrTable.TableData
             return rtbInstance;
         }
 
+        /// <summary>
+        /// C1TextElementを子要素も含めて対応するITsrElementに変換する。
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns>ITsrElement(Nullable)</returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ITsrElement ToTsr(this C1TextElement element)
         {
             ITsrElement tsrElement;
@@ -59,7 +68,7 @@ namespace TsrTable.TableData
                 if (ui.Content is Button)
                     return null;
                 else if (ui.Content is System.Windows.Controls.Image || ui.Content is System.Windows.Media.Imaging.BitmapImage)
-                    tsrElement = new TsrInlineFigure(ui);
+                    tsrElement = new TsrInlineFigure(ui.Content as BitmapImage);
                 else
                     throw new NotImplementedException();
             }

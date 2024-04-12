@@ -24,30 +24,18 @@ namespace TsrTable.TableData
             Width = width;
         }
 
-        public TsrInlineFigure(C1InlineUIContainer container)
+        /// <summary>
+        /// Ctrl+V で画像を貼り付けた場合にのみ使用
+        /// </summary>
+        /// <param name="bmp"></param>
+        public TsrInlineFigure(BitmapImage bmp)
         {
-            //if (container.Content is BitmapImage bmp)
-            //{
-            var bmp = container.Content as BitmapImage;
+            Height = bmp.PixelHeight;
+            Width = bmp.PixelWidth;
             var stream = bmp.StreamSource;
             Binary = new byte[stream.Length];
             stream.Position = 0;
             stream.Read(Binary, 0, (int)stream.Length);
-            //}
-            //else if (container.Content is System.Windows.Controls.Image img)
-            //{
-            //    //todo 画像のデータ取り込みが出来ない。
-            //    BitmapImage source = img.Source as BitmapImage;
-            //    using (var fs = source.StreamSource)
-            //    {
-            //        Binary = new byte[fs.Length];
-            //        fs.Write(Binary, 0, (int)fs.Length);
-            //        var writer = new BinaryWriter(fs);
-            //        writer.Write(Binary);
-            //    }
-            //}
-            Height = container.Height.Value;
-            Width = container.Width.Value;
         }
 
         public RtfObject ToWord()

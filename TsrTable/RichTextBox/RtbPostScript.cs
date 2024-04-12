@@ -15,10 +15,10 @@ namespace TsrTable.RichTextBox
             Foreground = System.Windows.Media.Brushes.Red;
         }
 
-        public RtbPostScript(Brush brush, RoutedEventHandler action) : this(brush)
-        {
-            SetAction(action);
-        }
+        //public RtbPostScript(Brush brush, RoutedEventHandler action) : this(brush)
+        //{
+        //    SetAction(action);
+        //}
         public RtbPostScript(Brush brush)
         {
             Foreground = brush;
