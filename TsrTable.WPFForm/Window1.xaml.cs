@@ -1,17 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using C1.WPF.FlexGrid;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
-using TsrTable.RichTextBox.TableData;
-using TsrTable.WPFForm.ViewModelEntities;
-using C1.WPF.FlexGrid;
-using System.Collections.Generic;
-using TsrTable.TableData;
 using TsrTable.Domain.Common;
-using TsrTable.FlexSheet;
-using System.IO;
-using C1.WPF.Excel;
 using TsrTable.Domain.Entities;
-using static C1.Util.Win.Win32;
+using TsrTable.RichTextBox.TsrElement;
+using TsrTable.WPFForm.ViewModelEntities;
 
 namespace TsrTable.WPFForm
 {
@@ -26,12 +22,12 @@ namespace TsrTable.WPFForm
         public ObservableCollection<TableHeaderVMEntity> CriteriaList
              = new ObservableCollection<TableHeaderVMEntity>();
 
-        private List<CellEntity> _cellList=new List<CellEntity>();
+        private List<CellEntity> _cellList = new List<CellEntity>();
         private List<TableDataEntity> _datas;
 
         public Window1(
             List<TableHeaderVMEntity> headerList,
-            List<TableHeaderVMEntity> criteriaList, 
+            List<TableHeaderVMEntity> criteriaList,
             List<TableDataEntity> datas)
         {
             InitializeComponent();
@@ -44,25 +40,25 @@ namespace TsrTable.WPFForm
 
             criteriaList.ForEach(x => CriteriaList.Add(x));
             CriteriaDataGrid.ItemsSource = CriteriaList;
-            
+
             InitializeGrid();
         }
-        
+
         private void CreateTableButton_Click(object sender, RoutedEventArgs e)
         {
             tb1.Text = null;
             InitializeGrid();
 
-            var tableContent = TsrFacade.GetTableContent(
+            var tableContent = TsrFacadeForTable.GetTableContent(
                         TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
                         TableHeaderVMEntity.GetEntities(CriteriaList.ToList(), null),
                         EnumTsrDocumentType.TestReport,
                         CriteriaPositionRadioButton.IsChecked);
             if (tableContent == null) return;
 
-            _cellList = TsrFacade.CreateCellList(tableContent);
+            _cellList = TsrFacadeForTable.CreateCellList(tableContent);
 
-            TsrFacade.CreateTableToFlexSheet(cfs, _cellList,_datas);
+            TsrFacadeForTable.CreateTableToFlexSheet(cfs, _cellList, _datas);
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -71,7 +67,7 @@ namespace TsrTable.WPFForm
             //cfs.PrintPreview("C1FlexSheet", scaleMode, new Thickness(96), int.MaxValue);
 
             var book = new C1.WPF.Excel.C1XLBook();
-            TsrFacade.CreateTableToExcel(book, _cellList, _datas);
+            TsrFacadeForTable.CreateTableToExcel(book, _cellList, _datas);
             book.Save("C:\\Users\\ey28754\\Desktop\\book.xlsx");
             MessageBox.Show("Excel Document saved ");
 
@@ -160,7 +156,7 @@ namespace TsrTable.WPFForm
                 col.SheetIndexColumn += gap;
             }
             InitializeGrid();
-            TsrFacade.CreateTableToFlexSheet(cfs,_cellList, _datas);
+            TsrFacadeForTable.CreateTableToFlexSheet(cfs, _cellList, _datas);
         }
 
         private void SheetSpanRowSeting(int gap)
@@ -185,7 +181,7 @@ namespace TsrTable.WPFForm
                 col.SheetIndexRow += gap;
             }
             InitializeGrid();
-            TsrFacade.CreateTableToFlexSheet(cfs, _cellList, _datas);
+            TsrFacadeForTable.CreateTableToFlexSheet(cfs, _cellList, _datas);
         }
 
         private void ColumnSpanIncreaseButton_Click(object sender, RoutedEventArgs e)
@@ -211,11 +207,11 @@ namespace TsrTable.WPFForm
         private void InitializeGrid()
         {
             cfs.Columns.Clear();
-            while (cfs.Columns.Count < TsrFacade.FlexSheetColumnCount)
+            while (cfs.Columns.Count < TsrFacadeForTable.FlexSheetColumnCount)
             {
                 cfs.Columns.Add(new Column()
                 {
-                    Width = new GridLength(TsrFacade.FlexSheetCellWidth)
+                    Width = new GridLength(TsrFacadeForTable.FlexSheetCellWidth)
                 });
             }
         }

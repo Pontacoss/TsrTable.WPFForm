@@ -1,5 +1,5 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using TsrTable.TableData;
+using TsrTable.RichTextBox.TsrElement;
 
 namespace TsrTable.RichTextBox
 {

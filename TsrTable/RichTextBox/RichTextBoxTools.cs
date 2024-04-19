@@ -4,8 +4,7 @@ using System.Linq;
 using System.Windows;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
-using TsrTable.RichTextBox.TableData;
-using TsrTable.TableData;
+using TsrTable.RichTextBox.TsrElement;
 
 namespace TsrTable.RichTextBox
 {

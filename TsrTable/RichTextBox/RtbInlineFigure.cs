@@ -1,7 +1,7 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System.IO;
 using System.Windows.Media.Imaging;
-using TsrTable.TableData;
+using TsrTable.RichTextBox.TsrElement;
 
 namespace TsrTable.RichTextBox
 {

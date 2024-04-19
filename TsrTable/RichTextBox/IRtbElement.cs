@@ -1,8 +1,8 @@
-﻿using TsrTable.TableData;
+﻿using TsrTable.RichTextBox.TsrElement;
 
 namespace TsrTable.RichTextBox
 {
-    public interface IRtbElement
+    internal interface IRtbElement
     {
         ITsrElement GetTsrInstance();
     }

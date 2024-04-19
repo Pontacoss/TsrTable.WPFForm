@@ -10,8 +10,7 @@ using System.Windows;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 using TsrTable.RichTextBox;
-using TsrTable.RichTextBox.TableData;
-using TsrTable.TableData;
+using TsrTable.RichTextBox.TsrElement;
 using TsrTable.WPFForm.ViewModelEntities;
 
 namespace TsrTable.WPFForm
@@ -58,15 +57,15 @@ namespace TsrTable.WPFForm
             targetCell = null;
             rtb.Document.Blocks.Clear();
 
-            _tableContent = TsrFacade.GetTableContent(
+            _tableContent = TsrFacadeForTable.GetTableContent(
                         TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
                         TableHeaderVMEntity.GetEntities(CriteriaList.ToList(), null),
                         EnumTsrDocumentType.SpecSheet,
                         CriteriaPositionRadioButton.IsChecked);
             if (_tableContent == null) return;
-            _cellList = TsrFacade.CreateCellList(_tableContent);
+            _cellList = TsrFacadeForTable.CreateCellList(_tableContent);
 
-            _table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList, _tableDatas);
+            _table = TsrFacadeForTable.CreateTableToRichTextBox(_tableContent, _cellList, _tableDatas);
             rtb.Document.Blocks.Add(_table);
 
         }
@@ -205,9 +204,9 @@ namespace TsrTable.WPFForm
             di.Author = "ComponentOne";
             di.Subject = "C1.WPF.Word sample.";
 
-            _cellList = TsrFacade.GetCellData(_cellList, _table);
+            _cellList = TsrFacadeForTable.GetCellData(_cellList, _table);
 
-            var table = TsrFacade.CreateTableToWord(_cellList, _tableDatas);
+            var table = TsrFacadeForTable.CreateTableToWord(_cellList, _tableDatas);
 
             word.Add(table);
 
@@ -242,7 +241,7 @@ namespace TsrTable.WPFForm
             fm.ShowDialog();
 
             rtb.Document.Blocks.Clear();
-            _table = TsrFacade.CreateTableToRichTextBox(_tableContent, _cellList, _tableDatas);
+            _table = TsrFacadeForTable.CreateTableToRichTextBox(_tableContent, _cellList, _tableDatas);
             rtb.Document.Blocks.Add(_table);
         }
 

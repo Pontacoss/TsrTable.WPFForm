@@ -94,6 +94,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -112,7 +113,7 @@
     <Compile Include="RichTextBox\RtbButtonContainer.cs" />
     <Compile Include="RichTextBox\RtbInlineFigure.cs" />
     <Compile Include="RichTextBox\RtbInlinePostScript.cs" />
-    <Compile Include="RichTextBox\RtbSentenceTools.cs" />
+    <Compile Include="RichTextBox\RtbFacade.cs" />
     <Compile Include="RichTextBox\RtbSubScript.cs" />
     <Compile Include="RichTextBox\RtbSuperScript.cs" />
     <Compile Include="RichTextBox\TsrCell.cs" />
@@ -121,44 +122,47 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RichTextBox\RtbParameter.cs" />
-    <Compile Include="TableData\ITsrBlock.cs" />
-    <Compile Include="TableData\TsrBullet.cs" />
-    <Compile Include="TableData\TsrBulletItem.cs" />
-    <Compile Include="TableData\TsrInlineFigure.cs" />
-    <Compile Include="TableData\TsrParameter.cs" />
-    <Compile Include="TableData\TsrInlinePostScript.cs" />
-    <Compile Include="TableData\TsrPostScript.cs" />
+    <Compile Include="TsrElement\ITsrBlock.cs" />
+    <Compile Include="TsrElement\TsrBullet.cs" />
+    <Compile Include="TsrElement\TsrBulletItem.cs" />
+    <Compile Include="TsrElement\TsrInlineFigure.cs" />
+    <Compile Include="TsrElement\TsrParameter.cs" />
+    <Compile Include="TsrElement\TsrInlinePostScript.cs" />
+    <Compile Include="TsrElement\TsrPostScript.cs" />
     <Compile Include="RichTextBox\RtbPostScript.cs" />
     <Compile Include="RichTextBox\RtbSubTitle.cs" />
-    <Compile Include="TableData\BlockContainer.cs" />
-    <Compile Include="TableData\CellEntity.cs" />
-    <Compile Include="TableData\ContainerBase.cs" />
-    <Compile Include="TableData\ContainerCollection.cs" />
-    <Compile Include="TableData\CriteriaContainer.cs" />
-    <Compile Include="TableData\EnumCellType.cs" />
-    <Compile Include="TableData\ExcelTools.cs" />
-    <Compile Include="TableData\Header.cs" />
-    <Compile Include="TableData\HeaderBase.cs" />
-    <Compile Include="TableData\IContainer.cs" />
-    <Compile Include="TableData\ITsrElement.cs" />
-    <Compile Include="TableData\RepeartContainer.cs" />
-    <Compile Include="TableData\SpanCounter.cs" />
-    <Compile Include="TableData\TableContent.cs" />
-    <Compile Include="TableData\TableHeaderFake.cs" />
-    <Compile Include="TableData\TsrParagraph.cs" />
-    <Compile Include="TableData\TsrRun.cs" />
-    <Compile Include="TableData\TsrFacade.cs" />
-    <Compile Include="TableData\TsrDocument.cs" />
-    <Compile Include="TableData\TsrSentence.cs" />
-    <Compile Include="TableData\TsrSentenceTools.cs" />
-    <Compile Include="TableData\TsrSpan.cs" />
-    <Compile Include="TableData\TsrStrikethrough.cs" />
-    <Compile Include="TableData\TsrSubScript.cs" />
-    <Compile Include="TableData\TsrSubTitle.cs" />
-    <Compile Include="TableData\TsrSuperScript.cs" />
-    <Compile Include="TableData\TsrTable.cs" />
-    <Compile Include="TableData\TsrTableTools.cs" />
-    <Compile Include="TableData\WodTools.cs" />
+    <Compile Include="TsrElement\BlockContainer.cs" />
+    <Compile Include="TsrElement\CellEntity.cs" />
+    <Compile Include="TsrElement\ContainerBase.cs" />
+    <Compile Include="TsrElement\ContainerCollection.cs" />
+    <Compile Include="TsrElement\CriteriaContainer.cs" />
+    <Compile Include="TsrElement\EnumCellType.cs" />
+    <Compile Include="TsrElement\ExcelTools.cs" />
+    <Compile Include="TsrElement\Header.cs" />
+    <Compile Include="TsrElement\HeaderBase.cs" />
+    <Compile Include="TsrElement\IContainer.cs" />
+    <Compile Include="TsrElement\ITsrElement.cs" />
+    <Compile Include="TsrElement\RepeartContainer.cs" />
+    <Compile Include="TsrElement\SpanCounter.cs" />
+    <Compile Include="TsrElement\TableContent.cs" />
+    <Compile Include="TsrElement\TableHeaderFake.cs" />
+    <Compile Include="TsrElement\TsrParagraph.cs" />
+    <Compile Include="TsrElement\TsrRun.cs" />
+    <Compile Include="TsrElement\TsrFacadeForTable.cs" />
+    <Compile Include="TsrElement\TsrDocument.cs" />
+    <Compile Include="TsrElement\TsrSentence.cs" />
+    <Compile Include="TsrElement\TsrFacade.cs" />
+    <Compile Include="TsrElement\TsrSpan.cs" />
+    <Compile Include="TsrElement\TsrStrikethrough.cs" />
+    <Compile Include="TsrElement\TsrSubScript.cs" />
+    <Compile Include="TsrElement\TsrSubTitle.cs" />
+    <Compile Include="TsrElement\TsrSuperScript.cs" />
+    <Compile Include="TsrElement\TsrTable.cs" />
+    <Compile Include="TsrElement\TsrTableTools.cs" />
+    <Compile Include="TsrElement\WodTools.cs" />
+    <Compile Include="UserControls\TsrSubTitleEditWindow.xaml.cs">
+      <DependentUpon>TsrSubTitleEditWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TsrTable.gclicx" />
@@ -171,6 +175,12 @@
       <Project>{cfeacc89-b429-4ab2-a90b-b96088fd04a0}</Project>
       <Name>TsrTable.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UserControls\TsrSubTitleEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

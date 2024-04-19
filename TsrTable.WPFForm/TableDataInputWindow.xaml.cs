@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using TsrTable.Domain.Entities;
 using TsrTable.Domain.ValueObjects;
-using TsrTable.RichTextBox.TableData;
+using TsrTable.RichTextBox.TsrElement;
 using TsrTable.WPFForm.ViewModelEntities;
 
 namespace TsrTable.WPFForm

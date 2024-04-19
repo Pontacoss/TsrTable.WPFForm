@@ -85,7 +85,7 @@ namespace TsrTable.WPFForm
                 C1TextElement baseParagraph;
                 if (paragraphCount == 1)
                 {
-                    baseParagraph = PostScriptRichTextBox.Document.Children.First(x => x.GetType() == typeof(C1Block));
+                    baseParagraph = PostScriptRichTextBox.Document.Children.First(x => x is C1Block);
                     NewValue = new RtbInlinePostScript(Brush, _action);
                 }
                 else
@@ -152,7 +152,7 @@ namespace TsrTable.WPFForm
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RtbSentenceTools.RemoveBullet(PostScriptRichTextBox)) return;
+            if (RtbFacade.RemoveBullet(PostScriptRichTextBox)) return;
             var fm = new BulletControlWindow();
             fm.ShowDialog();
             PostScriptRichTextBox.InsertBullet(fm.MarkerStyle);

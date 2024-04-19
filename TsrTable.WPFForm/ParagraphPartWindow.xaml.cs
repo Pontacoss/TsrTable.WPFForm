@@ -7,7 +7,8 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using TsrTable.RichTextBox;
-using TsrTable.TableData;
+using TsrTable.RichTextBox.TsrElement;
+using TsrTable.UserControls;
 
 namespace TsrTable.WPFForm
 {
@@ -88,7 +89,7 @@ namespace TsrTable.WPFForm
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RtbSentenceTools.RemoveBullet(rtb)) return;
+            if (RtbFacade.RemoveBullet(rtb)) return;
             var fm = new BulletControlWindow();
             fm.ShowDialog();
             rtb.InsertBullet(fm.MarkerStyle);
@@ -120,9 +121,14 @@ namespace TsrTable.WPFForm
 
         private void SubTitleButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new SubTitleWindow();
-            fm.ShowDialog();
-            rtb.InsertSubTitle(fm.Text);
+            var blankWindow = new BlankWindow(new TsrSubTitleEditWindow());
+
+
+            RtbFacade.InsertSubTitle(blankWindow);
+
+            //var fm = new SubTitleWindow();
+            //fm.ShowDialog();
+            //rtb.InsertSubTitle(fm.Text);
         }
 
         private void EditableChangeButton_Click(object sender, RoutedEventArgs e)
