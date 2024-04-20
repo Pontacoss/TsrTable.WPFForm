@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace TsrTable.WPFForm
 {
@@ -8,10 +7,9 @@ namespace TsrTable.WPFForm
     /// </summary>
     public partial class BlankWindow : Window
     {
-        public BlankWindow(UserControl myControl)
+        public BlankWindow()
         {
             InitializeComponent();
-            MainPanel.Children.Add(myControl);
         }
     }
 }

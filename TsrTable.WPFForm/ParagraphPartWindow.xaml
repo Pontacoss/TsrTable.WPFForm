@@ -9,7 +9,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
         WindowStartupLocation="CenterScreen"
-      Title="ParagraphPartWindow">
+      Title="ParagraphPartWindow"
+		Closed="WindowClosed">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,8 +43,8 @@
                         Click="InsertStrikethroughButton_Click"/>
                 <Button Content="上下付き文字挿入"  
                         Width="100" Height="35" Margin="5"
-                        Name="InsertSubScriptButton"
-                        Click="InsertSubScriptButton_Click"/>
+                        Name="InsertSuperSubScriptButton"
+						Click="InsertSuperSubScriptButton_Click"/>
                 <Button Content="ReadOnly"  
                         Width="100" Height="35" Margin="5"
                         Name="EditableChangeButton"
@@ -51,7 +52,7 @@
                 <Button Content="追記"  
                         Width="100" Height="35" Margin="5"
                         Name="PostScriptButton"
-                        Click="PostScriptButton_Click"/>
+                        Click="InsertPostScriptButton_Click"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" 
                     VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -59,15 +60,15 @@
                 <Button Content="Sub Title"  
                             Width="100" Height="35" Margin="5"
                             Name="SubTitleButton"
-                            Click="SubTitleButton_Click"/>
-                <Button Content="Load File"  
+                            Click="InsertSubTitleButton_Click"/>
+                <Button Content="Serialize"  
                             Width="100" Height="35" Margin="5"
-                            Name="LoadFileButton"
-                            Click="LoadFileButton_Click"/>
-                <Button Content="Extract Objects"  
+						Name="SerializeButton"
+						Click="SerializeButton_Click"/>
+				<Button Content="Deserialize"  
                             Width="100" Height="35" Margin="5"
-                            Name="ExtractButton"
-                            Click="ExtractButton_Click"/>
+						Name="DeserializeButton"
+						Click="DeserializeButton_Click"/>
             </StackPanel>
             <DockPanel LastChildFill="True"  Margin="5"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">

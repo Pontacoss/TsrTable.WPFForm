@@ -1,15 +1,16 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using TsrTable.RichTextBox;
 
-namespace TsrTable.WPFForm
+namespace TsrTable.UserControls
 {
     /// <summary>
-    /// PostScriptWindow.xaml の相互作用ロジック
+    /// TsrPostScriptEditWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class PostScriptWindow : Window
+    public partial class TsrPostScriptEditWindow : UserControl
     {
         public C1TextElement NewValue { get; private set; }
 
@@ -27,21 +28,20 @@ namespace TsrTable.WPFForm
 
         private RoutedEventHandler _action;
 
-        public PostScriptWindow(RoutedEventHandler action)
+        public TsrPostScriptEditWindow(RoutedEventHandler action)
         {
             _action = action;
             InitializeComponent();
             PostScriptRichTextBox.DefaultParagraphMargin = new Thickness(0);
+
+            this.Name = "PostScriptEditor";
         }
 
-        public PostScriptWindow(C1TextElement rtbPostScript, RoutedEventHandler action)
+        public TsrPostScriptEditWindow(
+            C1TextElement rtbPostScript,
+            RoutedEventHandler action) : this(action)
         {
-            _action = action;
-            InitializeComponent();
             var IsInline = rtbPostScript is RtbInlinePostScript;
-
-            PostScriptRichTextBox.DefaultParagraphMargin = new Thickness(0);
-
             Brush = rtbPostScript.Foreground;
 
             rtbPostScript.EnumerateSubtree()
@@ -74,18 +74,22 @@ namespace TsrTable.WPFForm
         {
             if (string.IsNullOrEmpty(PostScriptRichTextBox.Text))
             {
-                DialogResult = false;
+                Window.GetWindow(this).DialogResult = false;
             }
             else
             {
-                DialogResult = true;
+                Window.GetWindow(this).DialogResult = true;
 
-                var paragraphCount = PostScriptRichTextBox.Document.EnumerateSubtree().OfType<C1Block>().Count();
+                var paragraphCount =
+                    PostScriptRichTextBox.Document.
+                    EnumerateSubtree().OfType<C1Block>().Count();
 
                 C1TextElement baseParagraph;
                 if (paragraphCount == 1)
                 {
-                    baseParagraph = PostScriptRichTextBox.Document.Children.First(x => x is C1Block);
+                    baseParagraph =
+                        PostScriptRichTextBox.Document.
+                        Children.First(x => x is C1Block);
                     NewValue = new RtbInlinePostScript(Brush, _action);
                 }
                 else
@@ -105,13 +109,13 @@ namespace TsrTable.WPFForm
                     outline.SetAction(_action);
                 }
             }
-            this.Close();
+            Window.GetWindow(this).Close();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
-            this.Close();
+            Window.GetWindow(this).DialogResult = false;
+            Window.GetWindow(this).Close();
         }
 
         private void ChangeColor(Brush brush)
@@ -135,34 +139,17 @@ namespace TsrTable.WPFForm
 
         private void InsertSubScriptButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new SuperSubScriptWindow();
-            fm.ShowDialog();
-
-            if (fm.BaseScriptString == string.Empty) return;
-            if (fm.SuperScriptString != string.Empty)
-            {
-                PostScriptRichTextBox.InsertSuperScript(fm.BaseScriptString, fm.SuperScriptString);
-            }
-            else if (fm.SubScriptString != string.Empty)
-            {
-                PostScriptRichTextBox.InsertSubScript(fm.BaseScriptString, fm.SubScriptString);
-            }
-            else return;
+            PostScriptRichTextBox.InsertSuperSubScript();
         }
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RtbFacade.RemoveBullet(PostScriptRichTextBox)) return;
-            var fm = new BulletControlWindow();
-            fm.ShowDialog();
-            PostScriptRichTextBox.InsertBullet(fm.MarkerStyle);
+            PostScriptRichTextBox.InsertBullet();
         }
 
         private void SubTitleButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new SubTitleWindow();
-            fm.ShowDialog();
-            PostScriptRichTextBox.InsertSubTitle(fm.Text);
+            PostScriptRichTextBox.InsertSubTitle();
         }
     }
 }

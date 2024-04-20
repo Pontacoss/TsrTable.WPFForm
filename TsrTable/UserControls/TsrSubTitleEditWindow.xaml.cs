@@ -22,17 +22,18 @@ namespace TsrTable.UserControls
         public TsrSubTitleEditWindow()
         {
             InitializeComponent();
+            this.Name = "SubTitleEditor";
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //this.Close();
+            Window.GetWindow(this).Close();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             Text = string.Empty;
-            //this.Close();
+            Window.GetWindow(this).Close();
         }
     }
 }

@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="TsrTable.UserControls.TsrBulletMarkerSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TsrTable.UserControls"
+             mc:Ignorable="d" 
+             Height="150" Width="250">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Button Content="Circle 〇"
+				Grid.Column="0"
+				Grid.Row="0"
+				Click="Button_Click"
+				Name="CircleButton" />
+		<Button Content="Square　□"
+				Grid.Column="1"
+				Grid.Row="0"
+				Click="Button_Click"
+				Name="SquareButton" />
+
+		<Button Content="Disc　・"
+				Grid.Column="0"
+				Grid.Row="1"
+				Click="Button_Click"
+				Name="DiscButton" />
+		<Button Content="Box　■"
+				Grid.Column="1"
+				Grid.Row="1"
+				Click="Button_Click"
+				Name="BoxButton" />
+
+		<Button Content="1.,2.,3."
+				Grid.Column="0"
+				Grid.Row="2"
+				Click="Button_Click"
+				Name="DecimalButton" />
+		<Button Content="i.,ii.,iii."
+				Grid.Column="1"
+				Grid.Row="2"
+				Click="Button_Click"
+				Name="LowerRomanButton" />
+
+		<Button Content="a.,b.,c."
+				Grid.Column="0"
+				Grid.Row="3"
+				Click="Button_Click"
+				Name="LowerLatinButton" />
+		<Button Content="A.,B.,C."
+				Grid.Column="1"
+				Grid.Row="3"
+				Click="Button_Click"
+				Name="UpperLatinButton" />
+	</Grid>
+</UserControl>

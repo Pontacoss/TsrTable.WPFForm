@@ -2,13 +2,7 @@
 using C1.WPF.RichTextBox.Documents;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Windows;
-using System.Windows.Controls;
-using TsrTable.RichTextBox;
-using TsrTable.RichTextBox.TsrElement;
-using TsrTable.UserControls;
 
 namespace TsrTable.WPFForm
 {
@@ -56,30 +50,18 @@ namespace TsrTable.WPFForm
             rtb.Document.Children.Add(para3);
             rtb.Document.Children.Add(para4);
 
-
+            // 設定用のダイアログを表示するため、PanelがあるWindowを登録
+            TsrFacade.EditWindow = new BlankWindow();
         }
-
 
         private void InsertParameterButton_Click(object sender, RoutedEventArgs e)
         {
             rtb.InsertParameter("パラメータ");
         }
 
-        private void InsertSubScriptButton_Click(object sender, RoutedEventArgs e)
+        private void InsertSuperSubScriptButton_Click(object sender, RoutedEventArgs e)
         {
-            var fm = new SuperSubScriptWindow();
-            fm.ShowDialog();
-
-            if (fm.BaseScriptString == string.Empty) return;
-            if (fm.SuperScriptString != string.Empty)
-            {
-                rtb.InsertSuperScript(fm.BaseScriptString, fm.SuperScriptString);
-            }
-            else if (fm.SubScriptString != string.Empty)
-            {
-                rtb.InsertSubScript(fm.BaseScriptString, fm.SubScriptString);
-            }
-            else return;
+            rtb.InsertSuperSubScript();
         }
 
         private void InsertStrikethroughButton_Click(object sender, RoutedEventArgs e)
@@ -89,46 +71,17 @@ namespace TsrTable.WPFForm
 
         private void InsertBulletPointButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RtbFacade.RemoveBullet(rtb)) return;
-            var fm = new BulletControlWindow();
-            fm.ShowDialog();
-            rtb.InsertBullet(fm.MarkerStyle);
+            rtb.InsertBullet();
         }
 
-        private void PostScriptButton_Click(object sender, RoutedEventArgs e)
+        private void InsertPostScriptButton_Click(object sender, RoutedEventArgs e)
         {
-            var IsInline = sender is RtbInlinePostScript;
-            var fm = new PostScriptWindow(PostScriptInnerButton_Click);
-            if (fm.ShowDialog() == true)
-                rtb.InsertPostScript(fm.NewValue);
-
-        }
-        private void PostScriptInnerButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            var postScript = button.Tag as C1TextElement;
-
-            var fm = new PostScriptWindow(postScript, PostScriptInnerButton_Click);
-
-            // todo PostScriptWindowを×ボタンで消した場合の挙動(キャンセル)が書けていない。
-            if (fm.ShowDialog() == true)
-            {
-                var index = postScript.Index;
-                postScript.Parent.Children.Insert(index, fm.NewValue);
-            }
-            postScript.Remove();
+            rtb.InsertPostScript();
         }
 
-        private void SubTitleButton_Click(object sender, RoutedEventArgs e)
+        private void InsertSubTitleButton_Click(object sender, RoutedEventArgs e)
         {
-            var blankWindow = new BlankWindow(new TsrSubTitleEditWindow());
-
-
-            RtbFacade.InsertSubTitle(blankWindow);
-
-            //var fm = new SubTitleWindow();
-            //fm.ShowDialog();
-            //rtb.InsertSubTitle(fm.Text);
+            rtb.InsertSubTitle();
         }
 
         private void EditableChangeButton_Click(object sender, RoutedEventArgs e)
@@ -136,39 +89,20 @@ namespace TsrTable.WPFForm
             rtb.IsReadOnly = rtb.IsReadOnly != true;
         }
 
-        private void LoadFileButton_Click(object sender, RoutedEventArgs e)
+        private void SerializeButton_Click(object sender, RoutedEventArgs e)
         {
-            //var word = new C1WordDocument();
-            //word.Load("C:\\Users\\ey28754\\Desktop\\新規 Microsoft Word 文書.docx");
-            var sentence = rtb.Document.ToTsr();
+            var jsonText = TsrFacade.Serialize(rtb, IndentedCheckBox.IsChecked);
+            JsonTextBox.Text = jsonText;
+            JsonTextCountTextBlock.Text = jsonText.Count().ToString();
+        }
+        private void DeserializeButton_Click(object sender, RoutedEventArgs e)
+        {
+            rtb.Deserialize(JsonTextBox.Text);
+        }
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = IndentedCheckBox.IsChecked == true,
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            };
-            var serializer = JsonSerializer.Serialize(sentence, options);
-
-            JsonTextBox.Text = serializer;
-            JsonTextCountTextBlock.Text = serializer.Count().ToString();
-
-            var tsrSentence = JsonSerializer.Deserialize<TsrSentence>(serializer, options);
-
-            rtb.Document.Children.Clear();
-
-            foreach (var child in tsrSentence.Children)
-                rtb.Document.Children.Add(child.ToRtb());
-
-            foreach (var postScript in rtb.Document.EnumerateSubtree().OfType<IRtbPostScript>())
-            {
-                postScript.SetAction(PostScriptInnerButton_Click);
-            }
-
-            // 取消線のリスト化
-            var list = SeekStrikethroughRecrusion(rtb.Document);
-
+        private void WindowClosed(object sender, System.EventArgs e)
+        {
+            TsrFacade.EditWindow = null;
         }
 
         /// <summary>
@@ -195,13 +129,6 @@ namespace TsrTable.WPFForm
                 }
             }
             return list;
-        }
-
-
-
-        private void ExtractButton_Click(object sender, RoutedEventArgs e)
-        {
-            var tsrParagraph = new TsrDocument(rtb.Document);
         }
     }
 }
