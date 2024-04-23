@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using TsrTable.RichTextBox.TsrElement;
+using TsrTable.TsrElement;
 
 namespace TsrTable.WPFForm
 {

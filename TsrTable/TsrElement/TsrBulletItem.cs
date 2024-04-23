@@ -5,17 +5,17 @@ using C1.WPF.Word.Objects;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrBulletItem : ITsrElement, ITsrBlock
+    internal sealed class TsrBulletItem : ITsrElement, ITsrBlock
     {
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
 
-        public TsrBulletItem() { }
+        internal TsrBulletItem() { }
 
         [JsonConstructor]
-        public TsrBulletItem(Collection<ITsrElement> children)
+        internal TsrBulletItem(Collection<ITsrElement> children)
         {
             Children = children;
         }

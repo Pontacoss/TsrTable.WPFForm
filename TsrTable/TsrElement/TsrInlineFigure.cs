@@ -5,18 +5,18 @@ using C1.WPF.Word.Objects;
 using System;
 using System.Text.Json.Serialization;
 using System.Windows.Media.Imaging;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrInlineFigure : ITsrElement
+    internal sealed class TsrInlineFigure : ITsrElement
     {
         public byte[] Binary { get; } = null;
-
         public double Height { get; }
         public double Width { get; }
 
         [JsonConstructor]
-        public TsrInlineFigure(byte[] binary, double height, double width)
+        internal TsrInlineFigure(byte[] binary, double height, double width)
         {
             Binary = binary;
             Height = height;
@@ -27,7 +27,7 @@ namespace TsrTable.RichTextBox.TsrElement
         /// Ctrl+V で画像を貼り付けた場合にのみ使用
         /// </summary>
         /// <param name="bmp"></param>
-        public TsrInlineFigure(BitmapImage bmp)
+        internal TsrInlineFigure(BitmapImage bmp)
         {
             Height = bmp.PixelHeight;
             Width = bmp.PixelWidth;
@@ -56,7 +56,5 @@ namespace TsrTable.RichTextBox.TsrElement
         {
             return new RtbInlineFigure(Binary, Height, Width);
         }
-
-
     }
 }

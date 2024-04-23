@@ -1,7 +1,7 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System.Collections.Generic;
 using TsrTable.Domain.ValueObjects;
-using TsrTable.RichTextBox.TsrElement;
+using TsrTable.TsrElement;
 
 namespace TsrTable.RichTextBox
 {

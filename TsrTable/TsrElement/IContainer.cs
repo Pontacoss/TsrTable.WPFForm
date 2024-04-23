@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     public interface IContainer
     {

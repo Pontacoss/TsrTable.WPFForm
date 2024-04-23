@@ -4,19 +4,22 @@ using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
 using System.Text.Json.Serialization;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrSubTitle : ITsrElement
+    internal sealed class TsrSubTitle : ITsrElement
     {
         public string SubTitle { get; }
 
         [JsonConstructor]
-        public TsrSubTitle(string subTitle)
+        internal TsrSubTitle(string subTitle)
         {
             SubTitle = subTitle;
         }
-        public C1TextElement GetRtbInstance() => new RtbSubTitle(SubTitle);
+
+        public C1TextElement GetRtbInstance()
+            => new RtbSubTitle(SubTitle);
 
 
         public void ToExcel(C1XLBook book)

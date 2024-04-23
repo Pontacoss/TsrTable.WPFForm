@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     [JsonDerivedType(typeof(TsrSentence), nameof(TsrSentence))]
     public interface ITsrBlock

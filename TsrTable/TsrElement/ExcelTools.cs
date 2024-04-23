@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     internal static class SetStyleExtentions
     {

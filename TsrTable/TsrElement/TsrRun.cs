@@ -3,14 +3,21 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
+using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 
 {
-    public class TsrRun : ITsrElement
+    internal class TsrRun : ITsrElement
     {
+        // Jsonに書き出すプロパティはPublicにしておく
         public string Text { get; }
-        public TsrRun(string text)
+
+        // Jsonからデータを読みだすためのコンストラクタに属性付与
+        // PublicのPropertyを引数に持つコンストラクタが必要。
+        // 引数の変数名はプロパティと同じか小文字にしておく必要あり。
+        [JsonConstructor]
+        internal TsrRun(string text)
         {
             Text = text;
         }

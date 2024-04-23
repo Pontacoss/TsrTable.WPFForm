@@ -6,20 +6,20 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public class TsrParagraph : ITsrElement, ITsrBlock
+    internal sealed class TsrParagraph : ITsrElement, ITsrBlock
     {
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
 
         [JsonConstructor]
-        public TsrParagraph(Collection<ITsrElement> children)
+        internal TsrParagraph(Collection<ITsrElement> children)
         {
             Children = children;
         }
 
-        public TsrParagraph() { }
+        internal TsrParagraph() { }
 
         public void ToExcel(C1XLBook book)
         {

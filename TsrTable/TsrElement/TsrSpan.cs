@@ -6,15 +6,15 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    internal class TsrSpan : ITsrElement, ITsrBlock
+    internal sealed class TsrSpan : ITsrElement, ITsrBlock
     {
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
 
         [JsonConstructor]
-        public TsrSpan(Collection<ITsrElement> children)
+        internal TsrSpan(Collection<ITsrElement> children)
         {
             Children = children;
         }

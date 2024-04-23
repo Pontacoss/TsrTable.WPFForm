@@ -5,10 +5,11 @@ using C1.WPF.Word.Objects;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows.Media;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrPostScript : ITsrElement, ITsrBlock
+    internal sealed class TsrPostScript : ITsrElement, ITsrBlock
     {
         private Brush _color;
         public string Color => _color.ToString();
@@ -17,15 +18,14 @@ namespace TsrTable.RichTextBox.TsrElement
             = new Collection<ITsrElement>();
 
         [JsonConstructor]
-        public TsrPostScript(string color,
+        internal TsrPostScript(string color,
             Collection<ITsrElement> children)
         {
             _color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
             Children = children;
-
         }
 
-        public TsrPostScript(Brush color)
+        internal TsrPostScript(Brush color)
         {
             _color = color;
         }

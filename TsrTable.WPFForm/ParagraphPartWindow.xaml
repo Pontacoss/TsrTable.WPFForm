@@ -4,13 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TsrTable.WPFForm"
-        xmlns:local2="clr-namespace:TsrTable.RichTextBox;assembly=TsrTable"
-       xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
+        xmlns:local2="clr-namespace:TsrTable;assembly=TsrTable"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
         WindowStartupLocation="CenterScreen"
-      Title="ParagraphPartWindow"
-		Closed="WindowClosed">
+      Title="ParagraphPartWindow">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -53,7 +51,8 @@
                         Width="100" Height="35" Margin="5"
                         Name="PostScriptButton"
                         Click="InsertPostScriptButton_Click"/>
-            </StackPanel>
+				
+			</StackPanel>
             <StackPanel Orientation="Vertical" 
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     Grid.Column="1" Grid.Row="0">
@@ -69,7 +68,25 @@
                             Width="100" Height="35" Margin="5"
 						Name="DeserializeButton"
 						Click="DeserializeButton_Click"/>
-            </StackPanel>
+				<Button Content="拡大"
+						Width="100"
+						Height="35"
+						Margin="5"
+						Name="ZoomInButton"
+						Click="ZoomInButton_Click" />
+				<Button Content="縮小"
+						Width="100"
+						Height="35"
+						Margin="5"
+						Name="ZoomOutButton"
+						Click="ZoomOutButton_Click" />
+				<Button Content="ViewMode"
+						Width="100"
+						Height="35"
+						Margin="5"
+						Name="ViewModeChangeButton"
+						Click="ViewModeChangeButton_Click" />
+			</StackPanel>
             <DockPanel LastChildFill="True"  Margin="5"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal"  DockPanel.Dock="Top" >
@@ -84,8 +101,8 @@
             </DockPanel>
         </Grid>
         <DockPanel LastChildFill="True" Grid.Column="1">
-            <c1:C1RichTextBoxToolbar RichTextBox="{Binding ElementName=rtb}" DockPanel.Dock="Top"/>
-            <c1:C1RichTextBox x:Name="rtb" DockPanel.Dock="Bottom" TextWrapping="Wrap"/>
+            <!--<c1:C1RichTextBoxToolbar RichTextBox="{Binding ElementName=rtb}" DockPanel.Dock="Top"/>-->
+            <local2:TsrRichTextBox x:Name="rtb" DockPanel.Dock="Bottom" TextWrapping="Wrap" />
         </DockPanel>
     </Grid>
 </Window>

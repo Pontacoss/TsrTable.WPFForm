@@ -10,7 +10,7 @@ using System.Windows;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 using TsrTable.RichTextBox;
-using TsrTable.RichTextBox.TsrElement;
+using TsrTable.TsrElement;
 using TsrTable.WPFForm.ViewModelEntities;
 
 namespace TsrTable.WPFForm

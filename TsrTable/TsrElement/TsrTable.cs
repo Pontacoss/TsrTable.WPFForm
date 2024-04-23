@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using TsrTable.Domain.Entities;
 using TsrTable.FlexSheet;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     public class TsrTable : ITsrElement
     {

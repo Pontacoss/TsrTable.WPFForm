@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
-using TsrTable.RichTextBox.TsrElement;
+using TsrTable.TsrElement;
 
 namespace TsrTable.FlexSheet
 {

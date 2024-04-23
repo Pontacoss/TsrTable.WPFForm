@@ -1,4 +1,4 @@
-﻿namespace TsrTable.RichTextBox.TsrElement
+﻿namespace TsrTable.TsrElement
 {
     public enum EnumCellType
     {

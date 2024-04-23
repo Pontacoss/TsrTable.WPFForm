@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using TsrTable.RichTextBox.TsrElement;
+using TsrTable.TsrElement;
 
 namespace TsrTable.RichTextBox
 {

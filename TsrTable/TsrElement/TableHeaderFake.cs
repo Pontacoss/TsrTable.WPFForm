@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TsrTable.Domain.Entities;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     public static class TableHeaderFake
     {

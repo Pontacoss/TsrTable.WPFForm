@@ -6,20 +6,22 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public class TsrSentence : ITsrElement, ITsrBlock
+    internal class TsrSentence : ITsrElement, ITsrBlock
     {
         public Collection<ITsrElement> Children { get; set; }
             = new Collection<ITsrElement>();
-        public TsrSentence() { }
+
+        internal TsrSentence() { }
+
         [JsonConstructor]
-        public TsrSentence(Collection<ITsrElement> children)
+        internal TsrSentence(Collection<ITsrElement> children)
         {
             Children = children;
         }
 
-        public TsrSentence(C1Document doc)
+        internal TsrSentence(C1Document doc)
         {
             foreach (var child in doc.Children)
             {
@@ -41,13 +43,13 @@ namespace TsrTable.RichTextBox.TsrElement
             throw new NotImplementedException();
         }
 
-
         public RtfObject ToWord()
         {
             throw new NotImplementedException();
         }
 
-        public C1TextElement GetRtbInstance() => new C1Document();
+        public C1TextElement GetRtbInstance()
+            => new C1Document();
 
     }
 }

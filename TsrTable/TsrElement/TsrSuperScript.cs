@@ -3,14 +3,18 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
+using System.Text.Json.Serialization;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrSuperScript : ITsrElement
+    internal sealed class TsrSuperScript : ITsrElement
     {
         public string BaseScript { get; }
         public string SuperScript { get; }
-        public TsrSuperScript(string baseScript, string superScript)
+
+        [JsonConstructor]
+        internal TsrSuperScript(string baseScript, string superScript)
         {
             BaseScript = baseScript;
             SuperScript = superScript;

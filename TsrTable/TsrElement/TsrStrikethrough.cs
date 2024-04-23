@@ -3,23 +3,19 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
+using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrStrikethrough : ITsrElement
+    internal sealed class TsrStrikethrough : ITsrElement
     {
         public string Text { get; }
-        public TsrStrikethrough(string text)
+
+        [JsonConstructor]
+        internal TsrStrikethrough(string text)
         {
             Text = text;
         }
-
-        //public C1TextElement ToRtb()
-        //{
-        //    var run = new C1Run() { Text = this.Text };
-        //    run.TextDecorations = C1TextDecorations.Strikethrough;
-        //    return run;
-        //}
 
         public RtfObject ToWord()
         {

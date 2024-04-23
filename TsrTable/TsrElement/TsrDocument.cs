@@ -5,7 +5,7 @@ using C1.WPF.Word.Objects;
 using System;
 using System.Collections.ObjectModel;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     public class TsrDocument : ITsrElement
     {

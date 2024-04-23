@@ -10,7 +10,7 @@ namespace TsrTable.UserControls
     /// <summary>
     /// TsrPostScriptEditWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class TsrPostScriptEditWindow : UserControl
+    public partial class TsrPostScriptEditor : UserControl
     {
         public C1TextElement NewValue { get; private set; }
 
@@ -28,7 +28,8 @@ namespace TsrTable.UserControls
 
         private RoutedEventHandler _action;
 
-        public TsrPostScriptEditWindow(RoutedEventHandler action)
+        public TsrPostScriptEditor(
+            RoutedEventHandler action)
         {
             _action = action;
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace TsrTable.UserControls
             this.Name = "PostScriptEditor";
         }
 
-        public TsrPostScriptEditWindow(
+        public TsrPostScriptEditor(
             C1TextElement rtbPostScript,
             RoutedEventHandler action) : this(action)
         {

@@ -1,4 +1,4 @@
-﻿using TsrTable.RichTextBox.TsrElement;
+﻿using TsrTable.TsrElement;
 
 namespace TsrTable.RichTextBox
 {

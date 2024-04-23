@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TsrTable.Domain.Entities;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     public abstract class HeaderBase
     {

@@ -4,7 +4,7 @@ using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     [JsonDerivedType(typeof(TsrSentence), nameof(TsrSentence))]
     [JsonDerivedType(typeof(TsrParagraph), nameof(TsrParagraph))]

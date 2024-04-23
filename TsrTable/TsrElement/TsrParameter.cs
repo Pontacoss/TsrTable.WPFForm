@@ -3,15 +3,17 @@ using C1.WPF.FlexGrid;
 using C1.WPF.RichTextBox.Documents;
 using C1.WPF.Word.Objects;
 using System;
+using System.Text.Json.Serialization;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public class TsrParameter : ITsrElement
+    internal class TsrParameter : ITsrElement
     {
         public string Name { get; }
-        public C1TextElement GetRtbInstance() => new RtbParameter(Name);
 
-        public TsrParameter(string name)
+        [JsonConstructor]
+        internal TsrParameter(string name)
         {
             Name = name;
         }
@@ -29,5 +31,9 @@ namespace TsrTable.RichTextBox.TsrElement
         {
             throw new NotImplementedException();
         }
+
+        public C1TextElement GetRtbInstance()
+    => new RtbParameter(Name);
+
     }
 }

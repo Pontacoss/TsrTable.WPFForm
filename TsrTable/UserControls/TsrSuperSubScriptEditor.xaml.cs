@@ -6,9 +6,9 @@ namespace TsrTable.UserControls
     /// <summary>
     /// TsrSubScriptEditWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class TsrSuperSubScriptEditWindow : UserControl
+    public partial class TsrSuperSubScriptEditor : UserControl
     {
-        public TsrSuperSubScriptEditWindow()
+        public TsrSuperSubScriptEditor()
         {
             InitializeComponent();
             this.Name = "SuperSubScriptEditor";

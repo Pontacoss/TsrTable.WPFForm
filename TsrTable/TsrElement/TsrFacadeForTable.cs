@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 using TsrTable.FlexSheet;
+using TsrTable.RichTextBox;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public class TsrFacadeForTable
+    public sealed class TsrFacadeForTable
     {
         public static int FlexSheetColumnCount { get; } = 18;
         public static int FlexSheetCellWidth { get; } = 35;

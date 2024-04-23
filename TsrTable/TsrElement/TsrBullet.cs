@@ -6,26 +6,32 @@ using System;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
-    public sealed class TsrBullet : ITsrElement, ITsrBlock
+    internal sealed class TsrBullet : ITsrElement, ITsrBlock
     {
+        #region Property
         public TextMarkerStyle MarkerStyle { get; }
         public Collection<ITsrElement> Children { get; }
             = new Collection<ITsrElement>();
+        #endregion
+
+        #region Constractor
+        internal TsrBullet(TextMarkerStyle markerStyle)
+        {
+            MarkerStyle = markerStyle;
+        }
 
         [JsonConstructor]
-        public TsrBullet(
+        internal TsrBullet(
             TextMarkerStyle markerStyle,
             Collection<ITsrElement> children) : this(markerStyle)
         {
             Children = children;
         }
+        #endregion
 
-        public TsrBullet(TextMarkerStyle markerStyle)
-        {
-            MarkerStyle = markerStyle;
-        }
+
         public void ToExcel(C1XLBook book)
         {
             throw new NotImplementedException();

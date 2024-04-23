@@ -1,6 +1,6 @@
 ﻿using TsrTable.Domain.Entities;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     internal sealed class Header : HeaderBase
     {

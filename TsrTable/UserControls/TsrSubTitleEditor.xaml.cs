@@ -6,7 +6,7 @@ namespace TsrTable.UserControls
     /// <summary>
     /// TsrSubTitleEditWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class TsrSubTitleEditWindow : UserControl
+    public partial class TsrSubTitleEditor : UserControl
     {
         public string Text
         {
@@ -19,7 +19,7 @@ namespace TsrTable.UserControls
                 SubTitleText.Text = value ?? string.Empty;
             }
         }
-        public TsrSubTitleEditWindow()
+        public TsrSubTitleEditor()
         {
             InitializeComponent();
             this.Name = "SubTitleEditor";

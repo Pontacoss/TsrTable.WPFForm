@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TsrTable.Domain.Entities;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     internal sealed class BlockContainer : ContainerBase, IContainer
     {

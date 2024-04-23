@@ -1,7 +1,7 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using TsrTable.Domain.ValueObjects;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     public sealed class CellEntity
     {

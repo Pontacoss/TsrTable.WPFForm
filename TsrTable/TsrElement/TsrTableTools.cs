@@ -7,7 +7,7 @@ using TsrTable.Domain.Common;
 using TsrTable.Domain.Entities;
 using TsrTable.Domain.ValueObjects;
 
-namespace TsrTable.RichTextBox.TsrElement
+namespace TsrTable.TsrElement
 {
     internal static class TsrTableTools
     {
